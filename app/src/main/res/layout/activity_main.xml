@@ -12,20 +12,41 @@
         android:layout_height="wrap_content"
         android:theme="@style/Theme.LGG_Frontend.AppBarOverlay"
         android:background="@color/background_light">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="Tabs for Devices Routines and Options"
-            android:background="@color/background_light"
-            app:tabGravity="start"
-            app:tabMode="scrollable"
-            app:tabTextColor="@color/white"
-            app:tabIndicatorColor="@color/primary"
-            app:tabSelectedTextColor="@color/white"
-            app:tabBackground="@drawable/tab_color_selector">
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/background_light"
+                android:contentDescription="@string/tabs_for_devices_routines_and_options"
+                android:layout_weight="1"
+                app:tabBackground="@drawable/tab_color_selector"
+                app:tabGravity="start"
+                app:tabTextAppearance="@style/TabLayoutTextAppearance"
+                app:tabIndicatorColor="@color/primary"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextColor="@color/white">
+            </com.google.android.material.tabs.TabLayout>
+
+            <Switch
+                android:id="@+id/switch1"
+                android:textSize="22sp"
+                android:switchPadding="10sp"
+                android:theme="@style/AdvancedModeSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/advanced_view_text"
+                android:textColor="@color/white"
+                android:thumbTint="@color/white"
+                android:checked="true"
+
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

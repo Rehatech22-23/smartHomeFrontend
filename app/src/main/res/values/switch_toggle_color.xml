@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AdvancedModeSwitch" parent="Theme.LGG_Frontend">
+        <item name="colorControlNormal">@color/red_accent</item>
+        <item name="trackTint">@color/red_accent</item>
+    </style>
+</resources>

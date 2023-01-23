@@ -94,4 +94,6 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tabs_for_devices_routines_and_options">Tabs for Devices Routines and Options</string>
+    <string name="advanced_view_text">Einfache Bedienung</string>
 </resources>
