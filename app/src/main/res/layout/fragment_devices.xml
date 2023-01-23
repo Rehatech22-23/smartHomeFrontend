@@ -7,6 +7,7 @@
     android:background="@color/background_dark">
 
     <ScrollView
+        android:contentDescription="main scroll view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
