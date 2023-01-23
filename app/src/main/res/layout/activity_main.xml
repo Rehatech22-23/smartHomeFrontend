@@ -36,7 +36,7 @@
                 android:id="@+id/switch1"
                 android:textSize="22sp"
                 android:switchPadding="10sp"
-                android:theme="@style/AdvancedModeSwitch"
+
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/advanced_view_text"
