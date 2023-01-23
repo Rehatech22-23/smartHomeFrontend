@@ -4,39 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/background_light">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.LGG_Frontend.AppBarOverlay">
+        android:theme="@style/Theme.LGG_Frontend.AppBarOverlay"
+        android:background="@color/background_light">
 
         <com.google.android.material.tabs.TabLayout
-            android:contentDescription="description"
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="Tabs for Devices Routines and Options"
+            android:background="@color/background_light"
             app:tabGravity="start"
-            app:tabMode="scrollable">
-
-            <!-- <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_devices"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Geräte" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_routines"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Abläufe" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_options"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Optionen" /> -->
-
+            app:tabMode="scrollable"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/primary"
+            app:tabSelectedTextColor="@color/white"
+            app:tabBackground="@drawable/tab_color_selector">
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
