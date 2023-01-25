@@ -10,8 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.LGG_Frontend.AppBarOverlay"
-        android:background="@color/background_light">
+        android:background="@color/background_light"
+        android:elevation="20dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,35 +20,35 @@
                 android:id="@+id/tabs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/background_light"
+                android:background="?attr/tabBackground"
                 android:contentDescription="@string/tabs_for_devices_routines_and_options"
                 android:layout_weight="1"
                 app:tabBackground="@drawable/tab_color_selector"
                 app:tabGravity="start"
                 app:tabTextAppearance="@style/TabLayoutTextAppearance"
-                app:tabIndicatorColor="@color/primary"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/white"
-                app:tabTextColor="@color/white">
+                app:tabTextColor="?attr/colorOnPrimary"
+                app:tabSelectedTextColor="?attr/colorOnPrimary"
+                app:tabIndicatorColor="?attr/colorPrimary"
+                app:tabMode="scrollable">
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:theme="@style/SwitchCompatThumbTheme"
                 android:id="@+id/switch1"
-                android:textSize="22sp"
-                android:switchPadding="15sp"
-                android:layout_marginRight="10sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="10sp"
+                android:checked="true"
+                android:switchPadding="15sp"
                 android:text="@string/advanced_view_text"
                 android:textColor="@color/white"
-                app:trackTint="@color/switch_color_switcher"
-                android:checked="true" />
+                android:textSize="22sp"
+                android:theme="@style/SwitchCompatThumbTheme"
+                app:trackTint="@color/switch_color_switcher" />
         </LinearLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
+        android:elevation="0dp"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

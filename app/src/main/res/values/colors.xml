@@ -13,4 +13,7 @@
     <color name="background_dark">#27272B</color>
     <color name="background_light">#343438</color>
     <color name="red_accent">#FF0000</color>
+
+    <color name="test1">#CDDC39</color>
+    <color name="test2">#00BCD4</color>
 </resources>

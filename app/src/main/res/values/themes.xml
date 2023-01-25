@@ -8,19 +8,21 @@
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorTertiary">@color/background_light</item>
+        <item name="colorError">@color/red_accent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
         <item name="tabBackground">@color/background_light</item>
         <item name="tabTextColor">@color/white</item>
         <item name="tabTextAppearance">@color/white</item>
         <item name="tabSelectedTextColor">@color/white</item>
-        <item name="tabIndicatorColor">@color/primary</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background_dark</item>
         <!-- Customize your theme here. -->
-    </style>
-
-    <style name="Theme.LGG_Frontend.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="SwitchCompatThumbTheme">
@@ -30,4 +32,25 @@
     <style name="Theme.LGG_Frontend.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.LGG_Frontend.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TestTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/test1</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/test2</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="tabBackground">@color/test1</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabTextAppearance">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/test2</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/test2</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!-- Customize your theme here. -->
+    </style>
 </resources>
