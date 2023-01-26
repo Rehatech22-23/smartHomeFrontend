@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.FragmentOptions"
-    android:background="@color/background_dark">
+    android:background="?attr/colorBackgroundFloating">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Optiones Page" />
+        android:text="Options Page" />
 
 </FrameLayout>

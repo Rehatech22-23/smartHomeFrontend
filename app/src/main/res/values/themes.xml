@@ -1,56 +1,58 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Default Theme -->
     <style name="Theme.LGG_Frontend" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
+        <!-- Text color -->
+        <item name="textFillColor">@color/text</item>
+        <!-- Main accent colors -->
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        <item name="colorOnPrimary">?attr/textFillColor</item>
         <item name="colorSecondary">@color/secondary</item>
-        <item name="colorOnSecondary">@color/white</item>
-
-        <item name="android:colorBackground">@color/background_dark</item>
-        <item name="colorTertiary">@color/background_light</item>
+        <item name="colorOnSecondary">?attr/textFillColor</item>
+        <!-- Background and error colors -->
+        <item name="colorBackgroundFloating">@color/background_dark</item>
+        <item name="colorOnBackground">@color/background_light</item>
         <item name="colorError">@color/red_accent</item>
 
+        <!-- Fields required to be in theme (dependent on previously defined colorscheme) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-        <item name="tabBackground">@color/background_light</item>
-        <item name="tabTextColor">@color/white</item>
-        <item name="tabTextAppearance">@color/white</item>
-        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabBackground">?attr/colorOnBackground</item>
+        <item name="tabTextColor">?attr/textFillColor</item>
+        <item name="tabTextAppearance">?attr/textFillColor</item>
+        <item name="tabSelectedTextColor">?attr/textFillColor</item>
         <item name="tabIndicatorColor">?attr/colorPrimary</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/background_dark</item>
-        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor">?attr/colorBackgroundFloating</item>
     </style>
 
     <style name="SwitchCompatThumbTheme">
-        <item name="thumbTint">@color/white</item>
+        <item name="thumbTint">?attr/textFillColor</item>
     </style>
 
-    <style name="Theme.LGG_Frontend.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.LGG_Frontend_High_Contrast" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Text color -->
+        <item name="textFillColor">@color/text</item>
+        <!-- Main accent colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">?attr/textFillColor</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">?attr/textFillColor</item>
+        <!-- Background and error colors -->
+        <item name="colorBackgroundFloating">@color/background_dark</item>
+        <item name="colorOnBackground">@color/background_light</item>
+        <item name="colorError">@color/red_accent</item>
 
-    <style name="Theme.LGG_Frontend.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="TestTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/test1</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/test2</item>
-        <item name="colorOnSecondary">@color/black</item>
-
-        <item name="tabBackground">@color/test1</item>
-        <item name="tabTextColor">@color/white</item>
-        <item name="tabTextAppearance">@color/white</item>
-        <item name="tabSelectedTextColor">@color/white</item>
-        <item name="tabIndicatorColor">@color/test2</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/test2</item>
-
+        <!-- Fields required to be in theme (dependent on previously defined colorscheme) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!-- Customize your theme here. -->
+        <item name="tabBackground">?attr/colorOnBackground</item>
+        <item name="tabTextColor">?attr/textFillColor</item>
+        <item name="tabTextAppearance">?attr/textFillColor</item>
+        <item name="tabSelectedTextColor">?attr/textFillColor</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">?attr/colorBackgroundFloating</item>
     </style>
+
+<!--    <style name="Theme.LGG_Frontend.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+
+<!--    <style name="Theme.LGG_Frontend.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 </resources>
