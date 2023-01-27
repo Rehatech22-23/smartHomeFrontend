@@ -19,7 +19,6 @@ import de.rehatech2223.lgg_frontend.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         //setTheme(R.style.TestTheme)
         super.onCreate(savedInstanceState)

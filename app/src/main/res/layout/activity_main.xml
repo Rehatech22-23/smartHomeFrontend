@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="?attr/colorOnBackground">
+    android:background="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnBackground"
+        android:background="?attr/colorSurface"
         android:elevation="20dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:background="?attr/tabBackground"
                 android:contentDescription="@string/tabs_for_devices_routines_and_options"
                 android:layout_weight="1"
-                app:tabBackground="@drawable/tab_color_selector"
+                app:tabBackground="@drawable/tab_background_default_theme"
                 app:tabGravity="start"
                 app:tabTextAppearance="@style/TabLayoutTextAppearance"
                 app:tabTextColor="?attr/colorOnPrimary"
@@ -40,7 +40,7 @@
                 android:checked="true"
                 android:switchPadding="15sp"
                 android:text="@string/advanced_view_text"
-                android:textColor="?attr/textFillColor"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="22sp"
                 android:theme="@style/SwitchCompatThumbTheme"
                 app:trackTint="@color/switch_color_switcher" />
