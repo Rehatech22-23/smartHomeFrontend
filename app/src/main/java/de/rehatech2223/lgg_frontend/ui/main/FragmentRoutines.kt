@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import de.rehatech2223.lgg_frontend.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
 
 /**
  * A simple [Fragment] subclass.
@@ -21,6 +24,10 @@ class FragmentRoutines : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    var currentLinearLayout: LinearLayout? = null;
+    var mainLinearLayout: LinearLayout? = null;
+    var addedRoutinesCount: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +43,27 @@ class FragmentRoutines : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_routines, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mainLinearLayout = view.findViewById<LinearLayout>(R.id.linearLayout);
+
+        addNewRoutinesTile("Bild", "Routine");
+        addNewRoutinesTile("Bild", "Routine2");
+    }
+
+    fun addNewRoutinesTile(image: String, name: String) {
+        if(addedRoutinesCount % 3 == 0){
+            currentLinearLayout = layoutInflater.inflate(R.layout.routines_view, null).findViewById(R.id.linearLayout);
+            mainLinearLayout?.addView(currentLinearLayout);
+        }
+        var newRoutinesTile = layoutInflater.inflate(R.layout.routines_tile,  null);
+        newRoutinesTile.findViewById<TextView>(R.id.name).text = name;
+        newRoutinesTile.findViewById<TextView>(R.id.image).text = image;
+        currentLinearLayout?.addView(newRoutinesTile);
+        addedRoutinesCount++;
     }
 
     companion object {
