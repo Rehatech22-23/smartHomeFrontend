@@ -1,26 +1,18 @@
 package de.rehatech2223.lgg_frontend
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.TableLayout
 import androidx.appcompat.widget.SwitchCompat
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.Tab
-import de.rehatech2223.lgg_frontend.ui.main.SectionsPagerAdapter
 import de.rehatech2223.lgg_frontend.databinding.ActivityMainBinding
+import de.rehatech2223.lgg_frontend.ui.main.SectionsPagerAdapter
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DynamicThemeActivity() {
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        //setTheme(R.style.TestTheme)
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

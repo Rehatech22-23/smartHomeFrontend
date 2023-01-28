@@ -3,7 +3,7 @@
     <style name="Theme.LGG_Frontend" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Main accent colors -->
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">@color/white</item> <!-- Text is not supposed to be on primary, only on Surface and Secondary -->
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Background and error colors -->
@@ -30,15 +30,15 @@
         <item name="thumbTint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="Theme.LGG_Frontend_High_Contrast" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.LGG_Frontend_High_Contrast_One" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Main accent colors -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">@color/white</item> <!-- Text is not supposed to be on primary, only on Surface and Secondary -->
-        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorPrimary">@color/primary_contrast</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary_contrast</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Background and error colors -->
-        <item name="android:colorBackground">@color/background_dark</item> <!-- Please use ?android:attr/colorBackground to reference this -->
-        <item name="colorSurface">@color/background_light</item>
+        <item name="android:colorBackground">@color/background_dark_contrast</item> <!-- Please use ?android:attr/colorBackground to reference this -->
+        <item name="colorSurface">@color/background_light_contrast</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="colorError">@color/red_accent</item>
 

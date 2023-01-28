@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="wrap_content"
@@ -44,6 +45,7 @@
                 android:textSize="22sp"
                 android:theme="@style/SwitchCompatThumbTheme"
                 app:trackTint="@color/switch_color_switcher" />
+
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
