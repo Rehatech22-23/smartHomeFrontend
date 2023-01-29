@@ -24,7 +24,7 @@
                 android:background="?attr/tabBackground"
                 android:contentDescription="@string/tabs_for_devices_routines_and_options"
                 android:layout_weight="1"
-                app:tabBackground="@drawable/tab_background_default_theme"
+                app:tabBackground="?attr/tab_background_drawable"
                 app:tabGravity="start"
                 app:tabTextAppearance="@style/TabLayoutTextAppearance"
                 app:tabTextColor="?attr/colorOnPrimary"
@@ -49,12 +49,12 @@
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:elevation="0dp"
-        android:id="@+id/view_pager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_two"
         android:layout_width="match_parent"
+        android:backgroundTint="@color/white"
         android:layout_height="match_parent"
-        android:contentDescription="viewPager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:elevation="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

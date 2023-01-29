@@ -12,15 +12,17 @@ abstract class DynamicThemeActivity: AppCompatActivity() {
         currentTheme = PreferenceManager.getDefaultSharedPreferences(this).getInt(KEY_THEME, ThemeEnum.DEFAULT.theme)
         super.onCreate(savedInstanceState)
     }
+     protected fun setTheme() { setTheme(currentTheme) }
 
-    protected fun setTheme(themeEnum: ThemeEnum){
+    fun changeTheme(themeEnum: ThemeEnum){
         if(currentTheme == themeEnum.theme) return
         currentTheme = themeEnum.theme
         PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(KEY_THEME, currentTheme).apply()
         setTheme(currentTheme)
+        recreate()
     }
 
-    protected fun getCurrentTheme(): Int{
+    fun getCurrentTheme(): Int{
         return currentTheme
     }
 

@@ -32,19 +32,19 @@
 
     <style name="Theme.LGG_Frontend_High_Contrast_One" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Main accent colors -->
-        <item name="colorPrimary">@color/primary_contrast</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/secondary_contrast</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorPrimary">@color/c1_text</item>
+        <item name="colorOnPrimary">@color/c1_text</item>
+        <item name="colorSecondary">@color/background_dark_c1</item>
+        <item name="colorOnSecondary">@color/c1_text</item>
         <!-- Background and error colors -->
-        <item name="android:colorBackground">@color/background_dark_contrast</item> <!-- Please use ?android:attr/colorBackground to reference this -->
-        <item name="colorSurface">@color/background_light_contrast</item>
-        <item name="colorOnSurface">@color/white</item>
-        <item name="colorError">@color/red_accent</item>
+        <item name="android:colorBackground">@color/background_dark_c1</item> <!-- Please use ?android:attr/colorBackground to reference this -->
+        <item name="colorSurface">@color/background_dark_c1</item>
+        <item name="colorOnSurface">@color/c1_text</item>
+        <item name="colorError">@color/background_light_c1</item>
 
 
         <!-- Important fields for drawables etc. -->
-        <item name="tab_background_drawable">@drawable/tab_background_default_theme</item>
+        <item name="tab_background_drawable">@drawable/tab_background_hc_one_theme</item>
         <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

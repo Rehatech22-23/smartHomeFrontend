@@ -1,6 +1,7 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,7 @@ class FragmentDevices : Fragment() {
         addNewDevicesTile("Bild3", "Lampe3");
     }
 
-    fun addNewDevicesTile(image: String, name: String) {
+    private fun addNewDevicesTile(image: String, name: String) {
         if(addedDevicesCount % 3 == 0) {
             currentLinearLayout = layoutInflater.inflate(R.layout.devices_view, null).findViewById(R.id.linearLayout);
             mainLinearLayout?.addView(currentLinearLayout);
