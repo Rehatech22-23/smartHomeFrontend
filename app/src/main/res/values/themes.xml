@@ -34,13 +34,13 @@
         <!-- Main accent colors -->
         <item name="colorPrimary">@color/c1_text</item>
         <item name="colorOnPrimary">@color/c1_text</item>
-        <item name="colorSecondary">@color/background_dark_c1</item>
+        <item name="colorSecondary">@color/c1_background</item>
         <item name="colorOnSecondary">@color/c1_text</item>
         <!-- Background and error colors -->
-        <item name="android:colorBackground">@color/background_dark_c1</item> <!-- Please use ?android:attr/colorBackground to reference this -->
-        <item name="colorSurface">@color/background_dark_c1</item>
+        <item name="android:colorBackground">@color/c1_background</item> <!-- Please use ?android:attr/colorBackground to reference this -->
+        <item name="colorSurface">@color/c1_background</item>
         <item name="colorOnSurface">@color/c1_text</item>
-        <item name="colorError">@color/background_light_c1</item>
+        <item name="colorError">@color/c1_accent</item>
 
 
         <!-- Important fields for drawables etc. -->

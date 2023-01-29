@@ -10,9 +10,7 @@
     <color name="background_light">#343438</color>
     <color name="red_accent">#FF0000</color>
 
-    <color name="primary_c1">#FF00FF00</color>
-    <color name="secondary_c1">#0000FF</color>
-    <color name="background_dark_c1">#FF000000</color>
-    <color name="background_light_c1">#0071da</color>
+    <color name="c1_background">#FF000000</color>
+    <color name="c1_accent">#004C94</color>
     <color name="c1_text">#fffd38</color>
 </resources>
