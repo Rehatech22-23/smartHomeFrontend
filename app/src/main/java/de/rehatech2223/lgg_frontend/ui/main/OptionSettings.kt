@@ -1,23 +1,18 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
-import de.rehatech2223.lgg_frontend.MainActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
 
 const val BUTTON_STATE_KEY = "ButtonState"
-const val THEME_RADIO_KEY = "ThemeRadioButtonId"
 
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
@@ -38,15 +33,18 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
         initButton()
         initColorSchemeButtons()
-        loadSharedPreferences()
+        loadState()
     }
 
-    private fun loadSharedPreferences(){
-        opened = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(BUTTON_STATE_KEY, false)
+    private fun loadState() {
+        opened = PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(BUTTON_STATE_KEY, false)
         setOpen(opened)
 
-        val savedButtonId = PreferenceManager.getDefaultSharedPreferences(context).getInt(THEME_RADIO_KEY, R.id.radioButton_default)
-        findViewById<RadioButton>(savedButtonId).isChecked = true
+        when ((context as DynamicThemeActivity).getCurrentTheme()) {
+            ThemeEnum.DEFAULT.theme -> radiobuttonDefault.isChecked = true
+            ThemeEnum.HIGH_CONTRAST_ONE.theme -> radiobuttonHCOne.isChecked = true
+        }
     }
 
     private fun setOpen(opened: Boolean) {
@@ -68,19 +66,20 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
     }
 
-    private fun initColorSchemeButtons(){
+    private fun initColorSchemeButtons() {
         radiobuttonDefault.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonHCOne.setOnClickListener { view -> changeColorTheme(view) }
+        radiobuttonHCOne.setOnClickListener { view ->
+            changeColorTheme(view)
+        }
     }
 
-    private fun changeColorTheme(view: View){
+    private fun changeColorTheme(view: View) {
         val activity: DynamicThemeActivity = context as DynamicThemeActivity
-        if(view is RadioButton && view.isChecked){
-            when(view.id){
+        if (view is RadioButton && view.isChecked) {
+            when (view.id) {
                 R.id.radioButton_default -> activity.changeTheme(ThemeEnum.DEFAULT)
                 R.id.radioButton_hc1 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_ONE)
             }
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(THEME_RADIO_KEY, view.id).apply()
         }
     }
 
