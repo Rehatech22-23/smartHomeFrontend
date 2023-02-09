@@ -1,12 +1,9 @@
 package de.rehatech2223.lgg_frontend.services
 
-import android.util.Log
 import de.rehatech2223.datamodel.Device
-import okhttp3.Request
-import kotlinx.serialization.*
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromJsonElement
-
+import okhttp3.Request
 
 class DeviceService {
 
@@ -16,7 +13,7 @@ class DeviceService {
 
     fun getDeviceInfo(deviceId: String): Device {
         val request = Request.Builder()
-            .url(ServiceProvider.baseUrl + "device?deviceId=" + deviceId)
+            .url(ServiceProvider.baseUrl + "device?deviceId=$deviceId")
             .get()
             .build()
 
@@ -30,5 +27,4 @@ class DeviceService {
     fun getUpdatedDevices(): ArrayList<String>{
         return ArrayList()
     }
-
 }
