@@ -8,7 +8,16 @@ import okhttp3.Request
 class DeviceService {
 
     fun getDeviceList(): ArrayList<String>{
-        return ArrayList()
+        val request = Request.Builder()
+            .url(ServiceProvider.baseUrl + "device/list")
+            .get()
+            .build()
+
+        ServiceProvider.client.newCall(request).execute().use { response ->
+            if(!response.isSuccessful) { /* todo issue on github for popup warning */ }
+            val jsonBody: String = response.body!!.string()
+            return Json.decodeFromString(jsonBody)
+        }
     }
 
     fun getDeviceInfo(deviceId: String): Device {
@@ -25,6 +34,15 @@ class DeviceService {
     }
 
     fun getUpdatedDevices(): ArrayList<String>{
-        return ArrayList()
+        val request = Request.Builder()
+            .url(ServiceProvider.baseUrl + "device/updatedDevices")
+            .get()
+            .build()
+
+        ServiceProvider.client.newCall(request).execute().use { response ->
+            if(!response.isSuccessful) { /* todo issue on github for popup warning */ }
+            val jsonBody: String = response.body!!.string()
+            return Json.decodeFromString(jsonBody)
+        }
     }
 }
