@@ -8,6 +8,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import de.rehatech2223.lgg_frontend.databinding.ActivityMainBinding
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.ui.main.TabFragmentStateAdapter
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 val tabTitles = arrayOf(
     "Geräte",
@@ -35,6 +38,26 @@ class MainActivity : DynamicThemeActivity() {
             tab.text = tabTitles[position]
         }.attach()
         prepareSwitchFunctionality(tabs)
+
+        val listTest = ArrayList<String>()
+        listTest.add("1")
+        listTest.add("2")
+        listTest.add("3")
+
+        val string = Json.encodeToString(listTest)
+        Log.d("key", string)
+
+        val result = Json.decodeFromString<ArrayList<String>>(string)
+        Log.d("lol", result.toString())
+
+        ServiceProvider.devicesService.getDeviceList(){ deviceList ->
+            Log.d("handler", "device List: $deviceList")
+            ServiceProvider.devicesService.getDeviceInfo(deviceList[0]){ device ->
+                Log.d("handler", "device: $device")
+            }
+        }
+        Log.d("as", "i am doene")
+
     }
 
     private fun prepareSwitchFunctionality(tabs: TabLayout) {
