@@ -1,83 +1,73 @@
 package de.rehatech2223.lgg_frontend.services
 
-import android.util.Log
 import de.rehatech2223.datamodel.DeviceDTO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
+import okio.use
 
 class DeviceService {
-
-    fun getDeviceList(callback: (deviceList: ArrayList<String>) -> Unit) {
-        val request = Request.Builder()
-            .url(ServiceProvider.baseUrl + "device/list")
-            .get()
-            .build()
-
-        ServiceProvider.client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) { /* todo issue on github for popup warning */
+    fun getDeviceList(): ArrayList<String> {
+        var deviceList: ArrayList<String> = ArrayList()
+        runBlocking {
+            val request = Request.Builder()
+                .url(ServiceProvider.baseUrl + "device/list")
+                .get()
+                .build()
+            launch(Dispatchers.IO) {
+                ServiceProvider.client.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) {
+                        cancel()/* todo issue on github for popup warning */
                     }
                     val jsonBody: String = response.body!!.string()
-                    callback.invoke(Json.decodeFromString(jsonBody))
+                    deviceList = Json.decodeFromString(jsonBody)
                 }
-            }
-        })
+            }.join()
+        }
+        return deviceList
     }
 
-    fun getDeviceInfo(deviceId: String, callback: (device: DeviceDTO) -> Unit) {
-        val request = Request.Builder()
-            .url(ServiceProvider.baseUrl + "device?deviceId=$deviceId")
-            .get()
-            .build()
-
-        ServiceProvider.client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) { /* todo issue on github for popup warning */
-                        Log.d("asd", "not successfull")
-                        return
+    fun getDeviceInfo(deviceId: String): DeviceDTO? {
+        var deviceDTO: DeviceDTO? = null
+        runBlocking {
+            val request = Request.Builder()
+                .url(ServiceProvider.baseUrl + "device?deviceId=$deviceId")
+                .get()
+                .build()
+            launch(Dispatchers.IO) {
+                ServiceProvider.client.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) {
+                        cancel() /* todo issue on github for popup warning */
                     }
                     val jsonBody: String = response.body!!.string()
-                    Log.d("handler", "jsonBody: $jsonBody")
-                    callback.invoke(Json.decodeFromString(jsonBody))
+                    deviceDTO = Json.decodeFromString(jsonBody)
                 }
-            }
-        })
+            }.join()
+        }
+        return deviceDTO
     }
 
-    fun getUpdatedDevices(callback: (updatedDevicesList: ArrayList<String>) -> Unit) {
+    fun getUpdatedDevices(): ArrayList<String> {
+        var updatedDevices: ArrayList<String> = ArrayList()
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "device/updatedDevices")
             .get()
             .build()
-
-        ServiceProvider.client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) { /* todo issue on github for popup warning */
+        runBlocking {
+            launch(Dispatchers.IO) {
+                ServiceProvider.client.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) {
+                        cancel() /* todo issue on github for popup warning */
                     }
                     val jsonBody: String = response.body!!.string()
-                    callback.invoke(Json.decodeFromString(jsonBody))
+                    updatedDevices = Json.decodeFromString(jsonBody)
                 }
-            }
-        })
+            }.join()
+        }
+        return updatedDevices
     }
 }

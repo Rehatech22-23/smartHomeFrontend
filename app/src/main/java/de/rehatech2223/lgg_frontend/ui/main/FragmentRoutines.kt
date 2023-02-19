@@ -7,34 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import de.rehatech2223.datamodel.DeviceDTO
+import de.rehatech2223.datamodel.RoutineDTO
 import de.rehatech2223.lgg_frontend.R
+import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentRoutines.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentRoutines : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    var currentLinearLayout: LinearLayout? = null;
-    var mainLinearLayout: LinearLayout? = null;
-    var addedRoutinesCount: Int = 0;
+    private lateinit var mainLinearLayout: LinearLayout
+    private var currentLinearLayout: LinearLayout? = null
+    private val routineTiles: ArrayList<RoutineTile> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        arguments?.let {}
     }
 
     override fun onCreateView(
@@ -48,41 +34,37 @@ class FragmentRoutines : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainLinearLayout = view.findViewById<LinearLayout>(R.id.linearLayout);
+        mainLinearLayout = view.findViewById(R.id.linearLayout);
 
-        addNewRoutinesTile("Bild", "Routine");
-        addNewRoutinesTile("Bild", "Routine2");
+        loadRoutineTiles()
+    }
+    private fun loadRoutineTiles() {
+        val routineList = ServiceProvider.routineService.getRoutineList()
+        for (routineId in routineList) {
+            val routineDTO = ServiceProvider.routineService.getRoutineInfo(routineId) ?: continue
+            val routineTile = addRoutineTile(routineDTO)
+            routineTiles.add(routineTile)
+        }
     }
 
-    fun addNewRoutinesTile(image: String, name: String) {
-        if(addedRoutinesCount % 3 == 0){
-            currentLinearLayout = layoutInflater.inflate(R.layout.routines_view, null).findViewById(R.id.linearLayout);
-            mainLinearLayout?.addView(currentLinearLayout);
+
+    private fun addRoutineTile(routineDTO: RoutineDTO): RoutineTile {
+        val routineTile = RoutineTile(requireContext(), null, routineDTO)
+        if (routineTiles.size % 3 == 0) {
+            currentLinearLayout = layoutInflater.inflate(R.layout.routines_view, null)
+                .findViewById(R.id.linearLayout)
+            (currentLinearLayout as LinearLayout).clipChildren = false
+            mainLinearLayout.addView(currentLinearLayout)
         }
-        var newRoutinesTile = layoutInflater.inflate(R.layout.routines_tile,  null);
-        newRoutinesTile.findViewById<TextView>(R.id.name).text = name;
-        newRoutinesTile.findViewById<TextView>(R.id.image).text = image;
-        currentLinearLayout?.addView(newRoutinesTile);
-        addedRoutinesCount++;
+        currentLinearLayout?.addView(routineTile)
+        return routineTile
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragementRoutines.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             FragmentRoutines().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+                arguments = Bundle().apply {}
             }
     }
 }
