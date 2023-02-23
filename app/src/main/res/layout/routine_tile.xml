@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/routine_tile_background"
     android:orientation="horizontal"
-    android:elevation="10dp">
+    android:elevation="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:minWidth="380dp">
 
-    <TextView
+    <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:width="120dp"
-        android:height="120dp"
         android:gravity="center"
-        android:text="Default Text"
-        android:textColor="?attr/colorOnSurface" />
+        app:srcCompat="@drawable/calendar_month_100px" />
+
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:width="250dp"
-        android:height="120dp"
         android:gravity="center"
-        android:padding="10sp"
         android:text="Default Description"
         android:textColor="?attr/colorOnSurface"
         android:textSize="35sp" />

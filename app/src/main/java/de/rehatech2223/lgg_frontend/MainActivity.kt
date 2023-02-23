@@ -1,20 +1,11 @@
 package de.rehatech2223.lgg_frontend
 
 import android.os.Bundle
-import android.util.Log
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import de.rehatech2223.datamodel.FunctionDTO
-import de.rehatech2223.datamodel.RoutineDTO
-import de.rehatech2223.datamodel.util.RoutineEventDTO
-import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
 import de.rehatech2223.lgg_frontend.databinding.ActivityMainBinding
-import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.ui.main.TabFragmentStateAdapter
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 val tabTitles = arrayOf(
     "Geräte",

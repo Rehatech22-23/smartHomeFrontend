@@ -5,11 +5,13 @@ import android.content.Intent
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import de.rehatech2223.datamodel.DeviceDTO
-import de.rehatech2223.lgg_frontend.DeviceDetailActivity
+import de.rehatech2223.lgg_frontend.ui.deviceDetail.DeviceDetailActivity
 import de.rehatech2223.lgg_frontend.R
+import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
 class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: DeviceDTO? = null): LinearLayout(context, attrs) {
 
@@ -20,8 +22,9 @@ class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: 
         orientation = VERTICAL
 
         deviceDTO = deviceArgument ?: DeviceDTO("Error DeviceDTO", "-1", arrayListOf())
-        findViewById<TextView>(R.id.name).text = deviceDTO.deviceName
 
+
+        initDeviceTile()
         initOnClickListeners()
     }
 
@@ -32,5 +35,11 @@ class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: 
             deviceDetailActivity.putExtra("deviceId", deviceDTO.deviceId)
             context.startActivity(deviceDetailActivity)
         }
+    }
+
+    private fun initDeviceTile(){
+        findViewById<TextView>(R.id.name).text = deviceDTO.deviceName
+        findViewById<ImageView>(R.id.image)
+            .setImageResource(TileImageUtil.getDeviceImageId(deviceDTO, context))
     }
 }

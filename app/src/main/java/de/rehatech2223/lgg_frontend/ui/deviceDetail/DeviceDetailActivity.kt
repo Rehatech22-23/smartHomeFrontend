@@ -1,10 +1,13 @@
-package de.rehatech2223.lgg_frontend
+package de.rehatech2223.lgg_frontend.ui.deviceDetail
 
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.TextView
 import de.rehatech2223.datamodel.DeviceDTO
+import de.rehatech2223.lgg_frontend.DynamicThemeActivity
+import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 class DeviceDetailActivity : DynamicThemeActivity() {
@@ -25,7 +28,7 @@ class DeviceDetailActivity : DynamicThemeActivity() {
         Log.d("handler", "hewwow , ${deviceDTO.deviceName}")
         Log.d("handler", "is showing: ${supportActionBar?.isShowing}")
 
-        findViewById<Button>(R.id.button).setOnClickListener {
+        findViewById<TextView>(R.id.back_text).setOnClickListener {
             Log.d("handler", "clicked button")
             finish()
         }
