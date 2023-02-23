@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/routine_tile_background"
+    android:background="?attr/routine_tile_background"
     android:orientation="horizontal"
     android:elevation="10dp"
     android:paddingTop="20dp"

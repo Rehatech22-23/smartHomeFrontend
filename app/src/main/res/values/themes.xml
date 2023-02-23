@@ -15,6 +15,8 @@
 
         <!-- Important fields for drawables etc. -->
         <item name="tab_background_drawable">@drawable/tab_background_default_theme</item>
+        <item name="device_tile_background">@drawable/device_tile_background</item>
+        <item name="routine_tile_background">@drawable/routine_tile_background</item>
         <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -45,6 +47,8 @@
 
         <!-- Important fields for drawables etc. -->
         <item name="tab_background_drawable">@drawable/tab_background_hc_one_theme</item>
+        <item name="device_tile_background">@drawable/object_border</item>
+        <item name="routine_tile_background">@drawable/object_border</item>
         <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
