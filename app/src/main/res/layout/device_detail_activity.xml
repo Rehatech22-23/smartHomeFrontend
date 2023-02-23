@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
@@ -7,13 +9,81 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="?attr/colorSurface"
+        android:elevation="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/back_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="◀ Zurück"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/device_overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:gravity="start|center_vertical"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/overview_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingEnd="10dp"
+            app:srcCompat="@drawable/error_100px" />
+
+        <TextView
+            android:id="@+id/overview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="60dp"
+            android:textStyle="bold"
+            android:textSize="45sp"
+            android:textColor="?attr/colorOnSurface"
+            android:text="Device Name" />
+
+        <TextView
+            android:id="@+id/overview_description"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Beschreibung..."
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/scroll_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="45sp"
+                android:textColor="?attr/colorOnSurface"
+                android:text="Funktionen:" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
