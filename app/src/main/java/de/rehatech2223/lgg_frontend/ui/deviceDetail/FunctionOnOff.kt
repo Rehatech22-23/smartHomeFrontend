@@ -16,7 +16,7 @@ class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: 
     private val functionDTO: FunctionDTO
     private val deviceDTO: DeviceDTO
     private val switchCompat: SwitchCompat
-    private val switch_state_text: TextView
+    private val switchStateText: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.function_on_off, this, true)
@@ -25,7 +25,7 @@ class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: 
         this.functionDTO = functionDTO
         this.deviceDTO = deviceDTO
         switchCompat = findViewById(R.id.switch1)
-        switch_state_text = findViewById(R.id.switch_state_text)
+        switchStateText = findViewById(R.id.switch_state_text)
 
         initSwitch()
     }
@@ -33,10 +33,10 @@ class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: 
     private fun initSwitch(){
         switchCompat.text = functionDTO.functionName
         switchCompat.isChecked = functionDTO.onOff!!
-        switch_state_text.text = if (functionDTO.onOff!!) "(an)" else "(aus)"
+        switchStateText.text = if (functionDTO.onOff!!) "(an)" else "(aus)"
         switchCompat.setOnCheckedChangeListener { _, c ->
             val functionValue: Float = if (c) 1f else 0f
-            switch_state_text.text = if (c) "(an)" else "(aus)"
+            switchStateText.text = if (c) "(an)" else "(aus)"
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, functionValue)
         }

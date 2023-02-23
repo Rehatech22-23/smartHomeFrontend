@@ -3,4 +3,6 @@
     <attr name="tab_background_drawable" format="reference"/>
     <attr name="device_tile_background" format="reference"/>
     <attr name="routine_tile_background" format="reference"/>
+    <attr name="device_detail_background" format="reference"/>
+    <attr name="device_detail_top_background" format="reference"/>
 </resources>

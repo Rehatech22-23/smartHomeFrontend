@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Default Description"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="35sp" />
 
 </LinearLayout>
