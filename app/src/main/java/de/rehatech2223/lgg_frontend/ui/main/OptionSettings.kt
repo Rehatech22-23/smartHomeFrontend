@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -12,12 +13,14 @@ import androidx.preference.PreferenceManager
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
+import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 const val BUTTON_STATE_KEY = "ButtonState"
 
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
     private var deleteRoutineSpinner: Spinner
+    private var spinnerMap = mutableMapOf<String, Long>()
 
     private var openButton: Button
     private var createRoutineButton: Button
@@ -35,6 +38,8 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radiobuttonHCOne: RadioButton
 
     init {
+        spinnerMap
+
         LayoutInflater.from(context).inflate(R.layout.option_settings, this, true)
         orientation = VERTICAL
 
@@ -105,7 +110,21 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             deleteRoutineContainer.visibility = VISIBLE
             deleteRoutineButton.text = context.getString(R.string.deleteRoutine_clicked)
             //Fill up the Spinner
-            //TODO
+            val routineList = ServiceProvider.routineService.getRoutineList();
+            spinnerMap.clear()
+            val namesList = ArrayList<String>()
+            for (id in routineList) {
+                val name = ServiceProvider.routineService.getRoutineInfo(id)?.routineName
+                if(name != null) {
+                    spinnerMap[name] = id
+                    namesList.add(name)
+                }
+            }
+            ArrayAdapter(context, android.R.layout.simple_spinner_item, namesList.toArray()).also {
+                arrayAdapter ->
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    deleteRoutineSpinner.adapter = arrayAdapter
+            }
         } else {
             deleteRoutineContainer.visibility = GONE
             deleteRoutineButton.text = context.getString(R.string.deleteRoutine_unclicked)
