@@ -25,6 +25,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var openButton: Button
     private var createRoutineButton: Button
     private var deleteRoutineButton: Button
+    private var deleteRoutineExecButton: Button
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
@@ -48,6 +49,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         createRoutineButton = findViewById(R.id.createRoutineButton)
         openButton = findViewById(R.id.openButton)
         deleteRoutineButton = findViewById(R.id.deleteRoutineButton)
+        deleteRoutineExecButton = findViewById(R.id.deleteRoutineExecButton)
 
         settingContainer = findViewById(R.id.setting_container)
         createRoutineContainer = findViewById(R.id.createRoutineContainer)
@@ -120,15 +122,20 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
                     namesList.add(name)
                 }
             }
-            ArrayAdapter(context, android.R.layout.simple_spinner_item, namesList.toArray()).also {
+            ArrayAdapter(context, R.layout.spinner_item, namesList.toArray()).also {
                 arrayAdapter ->
-                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     deleteRoutineSpinner.adapter = arrayAdapter
             }
         } else {
             deleteRoutineContainer.visibility = GONE
             deleteRoutineButton.text = context.getString(R.string.deleteRoutine_unclicked)
         }
+    }
+
+    private fun deleteRoutineButtonOnClick() {
+        val routineId = spinnerMap[deleteRoutineSpinner.selectedItem.toString()]
+        if(routineId != null) ServiceProvider.routineService.deleteRoutine(routineId)
     }
 
     private fun initButtons() {
@@ -140,6 +147,9 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
         deleteRoutineButton.setOnClickListener {
             setDeleteRoutineOpen(!deleteRoutineOpened)
+        }
+        deleteRoutineExecButton.setOnClickListener() {
+            deleteRoutineButtonOnClick()
         }
     }
 

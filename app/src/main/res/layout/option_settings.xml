@@ -37,7 +37,9 @@
                     android:layout_height="48dp"
                     android:ems="10"
                     android:hint="Ablaufname"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textColorHint="?attr/colorOnSurface" />
 
                 <TextView
                     android:id="@+id/textView5"
@@ -114,7 +116,8 @@
                 <Spinner
                     android:id="@+id/deleteRoutineSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:backgroundTint="?attr/colorOnSurface" />
 
                 <Button
                     android:id="@+id/deleteRoutineExecButton"
