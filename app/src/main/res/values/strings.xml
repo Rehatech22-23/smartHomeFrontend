@@ -98,6 +98,8 @@
     <string name="advanced_view_text">Einfache Bedienung</string>
     <string name="settings_unclicked">▶ Einstellungen</string>
     <string name="settings_clicked">▼ Einstellungen</string>
+    <string name="createRoutine_unclicked">▶ Ablauf erstellen</string>
+    <string name="createRoutine_clicked">▼ Ablauf erstellen</string>
     <string name="title_activity_device_detail">DeviceDetailActivity</string>
 
     <!-- Preference Titles -->

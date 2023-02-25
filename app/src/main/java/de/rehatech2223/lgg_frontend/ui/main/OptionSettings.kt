@@ -17,8 +17,15 @@ const val BUTTON_STATE_KEY = "ButtonState"
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
     private var openButton: Button
+    private var createRoutineButton: Button
+
     private var settingContainer: LinearLayout
-    private var opened: Boolean = false
+    private var createRoutineContainer: LinearLayout
+
+    private var settingsOpened: Boolean = false
+    private var createRoutineOpened: Boolean = false
+    private var deleteRoutineOpened: Boolean = false
+
     private var radiobuttonDefault: RadioButton
     private var radiobuttonHCOne: RadioButton
 
@@ -26,20 +33,28 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         LayoutInflater.from(context).inflate(R.layout.option_settings, this, true)
         orientation = VERTICAL
 
+        createRoutineButton = findViewById(R.id.createRoutineButton)
         openButton = findViewById(R.id.openButton)
+
         settingContainer = findViewById(R.id.setting_container)
+        createRoutineContainer = findViewById(R.id.createRoutineContainer)
+
         radiobuttonDefault = findViewById(R.id.radioButton_default)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
 
-        initButton()
+        initButtons()
         initColorSchemeButtons()
         loadState()
     }
 
     private fun loadState() {
-        opened = PreferenceManager.getDefaultSharedPreferences(context)
+        settingsOpened = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(BUTTON_STATE_KEY, false)
-        setOpen(opened)
+        setSettingsOpen(settingsOpened)
+
+        createRoutineOpened = PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(BUTTON_STATE_KEY, false)
+        setCreateRoutineOpen(createRoutineOpened)
 
         when ((context as DynamicThemeActivity).getCurrentTheme()) {
             ThemeEnum.DEFAULT.theme -> radiobuttonDefault.isChecked = true
@@ -47,8 +62,8 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
     }
 
-    private fun setOpen(opened: Boolean) {
-        this.opened = opened
+    private fun setSettingsOpen(opened: Boolean) {
+        this.settingsOpened = opened
         if (opened) {
             settingContainer.visibility = VISIBLE
             openButton.text = context.getString(R.string.settings_clicked)
@@ -60,9 +75,23 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             .putBoolean(BUTTON_STATE_KEY, opened).apply()
     }
 
-    private fun initButton() {
+    private fun setCreateRoutineOpen(opened: Boolean) {
+        this.createRoutineOpened = opened
+        if(opened) {
+            createRoutineContainer.visibility = VISIBLE
+            createRoutineButton.text = context.getString(R.string.createRoutine_clicked)
+        } else {
+            createRoutineContainer.visibility = GONE
+            createRoutineButton.text = context.getString(R.string.createRoutine_unclicked)
+        }
+    }
+
+    private fun initButtons() {
         openButton.setOnClickListener {
-            setOpen(!opened)
+            setSettingsOpen(!settingsOpened)
+        }
+        createRoutineButton.setOnClickListener {
+            setCreateRoutineOpen(!createRoutineOpened)
         }
     }
 
