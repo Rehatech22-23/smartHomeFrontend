@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.Spinner
 import androidx.preference.PreferenceManager
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
@@ -16,11 +17,15 @@ const val BUTTON_STATE_KEY = "ButtonState"
 
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
+    private var deleteRoutineSpinner: Spinner
+
     private var openButton: Button
     private var createRoutineButton: Button
+    private var deleteRoutineButton: Button
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
+    private var deleteRoutineContainer: LinearLayout
 
     private var settingsOpened: Boolean = false
     private var createRoutineOpened: Boolean = false
@@ -33,11 +38,15 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         LayoutInflater.from(context).inflate(R.layout.option_settings, this, true)
         orientation = VERTICAL
 
+        deleteRoutineSpinner = findViewById(R.id.deleteRoutineSpinner)
+
         createRoutineButton = findViewById(R.id.createRoutineButton)
         openButton = findViewById(R.id.openButton)
+        deleteRoutineButton = findViewById(R.id.deleteRoutineButton)
 
         settingContainer = findViewById(R.id.setting_container)
         createRoutineContainer = findViewById(R.id.createRoutineContainer)
+        deleteRoutineContainer = findViewById(R.id.deleteRoutineContainer)
 
         radiobuttonDefault = findViewById(R.id.radioButton_default)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
@@ -55,6 +64,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         createRoutineOpened = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(BUTTON_STATE_KEY, false)
         setCreateRoutineOpen(createRoutineOpened)
+
+        deleteRoutineOpened = PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(BUTTON_STATE_KEY, false)
+        setDeleteRoutineOpen(deleteRoutineOpened)
 
         when ((context as DynamicThemeActivity).getCurrentTheme()) {
             ThemeEnum.DEFAULT.theme -> radiobuttonDefault.isChecked = true
@@ -86,12 +99,28 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
     }
 
+    private fun setDeleteRoutineOpen(opened: Boolean) {
+        this.deleteRoutineOpened = opened
+        if(opened) {
+            deleteRoutineContainer.visibility = VISIBLE
+            deleteRoutineButton.text = context.getString(R.string.deleteRoutine_clicked)
+            //Fill up the Spinner
+            //TODO
+        } else {
+            deleteRoutineContainer.visibility = GONE
+            deleteRoutineButton.text = context.getString(R.string.deleteRoutine_unclicked)
+        }
+    }
+
     private fun initButtons() {
         openButton.setOnClickListener {
             setSettingsOpen(!settingsOpened)
         }
         createRoutineButton.setOnClickListener {
             setCreateRoutineOpen(!createRoutineOpened)
+        }
+        deleteRoutineButton.setOnClickListener {
+            setDeleteRoutineOpen(!deleteRoutineOpened)
         }
     }
 
