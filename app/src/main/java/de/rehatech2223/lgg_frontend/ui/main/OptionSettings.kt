@@ -11,10 +11,12 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.preference.PreferenceManager
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
+import de.rehatech2223.lgg_frontend.services.PopUpService
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 const val BUTTON_STATE_KEY = "ButtonState"
@@ -31,6 +33,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var addConditionButton: Button
     private var radioButtonTime: RadioButton
     private var radioButtonSensor: RadioButton
+    private var addActionButton: Button
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
@@ -61,6 +64,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         addConditionButton = findViewById(R.id.addConditionButton)
         radioButtonTime = findViewById(R.id.radioButtonTime)
         radioButtonSensor = findViewById(R.id.radioButtonSensor)
+        addActionButton = findViewById(R.id.addActionButton)
 
         settingContainer = findViewById(R.id.setting_container)
         createRoutineContainer = findViewById(R.id.createRoutineContainer)
@@ -171,6 +175,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         sensorLayout.visibility = VISIBLE
     }
 
+    private fun addActionButtonOnClick() {
+        PopUpService.showUniversalPopUp("Neue Aktion hinzufügen", findViewById(R.id.coordinatorLayout))
+    }
+
     private fun initButtons() {
         openButton.setOnClickListener {
             setSettingsOpen(!settingsOpened)
@@ -192,6 +200,9 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
         radioButtonSensor.setOnClickListener {
             radioButtonSensorOnClick()
+        }
+        addActionButton.setOnClickListener {
+            addActionButtonOnClick()
         }
     }
 

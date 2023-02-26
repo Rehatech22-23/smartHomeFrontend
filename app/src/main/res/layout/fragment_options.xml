@@ -16,8 +16,7 @@
         android:paddingRight="15sp">
 
         <de.rehatech2223.lgg_frontend.ui.main.OptionSettings
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </de.rehatech2223.lgg_frontend.ui.main.OptionSettings>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></de.rehatech2223.lgg_frontend.ui.main.OptionSettings>
     </LinearLayout>
 </FrameLayout>
