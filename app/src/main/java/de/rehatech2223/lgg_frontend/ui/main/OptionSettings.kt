@@ -1,6 +1,7 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
 import android.content.Context
+import android.provider.MediaStore.Audio.Radio
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.preference.PreferenceManager
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
@@ -26,10 +28,16 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var createRoutineButton: Button
     private var deleteRoutineButton: Button
     private var deleteRoutineExecButton: Button
+    private var addConditionButton: Button
+    private var radioButtonTime: RadioButton
+    private var radioButtonSensor: RadioButton
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
     private var deleteRoutineContainer: LinearLayout
+    private var selectTriggerTypeRadioGroup: RadioGroup
+    private var timeLayout: LinearLayout
+    private var sensorLayout: LinearLayout
 
     private var settingsOpened: Boolean = false
     private var createRoutineOpened: Boolean = false
@@ -50,10 +58,16 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         openButton = findViewById(R.id.openButton)
         deleteRoutineButton = findViewById(R.id.deleteRoutineButton)
         deleteRoutineExecButton = findViewById(R.id.deleteRoutineExecButton)
+        addConditionButton = findViewById(R.id.addConditionButton)
+        radioButtonTime = findViewById(R.id.radioButtonTime)
+        radioButtonSensor = findViewById(R.id.radioButtonSensor)
 
         settingContainer = findViewById(R.id.setting_container)
         createRoutineContainer = findViewById(R.id.createRoutineContainer)
         deleteRoutineContainer = findViewById(R.id.deleteRoutineContainer)
+        selectTriggerTypeRadioGroup = findViewById(R.id.selectTrigger)
+        timeLayout = findViewById(R.id.timeLayout)
+        sensorLayout = findViewById(R.id.sensorLayout)
 
         radiobuttonDefault = findViewById(R.id.radioButton_default)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
@@ -75,6 +89,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         deleteRoutineOpened = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(BUTTON_STATE_KEY, false)
         setDeleteRoutineOpen(deleteRoutineOpened)
+
+        selectTriggerTypeRadioGroup.visibility = GONE
+        timeLayout.visibility = GONE
+        sensorLayout.visibility = GONE
 
         when ((context as DynamicThemeActivity).getCurrentTheme()) {
             ThemeEnum.DEFAULT.theme -> radiobuttonDefault.isChecked = true
@@ -138,6 +156,21 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         if(routineId != null) ServiceProvider.routineService.deleteRoutine(routineId)
     }
 
+    private fun addConditionButtonOnClick() {
+        selectTriggerTypeRadioGroup.visibility = VISIBLE
+        addConditionButton.visibility = GONE
+    }
+
+    private fun radioButtonTimeOnClick() {
+        timeLayout.visibility = VISIBLE
+        sensorLayout.visibility = GONE
+    }
+
+    private fun radioButtonSensorOnClick() {
+        timeLayout.visibility = GONE
+        sensorLayout.visibility = VISIBLE
+    }
+
     private fun initButtons() {
         openButton.setOnClickListener {
             setSettingsOpen(!settingsOpened)
@@ -150,6 +183,15 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
         deleteRoutineExecButton.setOnClickListener() {
             deleteRoutineButtonOnClick()
+        }
+        addConditionButton.setOnClickListener {
+            addConditionButtonOnClick()
+        }
+        radioButtonTime.setOnClickListener {
+            radioButtonTimeOnClick()
+        }
+        radioButtonSensor.setOnClickListener {
+            radioButtonSensorOnClick()
         }
     }
 
