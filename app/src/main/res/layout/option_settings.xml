@@ -127,12 +127,14 @@
                                 <Spinner
                                     android:id="@+id/deviceSelectorCondition"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="50dp"
+                                    android:contentDescription="Selection of every possible device" />
 
                                 <Spinner
                                     android:id="@+id/functionSelectorCondition"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="50dp"
+                                    android:contentDescription="Selection of possible functions" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -187,6 +189,7 @@
                         android:paddingLeft="50sp">
 
                         <Spinner
+                            android:contentDescription="Selection of routine to delete"
                             android:id="@+id/deleteRoutineSpinner"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
