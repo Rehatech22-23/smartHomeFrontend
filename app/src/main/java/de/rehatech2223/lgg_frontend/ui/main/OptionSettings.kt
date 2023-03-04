@@ -5,6 +5,7 @@ import android.provider.MediaStore.Audio.Radio
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
@@ -39,6 +40,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radiobuttonDefault: RadioButton
     private var radiobuttonHCOne: RadioButton
     private var createRoutineConditionDeviceSpinner: Spinner
+    private var createRoutineConditionFunctionSpinner: Spinner
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
@@ -81,6 +83,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
 
         createRoutineConditionDeviceSpinner = findViewById(R.id.deviceSelectorCondition)
+        createRoutineConditionFunctionSpinner = findViewById(R.id.functionSelectorCondition)
 
         initButtons()
         initColorSchemeButtons()
@@ -196,7 +199,19 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     }
 
     private fun populateCreateRoutineConditionFunctionSpinner() {
-        //TODO
+        if(createRoutineConditionDeviceSpinner.selectedItem == null) return
+        val selectedDevice = createRoutineConditionDeviceSpinner.selectedItem.toString()
+        for(kvp in deviceToFunctionsMap) {
+            if(kvp.key.deviceName == selectedDevice) {
+                val functionNames = kvp.value.map { f -> f.functionName }
+                ArrayAdapter(context, R.layout.spinner_item, functionNames.toTypedArray()).also {
+                        arrayAdapter ->
+                    arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+                    createRoutineConditionFunctionSpinner.adapter = arrayAdapter
+                }
+                break
+            }
+        }
     }
 
     private fun updateDeviceToFunctionsMap() {
@@ -242,6 +257,17 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
         radioButtonSensor.setOnClickListener {
             radioButtonSensorOnClick()
+        }
+
+        createRoutineConditionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                populateCreateRoutineConditionFunctionSpinner()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Nothing should happen here
+            }
         }
     }
 
