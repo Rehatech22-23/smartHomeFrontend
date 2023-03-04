@@ -13,6 +13,8 @@ import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.preference.PreferenceManager
+import de.rehatech2223.datamodel.DeviceDTO
+import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
@@ -34,6 +36,9 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radioButtonTime: RadioButton
     private var radioButtonSensor: RadioButton
     private var addActionButton: Button
+    private var radiobuttonDefault: RadioButton
+    private var radiobuttonHCOne: RadioButton
+    private var createRoutineConditionDeviceSpinner: Spinner
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
@@ -46,8 +51,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var createRoutineOpened: Boolean = false
     private var deleteRoutineOpened: Boolean = false
 
-    private var radiobuttonDefault: RadioButton
-    private var radiobuttonHCOne: RadioButton
+    private var deviceToFunctionsMap = mutableMapOf<DeviceDTO, List<FunctionDTO>>()
 
     init {
         spinnerMap
@@ -75,6 +79,8 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
         radiobuttonDefault = findViewById(R.id.radioButton_default)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
+
+        createRoutineConditionDeviceSpinner = findViewById(R.id.deviceSelectorCondition)
 
         initButtons()
         initColorSchemeButtons()
@@ -173,10 +179,46 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private fun radioButtonSensorOnClick() {
         timeLayout.visibility = GONE
         sensorLayout.visibility = VISIBLE
+        populateCreateRoutineConditionDeviceSpinner()
     }
 
-    private fun addActionButtonOnClick() {
-        PopUpService.showUniversalPopUp("Neue Aktion hinzufügen", findViewById(R.id.coordinatorLayout))
+    private fun populateCreateRoutineConditionDeviceSpinner() {
+        updateDeviceToFunctionsMap()
+        val deviceNames = mutableListOf<String>()
+        for(kvp in deviceToFunctionsMap) {
+            deviceNames.add(kvp.key.deviceName)
+        }
+        ArrayAdapter(context, R.layout.spinner_item, deviceNames.toTypedArray()).also {
+                arrayAdapter ->
+            arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            createRoutineConditionDeviceSpinner.adapter = arrayAdapter
+        }
+    }
+
+    private fun populateCreateRoutineConditionFunctionSpinner() {
+        //TODO
+    }
+
+    private fun updateDeviceToFunctionsMap() {
+        //Get all device ids
+        val deviceIDList = ServiceProvider.devicesService.getDeviceList()
+        //get all devices from their ids
+        val deviceList = mutableListOf<DeviceDTO>()
+        for(id: String in deviceIDList) {
+            val d = ServiceProvider.devicesService.getDeviceInfo(id)
+            if(d != null) deviceList.add(d)
+        }
+        //create the mapping from devices to their functions
+        for(d in deviceList) {
+            val functions = mutableListOf<FunctionDTO>()
+            for(fId in d.functionIds) {
+                val f = ServiceProvider.functionService.getFunctionInfo(fId)
+                if(f != null) functions.add(f)
+            }
+            deviceToFunctionsMap[d] = functions
+        }
+        //remove functions and devices that can not be used
+        //TODO
     }
 
     private fun initButtons() {
@@ -200,9 +242,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
         radioButtonSensor.setOnClickListener {
             radioButtonSensorOnClick()
-        }
-        addActionButton.setOnClickListener {
-            addActionButtonOnClick()
         }
     }
 
