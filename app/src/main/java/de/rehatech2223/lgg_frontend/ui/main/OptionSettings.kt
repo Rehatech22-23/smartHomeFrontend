@@ -1,25 +1,25 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
 import android.content.Context
-import android.provider.MediaStore.Audio.Radio
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.widget.TextView
 import androidx.preference.PreferenceManager
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
+import de.rehatech2223.datamodel.util.RoutineEventDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
-import de.rehatech2223.lgg_frontend.services.PopUpService
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 const val BUTTON_STATE_KEY = "ButtonState"
@@ -41,6 +41,11 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radiobuttonHCOne: RadioButton
     private var createRoutineConditionDeviceSpinner: Spinner
     private var createRoutineConditionFunctionSpinner: Spinner
+    private var createRoutineActionDeviceSpinner: Spinner
+    private var createRoutineActionFunctionSpinner: Spinner
+    private var removeAllActionsButton: Button
+
+    private var valueActionEditText: EditText
 
     private var settingContainer: LinearLayout
     private var createRoutineContainer: LinearLayout
@@ -48,12 +53,14 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var selectTriggerTypeRadioGroup: RadioGroup
     private var timeLayout: LinearLayout
     private var sensorLayout: LinearLayout
+    private var actionContainerLinearLayout: LinearLayout
 
     private var settingsOpened: Boolean = false
     private var createRoutineOpened: Boolean = false
     private var deleteRoutineOpened: Boolean = false
 
     private var deviceToFunctionsMap = mutableMapOf<DeviceDTO, List<FunctionDTO>>()
+    private var routineEventList = mutableListOf<RoutineEventDTO>()
 
     init {
         spinnerMap
@@ -71,6 +78,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         radioButtonTime = findViewById(R.id.radioButtonTime)
         radioButtonSensor = findViewById(R.id.radioButtonSensor)
         addActionButton = findViewById(R.id.addActionButton)
+        removeAllActionsButton = findViewById(R.id.removeAllActionsButton)
 
         settingContainer = findViewById(R.id.setting_container)
         createRoutineContainer = findViewById(R.id.createRoutineContainer)
@@ -78,12 +86,17 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         selectTriggerTypeRadioGroup = findViewById(R.id.selectTrigger)
         timeLayout = findViewById(R.id.timeLayout)
         sensorLayout = findViewById(R.id.sensorLayout)
+        actionContainerLinearLayout = findViewById(R.id.actionContainerLinearLayout)
 
         radiobuttonDefault = findViewById(R.id.radioButton_default)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
 
         createRoutineConditionDeviceSpinner = findViewById(R.id.deviceSelectorCondition)
         createRoutineConditionFunctionSpinner = findViewById(R.id.functionSelectorCondition)
+        createRoutineActionDeviceSpinner = findViewById(R.id.deviceActionSpinner)
+        createRoutineActionFunctionSpinner = findViewById(R.id.functionActionSpinner)
+
+        valueActionEditText = findViewById(R.id.valueActionInputField)
 
         initButtons()
         initColorSchemeButtons()
@@ -131,6 +144,8 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         if(opened) {
             createRoutineContainer.visibility = VISIBLE
             createRoutineButton.text = context.getString(R.string.createRoutine_clicked)
+            updateDeviceToFunctionsMap()
+            populateDeviceSpinner(createRoutineActionDeviceSpinner, deviceToFunctionsMap)
         } else {
             createRoutineContainer.visibility = GONE
             createRoutineButton.text = context.getString(R.string.createRoutine_unclicked)
@@ -182,32 +197,31 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private fun radioButtonSensorOnClick() {
         timeLayout.visibility = GONE
         sensorLayout.visibility = VISIBLE
-        populateCreateRoutineConditionDeviceSpinner()
+        populateDeviceSpinner(createRoutineConditionDeviceSpinner, deviceToFunctionsMap)
     }
 
-    private fun populateCreateRoutineConditionDeviceSpinner() {
-        updateDeviceToFunctionsMap()
+    private fun populateDeviceSpinner(spinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
         val deviceNames = mutableListOf<String>()
-        for(kvp in deviceToFunctionsMap) {
+        for(kvp in deviceFunctionMap) {
             deviceNames.add(kvp.key.deviceName)
         }
         ArrayAdapter(context, R.layout.spinner_item, deviceNames.toTypedArray()).also {
                 arrayAdapter ->
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            createRoutineConditionDeviceSpinner.adapter = arrayAdapter
+            spinner.adapter = arrayAdapter
         }
     }
 
-    private fun populateCreateRoutineConditionFunctionSpinner() {
-        if(createRoutineConditionDeviceSpinner.selectedItem == null) return
-        val selectedDevice = createRoutineConditionDeviceSpinner.selectedItem.toString()
-        for(kvp in deviceToFunctionsMap) {
+    private fun populateFunctionSpinnerByDevice(spinnerToPopulate: Spinner, deviceSpinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
+        if(deviceSpinner.selectedItem == null) return
+        val selectedDevice = deviceSpinner.selectedItem.toString()
+        for(kvp in deviceFunctionMap) {
             if(kvp.key.deviceName == selectedDevice) {
                 val functionNames = kvp.value.map { f -> f.functionName }
                 ArrayAdapter(context, R.layout.spinner_item, functionNames.toTypedArray()).also {
                         arrayAdapter ->
                     arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-                    createRoutineConditionFunctionSpinner.adapter = arrayAdapter
+                    spinnerToPopulate.adapter = arrayAdapter
                 }
                 break
             }
@@ -232,8 +246,38 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             }
             deviceToFunctionsMap[d] = functions
         }
-        //remove functions and devices that can not be used
-        //TODO
+    }
+
+    private fun addActionButtonOnClick() {
+        if(valueActionEditText.text.isBlank() or valueActionEditText.text.isEmpty()) return
+        val deviceName = createRoutineActionDeviceSpinner.selectedItem.toString()
+        var deviceId: String = ""
+        val functionName = createRoutineActionFunctionSpinner.selectedItem.toString()
+        var functionID: Long = 0
+        for(kvp in deviceToFunctionsMap) {
+            if(kvp.key.deviceName == deviceName) {
+                deviceId = kvp.key.deviceId
+                for(f in kvp.value) {
+                    if(f.functionName == functionName) {
+                        functionID = f.functionId
+                        break
+                    }
+                }
+                break
+            }
+        }
+        routineEventList.add(RoutineEventDTO(deviceId, functionID, valueActionEditText.text.toString().toFloat()))
+        //Create new view and add it to list and layout
+        val newView = inflate(context, R.layout.action_tile_view, null)
+        newView.findViewById<TextView>(R.id.textViewDevice).text = deviceName
+        newView.findViewById<TextView>(R.id.textViewFunction).text = functionName
+        newView.findViewById<TextView>(R.id.textViewValue).text = valueActionEditText.text.toString()
+        actionContainerLinearLayout.addView(newView)
+    }
+
+    private fun removeAllActionsButtonOnClick() {
+        actionContainerLinearLayout.removeAllViews()
+        routineEventList.clear()
     }
 
     private fun initButtons() {
@@ -259,10 +303,29 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             radioButtonSensorOnClick()
         }
 
+        addActionButton.setOnClickListener {
+            addActionButtonOnClick()
+        }
+
+        removeAllActionsButton.setOnClickListener {
+            removeAllActionsButtonOnClick()
+        }
+
         createRoutineConditionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
             AdapterView.OnItemClickListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                populateCreateRoutineConditionFunctionSpinner()
+                populateFunctionSpinnerByDevice(createRoutineConditionFunctionSpinner, createRoutineConditionDeviceSpinner, deviceToFunctionsMap)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Nothing should happen here
+            }
+        }
+
+        createRoutineActionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                populateFunctionSpinnerByDevice(createRoutineActionFunctionSpinner, createRoutineActionDeviceSpinner, deviceToFunctionsMap)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
             override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
