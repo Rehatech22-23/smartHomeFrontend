@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.flexbox.FlexboxLayout
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.RoutineDTO
 import de.rehatech2223.lgg_frontend.R
@@ -14,8 +15,7 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 class FragmentRoutines : Fragment() {
 
-    private lateinit var mainLinearLayout: LinearLayout
-    private var currentLinearLayout: LinearLayout? = null
+    private lateinit var flexboxLayout: FlexboxLayout
     private val routineTiles: ArrayList<RoutineTile> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class FragmentRoutines : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainLinearLayout = view.findViewById(R.id.linearLayout);
+        flexboxLayout = view.findViewById(R.id.flexboxLayout);
 
         loadRoutineTiles()
     }
@@ -50,13 +50,7 @@ class FragmentRoutines : Fragment() {
 
     private fun addRoutineTile(routineDTO: RoutineDTO): RoutineTile {
         val routineTile = RoutineTile(requireContext(), null, routineDTO)
-        if (routineTiles.size % 3 == 0) {
-            currentLinearLayout = layoutInflater.inflate(R.layout.routines_view, null)
-                .findViewById(R.id.linearLayout)
-            (currentLinearLayout as LinearLayout).clipChildren = false
-            mainLinearLayout.addView(currentLinearLayout)
-        }
-        currentLinearLayout?.addView(routineTile)
+        flexboxLayout.addView(routineTile)
         return routineTile
     }
 

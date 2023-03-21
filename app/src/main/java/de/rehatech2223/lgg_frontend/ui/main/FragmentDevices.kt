@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.google.android.flexbox.FlexboxLayout
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 class FragmentDevices : Fragment() {
 
-    private lateinit var mainLinearLayout: LinearLayout
-    private var currentLinearLayout: LinearLayout? = null
+    private lateinit var flexboxLayout: FlexboxLayout
     private val deviceTiles: ArrayList<DeviceTile> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class FragmentDevices : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainLinearLayout = view.findViewById(R.id.linearLayout)
+        flexboxLayout = view.findViewById(R.id.flexboxLayout)
         loadDeviceTiles()
     }
 
@@ -50,13 +50,7 @@ class FragmentDevices : Fragment() {
 
     private fun addDeviceTile(deviceDTO: DeviceDTO): DeviceTile {
         val deviceTile = DeviceTile(requireContext(), null, deviceDTO)
-        if (deviceTiles.size % 3 == 0) {
-            currentLinearLayout = layoutInflater.inflate(R.layout.devices_view, null)
-                .findViewById(R.id.linearLayout)
-            (currentLinearLayout as LinearLayout).clipChildren = false
-            mainLinearLayout.addView(currentLinearLayout)
-        }
-        currentLinearLayout?.addView(deviceTile)
+        flexboxLayout.addView(deviceTile)
         return deviceTile
     }
 

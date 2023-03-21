@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.FragmentDevices"
     android:background="?android:attr/colorBackground">
 
@@ -11,13 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexboxLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            app:showDivider="beginning|middle"
+            app:dividerDrawable="@drawable/flex_divider"
+            app:flexDirection="row"/>
 
     </ScrollView>
 
