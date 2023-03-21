@@ -62,7 +62,7 @@ class FunctionRange(
 
     private fun currentValueToCurrentValueText(value: Double): String {
         var currentValue: String = value.toString()
-        currentValue = if (currentValue.length == 3) (currentValue + "0") else currentValue
+        currentValue = if (currentValue.split('.')[1].length == 1) (currentValue + "0") else currentValue
         currentValue = "Aktuell: $currentValue"
         return currentValue
     }
