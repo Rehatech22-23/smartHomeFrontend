@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import android.widget.TextView
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
@@ -13,5 +14,12 @@ class FunctionOutput(context: Context, attrs: AttributeSet? = null, functionDTO:
     init {
         LayoutInflater.from(context).inflate(R.layout.function_output, this, true)
         orientation = VERTICAL
+
+        val functionNameText: TextView = findViewById(R.id.functionNameText)
+        val outputValueText: TextView = findViewById(R.id.outputValueText)
+
+        val nameText: String = functionDTO.functionName + ":"
+        functionNameText.text = nameText
+        outputValueText.text = functionDTO.outputValue
     }
 }

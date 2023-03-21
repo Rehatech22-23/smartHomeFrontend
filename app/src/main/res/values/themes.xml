@@ -19,6 +19,7 @@
         <item name="routine_tile_background">@drawable/routine_tile_background</item>
         <item name="device_detail_background">@drawable/surface_object_rounded_top</item>
         <item name="device_detail_top_background">?attr/colorSurface</item>
+        <item name="buttonTextColor">?attr/colorOnSurface</item>
         <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -53,6 +54,7 @@
         <item name="routine_tile_background">@drawable/object_border</item>
         <item name="device_detail_background">@drawable/object_border</item>
         <item name="device_detail_top_background">@drawable/object_border</item>
+        <item name="buttonTextColor">?attr/colorSurface</item>
         <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
