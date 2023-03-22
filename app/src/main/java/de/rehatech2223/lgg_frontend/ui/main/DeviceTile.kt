@@ -30,7 +30,6 @@ class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: 
 
     private fun initOnClickListeners() {
         this.setOnClickListener {
-            Log.d("handler", "hewwow , starting")
             val deviceDetailActivity = Intent(context, DeviceDetailActivity::class.java)
             deviceDetailActivity.putExtra("deviceId", deviceDTO.deviceId)
             context.startActivity(deviceDetailActivity)

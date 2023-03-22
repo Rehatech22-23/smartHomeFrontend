@@ -1,5 +1,6 @@
 package de.rehatech2223.lgg_frontend.services
 
+import android.util.Log
 import de.rehatech2223.datamodel.RoutineDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

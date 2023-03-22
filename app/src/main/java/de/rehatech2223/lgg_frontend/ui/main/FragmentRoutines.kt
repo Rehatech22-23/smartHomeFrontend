@@ -56,7 +56,7 @@ class FragmentRoutines : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             FragmentRoutines().apply {
                 arguments = Bundle().apply {}
             }

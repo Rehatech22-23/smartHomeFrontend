@@ -15,10 +15,10 @@ class TabFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> FragmentDevices.newInstance()
-            1 -> FragmentRoutines.newInstance("1", "2")
+            1 -> FragmentRoutines.newInstance()
             2 -> {
                 if (!disableOptions) FragmentOptions.newInstance()
-                else FragmentRoutines.newInstance("1", "2")
+                else FragmentRoutines.newInstance()
             }
             else -> FragmentDevices.newInstance()
         }

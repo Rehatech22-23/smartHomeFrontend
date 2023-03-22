@@ -103,6 +103,7 @@
     <string name="deleteRoutine_unclicked">▶ Ablauf löschen</string>
     <string name="deleteRoutine_clicked">▼ Ablauf löschen</string>
     <string name="title_activity_device_detail">DeviceDetailActivity</string>
+    <string name="title_activity_routine_detail">RoutineDetailActivity</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
