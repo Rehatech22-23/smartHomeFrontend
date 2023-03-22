@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -32,7 +33,7 @@ class RoutineDetailActivity : DynamicThemeActivity() {
         routineDTO = routineArgument ?: RoutineDTO.Builder("Error Routine", 0, ArrayList(), -1L).build()
 
         initMainViewElements()
-        initRoutineTrigger()
+        initRoutineCondition()
         initRoutineResult()
     }
 
@@ -40,13 +41,16 @@ class RoutineDetailActivity : DynamicThemeActivity() {
         findViewById<TextView>(R.id.back_text).setOnClickListener {
             finish()
         }
-
         findViewById<TextView>(R.id.overview_name).text = routineDTO.routineName
         findViewById<ImageView>(R.id.overview_image)
             .setImageResource(TileImageUtil.getRoutineImageId(routineDTO, this))
+
+        findViewById<Button>(R.id.trigger_button).setOnClickListener {
+            ServiceProvider.routineService.triggerRoutine(routineDTO.routineId)
+        }
     }
 
-    private fun initRoutineTrigger() {
+    private fun initRoutineCondition() {
         val startTextDyn: TextView = findViewById(R.id.start_text_dyn)
         if (routineDTO.triggerTime != null) {
             val startText = "Der Ablauf startet um ${routineDTO.triggerTime!!.time}"

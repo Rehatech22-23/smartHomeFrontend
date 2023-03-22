@@ -47,7 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="10dp"
-            android:gravity="start|center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
 
@@ -56,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:layout_gravity="start|center_vertical"
                 android:paddingEnd="10dp"
                 app:srcCompat="@drawable/error_100px" />
 
@@ -63,11 +63,33 @@
                 android:id="@+id/overview_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:paddingEnd="60dp"
                 android:text="Routine Name"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="45sp"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/trigger_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="Starten"
+                    android:textColor="?attr/buttonTextColor"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 
