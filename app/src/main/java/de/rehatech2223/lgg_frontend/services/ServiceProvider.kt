@@ -1,5 +1,6 @@
 package de.rehatech2223.lgg_frontend.services
 
+import android.content.Context
 import okhttp3.OkHttpClient
 
 object ServiceProvider {

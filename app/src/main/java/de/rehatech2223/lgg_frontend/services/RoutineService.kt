@@ -1,6 +1,5 @@
 package de.rehatech2223.lgg_frontend.services
 
-import android.util.Log
 import de.rehatech2223.datamodel.RoutineDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -72,6 +71,7 @@ class RoutineService {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.code == 404) { /* todo action on 404 Not Found */
+
                     }
                     if (response.code == 500) { /* todo action on 500 Internal Server Error */
                     }
@@ -97,12 +97,12 @@ class RoutineService {
         runBlocking {
             launch(Dispatchers.IO) {
                 ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (response.code == 201) {
+                    if ((response.code == 201 || response.isSuccessful) && response.body != null) {
                         val jsonBody: String = response.body!!.string()
                         routineDTO = Json.decodeFromString(jsonBody)
-                    } else if (!response.isSuccessful) {
+                    } else {
                         cancel() /* todo issue on github for popup warning */
-                    } else cancel()
+                    }
                 }
             }.join()
         }

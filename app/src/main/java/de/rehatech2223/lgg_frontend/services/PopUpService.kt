@@ -8,11 +8,7 @@ class PopUpService {
     companion object {
         // Should be used on Coordinator Layout
         fun showUniversalPopUp(text: String, view: View) {
-            Snackbar.make(
-                view,
-                text,
-                Snackbar.LENGTH_SHORT
-            ).show()
+            Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
         }
     }
 }
