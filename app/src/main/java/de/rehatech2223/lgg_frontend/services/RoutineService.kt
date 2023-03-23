@@ -1,5 +1,6 @@
 package de.rehatech2223.lgg_frontend.services
 
+import android.util.Log
 import de.rehatech2223.datamodel.RoutineDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -19,6 +20,7 @@ import java.io.IOException
 class RoutineService {
 
     fun getRoutineList(): ArrayList<Long> {
+        Log.d("handler", "requesting routine List")
         var routineList: ArrayList<Long> = ArrayList()
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine/list")
@@ -27,11 +29,12 @@ class RoutineService {
         runBlocking {
             launch(Dispatchers.IO) {
                 ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful) {
+                    if (!response.isSuccessful || response.code != 200) {
                         cancel()/* todo issue on github for popup warning */
+                    } else {
+                        val jsonBody: String = response.body!!.string()
+                        routineList = Json.decodeFromString(jsonBody)
                     }
-                    val jsonBody: String = response.body!!.string()
-                    routineList = Json.decodeFromString(jsonBody)
                 }
             }.join()
         }
@@ -39,6 +42,7 @@ class RoutineService {
     }
 
     fun getRoutineInfo(routineId: Long): RoutineDTO? {
+        Log.d("handler", "requesting routineinfo of: $routineId")
         var routineDTO: RoutineDTO? = null
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine?routineId=$routineId")
@@ -47,11 +51,13 @@ class RoutineService {
         runBlocking {
             launch(Dispatchers.IO) {
                 ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful) {
+                    if (!response.isSuccessful || response.code != 200) {
                         cancel()/* todo issue on github for popup warning */
+                    } else {
+                        val jsonBody: String = response.body!!.string()
+                        Log.d("handler", "response routine: $jsonBody")
+                        routineDTO = Json.decodeFromString(jsonBody)
                     }
-                    val jsonBody: String = response.body!!.string()
-                    routineDTO = Json.decodeFromString(jsonBody)
                 }
             }.join()
         }
@@ -59,6 +65,7 @@ class RoutineService {
     }
 
     fun triggerRoutine(routineId: Long) {
+        Log.d("handler", "triggering routine: $routineId")
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine/trigger?routineId=$routineId")
             .get()
@@ -71,11 +78,13 @@ class RoutineService {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.code == 404) { /* todo action on 404 Not Found */
-
+                        Log.d("handler", "trigger routine failed")
                     }
                     if (response.code == 500) { /* todo action on 500 Internal Server Error */
+                        Log.d("handler", "trigger routine failed")
                     }
                     if (!response.isSuccessful) { /* todo issue on github for popup warning */
+                        Log.d("handler", "trigger routine failed")
                     }
                 }
             }
@@ -97,7 +106,7 @@ class RoutineService {
         runBlocking {
             launch(Dispatchers.IO) {
                 ServiceProvider.client.newCall(request).execute().use { response ->
-                    if ((response.code == 201 || response.isSuccessful) && response.body != null) {
+                    if ((response.code == 201 || response.isSuccessful || response.code == 200) && response.body != null) {
                         val jsonBody: String = response.body!!.string()
                         routineDTO = Json.decodeFromString(jsonBody)
                     } else {
@@ -122,7 +131,7 @@ class RoutineService {
                         deleted = false
                         cancel() /* todo action on 404 Not Found */
                     }
-                    if (!response.isSuccessful) {
+                    if (!response.isSuccessful || response.code != 200) {
                         deleted = false
                         cancel() /* todo issue on github for popup warning */
                     }

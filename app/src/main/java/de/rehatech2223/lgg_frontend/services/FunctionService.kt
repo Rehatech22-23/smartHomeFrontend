@@ -1,5 +1,6 @@
 package de.rehatech2223.lgg_frontend.services
 
+import android.util.Log
 import de.rehatech2223.datamodel.FunctionDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -15,6 +16,7 @@ import java.io.IOException
 class FunctionService {
 
     fun getFunctionInfo(functionId: Long): FunctionDTO? {
+        Log.d("handler", "requested function id: $functionId")
         var functionDTO: FunctionDTO? = null
         runBlocking {
             val request = Request.Builder()
@@ -23,11 +25,13 @@ class FunctionService {
                 .build()
             launch(Dispatchers.IO) {
                 ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful) {
+                    if (!response.isSuccessful || response.code != 200) {
+                        Log.d("handler", "canceled")
                         cancel()/* todo issue on github for popup warning */
+                    } else {
+                        val jsonBody: String = response.body!!.string()
+                        functionDTO = Json.decodeFromString(jsonBody)
                     }
-                    val jsonBody: String = response.body!!.string()
-                    functionDTO = Json.decodeFromString(jsonBody)
                 }
             }.join()
         }

@@ -1,6 +1,7 @@
 package de.rehatech2223.lgg_frontend.ui.deviceDetail
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -42,8 +43,12 @@ class DeviceDetailActivity : DynamicThemeActivity() {
     private fun initFunctions(){
         val scrollLayout = findViewById<LinearLayout>(R.id.scroll_layout)
         for (functionId in deviceDTO.functionIds){
-            val functionDTO: FunctionDTO = ServiceProvider.functionService
-                .getFunctionInfo(functionId) ?: continue
+            Log.d("handler", "starting function request")
+            val requestedFunctionDTO: FunctionDTO? = ServiceProvider.functionService
+                .getFunctionInfo(functionId)
+            Log.d("handler", "functionDTO: $requestedFunctionDTO")
+            val functionDTO: FunctionDTO = requestedFunctionDTO ?: continue
+
 
             val functionView = if (functionDTO.rangeDTO != null){
                 FunctionRange(this, null, functionDTO, deviceDTO)
