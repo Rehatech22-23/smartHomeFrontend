@@ -1,0 +1,7 @@
+# possible mappings: detector_air, detector_smoke, motion, light, power, window, door, temperature, cam, error
+Lampe, light
+Fenster, window
+Tür-Rahmen, door
+Heizung, temperature
+Tür, door
+Error Device, error

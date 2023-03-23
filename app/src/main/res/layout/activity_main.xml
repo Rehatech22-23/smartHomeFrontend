@@ -4,47 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.LGG_Frontend.AppBarOverlay">
-
-        <com.google.android.material.tabs.TabLayout
-            android:contentDescription="description"
-            android:id="@+id/tabs"
+        android:background="?attr/colorSurface"
+        android:elevation="20dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabGravity="start"
-            app:tabMode="scrollable">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <!-- <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_devices"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Geräte" />
+                android:background="?attr/tabBackground"
+                android:contentDescription="@string/tabs_for_devices_routines_and_options"
+                android:layout_weight="1"
+                app:tabBackground="?attr/tab_background_drawable"
+                app:tabGravity="start"
+                app:tabTextAppearance="@style/TabLayoutTextAppearance"
+                app:tabTextColor="?attr/colorOnPrimary"
+                app:tabSelectedTextColor="?attr/colorOnPrimary"
+                app:tabIndicatorColor="?attr/colorPrimary"
+                app:tabMode="scrollable">
+            </com.google.android.material.tabs.TabLayout>
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_routines"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Abläufe" />
+                android:layout_height="match_parent"
+                android:layout_marginRight="10sp"
+                android:checked="true"
+                android:switchPadding="15sp"
+                android:text="@string/advanced_view_text"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="22sp"
+                android:theme="@style/SwitchCompatThumbTheme"
+                app:trackTint="@color/switch_color_switcher" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_options"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Optionen" /> -->
-
-        </com.google.android.material.tabs.TabLayout>
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_two"
         android:layout_width="match_parent"
+        android:backgroundTint="@color/white"
         android:layout_height="match_parent"
-        android:contentDescription="viewPager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:elevation="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

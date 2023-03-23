@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="tab_background_drawable" format="reference"/>
+    <attr name="device_tile_background" format="reference"/>
+    <attr name="routine_tile_background" format="reference"/>
+    <attr name="device_detail_background" format="reference"/>
+    <attr name="device_detail_top_background" format="reference"/>
+    <attr name="buttonTextColor" format="reference"/>
+</resources>

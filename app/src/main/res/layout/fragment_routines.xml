@@ -3,12 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.FragmentRoutines">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.FragmentRoutines"
+    android:background="?android:attr/colorBackground">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:contentDescription="main scroll view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Routines Page" />
+        android:layout_height="match_parent">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexboxLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            app:showDivider="beginning|middle"
+            app:dividerDrawable="@drawable/flex_divider"
+            app:flexDirection="row"/>
+
+    </ScrollView>
 
 </FrameLayout>

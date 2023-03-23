@@ -3,12 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.FragmentOptions">
+    tools:context=".ui.main.FragmentOptions"
+    android:background="?android:attr/colorBackground">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/optionContainerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Optiones Page" />
+        android:orientation="vertical"
+        android:paddingTop="15sp"
+        android:paddingLeft="15sp"
+        android:paddingRight="15sp">
 
+        <de.rehatech2223.lgg_frontend.ui.main.OptionSettings
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></de.rehatech2223.lgg_frontend.ui.main.OptionSettings>
+    </LinearLayout>
 </FrameLayout>
