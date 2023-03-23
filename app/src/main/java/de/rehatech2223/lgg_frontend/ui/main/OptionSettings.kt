@@ -38,6 +38,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radioButtonSensor: RadioButton
     private var addActionButton: Button
     private var radiobuttonDefault: RadioButton
+    private var radiobuttonLight: RadioButton
     private var radiobuttonHCOne: RadioButton
     private var createRoutineConditionDeviceSpinner: Spinner
     private var createRoutineConditionFunctionSpinner: Spinner
@@ -89,6 +90,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         actionContainerLinearLayout = findViewById(R.id.actionContainerLinearLayout)
 
         radiobuttonDefault = findViewById(R.id.radioButton_default)
+        radiobuttonLight = findViewById(R.id.radioButton_light)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
 
         createRoutineConditionDeviceSpinner = findViewById(R.id.deviceSelectorCondition)
@@ -336,9 +338,8 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
     private fun initColorSchemeButtons() {
         radiobuttonDefault.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonHCOne.setOnClickListener { view ->
-            changeColorTheme(view)
-        }
+        radiobuttonLight.setOnClickListener { view -> changeColorTheme(view) }
+        radiobuttonHCOne.setOnClickListener { view -> changeColorTheme(view) }
     }
 
     private fun changeColorTheme(view: View) {
@@ -346,6 +347,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         if (view is RadioButton && view.isChecked) {
             when (view.id) {
                 R.id.radioButton_default -> activity.changeTheme(ThemeEnum.DEFAULT)
+                R.id.radioButton_light -> activity.changeTheme(ThemeEnum.LIGHT)
                 R.id.radioButton_hc1 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_ONE)
             }
         }
