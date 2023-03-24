@@ -394,7 +394,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
             routineEventList as java.util.ArrayList<RoutineEventDTO>,
             -1,
-            if(radioButtonTime.isSelected) TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked) else null,
+            TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked),
             null
         ).build()
         ServiceProvider.routineService.createRoutine(routineDTO)
