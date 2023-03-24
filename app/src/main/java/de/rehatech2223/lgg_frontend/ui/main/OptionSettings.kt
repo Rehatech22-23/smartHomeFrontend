@@ -12,15 +12,22 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.TextView
+import android.widget.TimePicker
 import androidx.preference.PreferenceManager
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
+import de.rehatech2223.datamodel.RoutineDTO
+import de.rehatech2223.datamodel.util.RangeDTO
 import de.rehatech2223.datamodel.util.RoutineEventDTO
+import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
+import de.rehatech2223.datamodel.util.TriggerTimeDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import java.time.LocalTime
 
 const val BUTTON_STATE_KEY = "ButtonState"
 
@@ -28,6 +35,14 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
     private var deleteRoutineSpinner: Spinner
     private var spinnerMap = mutableMapOf<String, Long>()
+
+    private var sensorValueConditionEditText: EditText
+    private var conditionHelperText: TextView
+    private var comparisonTypeSpinner: Spinner
+    private var createRoutineExecButton: Button
+    private var textFieldRoutineName: EditText
+    private var timePicker: TimePicker
+    private var repeatSwitch: Switch
 
     private var openButton: Button
     private var createRoutineButton: Button
@@ -68,6 +83,14 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
         LayoutInflater.from(context).inflate(R.layout.option_settings, this, true)
         orientation = VERTICAL
+
+        sensorValueConditionEditText = findViewById(R.id.sensorValueCondition)
+        conditionHelperText = findViewById(R.id.sensorHelpText)
+        comparisonTypeSpinner = findViewById(R.id.comparisonTypeSpinner)
+        createRoutineExecButton = findViewById(R.id.createRoutineExecButton)
+        textFieldRoutineName = findViewById(R.id.textfieldRoutineName)
+        timePicker = findViewById(R.id.timePicker)
+        repeatSwitch = findViewById(R.id.repeatSwitch)
 
         deleteRoutineSpinner = findViewById(R.id.deleteRoutineSpinner)
 
@@ -212,6 +235,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             spinner.adapter = arrayAdapter
         }
+
     }
 
     private fun populateFunctionSpinnerByDevice(spinnerToPopulate: Spinner, deviceSpinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
@@ -282,6 +306,100 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         routineEventList.clear()
     }
 
+    private fun updateSensorHelperText() {
+
+        var functionDTO: FunctionDTO? = null
+
+        for(kvp in deviceToFunctionsMap) {
+            if(kvp.key.deviceName == createRoutineConditionDeviceSpinner.selectedItem.toString()) {
+                for(f in kvp.value) {
+                    if(f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
+                            functionDTO = f
+                        break
+                    }
+                }
+                break
+            }
+        }
+
+        comparisonTypeSpinner.visibility = GONE
+
+        if(functionDTO == null) {
+            conditionHelperText.text = "Funktion kann nicht gefunden werden"
+            return
+        }
+
+        if(functionDTO.onOff != null) {
+            conditionHelperText.text = "Das Eingabefeld darf nur den Wert 0 oder 1 enthalten."
+            return
+        }
+        if(functionDTO.rangeDTO != null) {
+            conditionHelperText.text = "Das Eingabefeld darf nur einen Wert zwischen ${functionDTO.rangeDTO!!.minValue} und ${functionDTO.rangeDTO!!.maxValue} enthalten"
+            comparisonTypeSpinner.visibility = VISIBLE
+            return
+        }
+        conditionHelperText.text = "Für diese Funktion kann kein Wert abgefragt werden"
+    }
+
+    private fun createRoutineExecButtonOnClick() {
+
+        //TODO filtering the user input required
+
+
+        if(radioButtonSensor.isSelected) {
+            var deviceId: String = ""
+            var function: FunctionDTO?
+            for(kvp in deviceToFunctionsMap) {
+                if(kvp.key.deviceName == createRoutineConditionDeviceSpinner.selectedItem.toString()) {
+                    deviceId = kvp.key.deviceId
+                    for(f in kvp.value) {
+                        if(f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
+                            function = FunctionDTO.Builder(
+                                f.functionName,
+                                f.functionId,
+                                if(f.rangeDTO != null) RangeDTO(f.rangeDTO!!.minValue, f.rangeDTO!!.maxValue,
+                                    sensorValueConditionEditText.text.toString().toDouble()
+                                ) else null,
+                                if(f.onOff != null) sensorValueConditionEditText.text.toString().toInt() != 0 else null,
+                                f.outputValue,
+                                f.outputTrigger
+                            ).build()
+
+                            val routineDTO: RoutineDTO = RoutineDTO.Builder(
+                                textFieldRoutineName.text.toString(),
+                                if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
+                                routineEventList as java.util.ArrayList<RoutineEventDTO>,
+                                -1,
+                                if(radioButtonTime.isSelected) TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked) else null,
+                                if(radioButtonSensor.isSelected) TriggerEventByDeviceDTO(
+                                    deviceId,
+                                    function,
+                                    null,
+                                    null
+                                ) else null
+                            ).build()
+                            ServiceProvider.routineService.createRoutine(routineDTO)
+
+                            return
+                        }
+                    }
+                    break
+                }
+            }
+        }
+
+
+        val routineDTO: RoutineDTO = RoutineDTO.Builder(
+            textFieldRoutineName.text.toString(),
+            if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
+            routineEventList as java.util.ArrayList<RoutineEventDTO>,
+            -1,
+            if(radioButtonTime.isSelected) TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked) else null,
+            null
+        ).build()
+        ServiceProvider.routineService.createRoutine(routineDTO)
+    }
+
     private fun initButtons() {
         openButton.setOnClickListener {
             setSettingsOpen(!settingsOpened)
@@ -313,6 +431,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             removeAllActionsButtonOnClick()
         }
 
+        createRoutineExecButton.setOnClickListener {
+            createRoutineExecButtonOnClick()
+        }
+
         createRoutineConditionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
             AdapterView.OnItemClickListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -324,6 +446,17 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             }
         }
 
+        createRoutineConditionFunctionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                updateSensorHelperText()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Nothing should happen here
+            }
+            }
+
         createRoutineActionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
             AdapterView.OnItemClickListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -334,6 +467,15 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
                 // Nothing should happen here
             }
         }
+
+        val comparisonList = listOf<String>("<", "=", ">")
+        ArrayAdapter(context, R.layout.spinner_item, comparisonList.toTypedArray()).also {
+                arrayAdapter ->
+            arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            comparisonTypeSpinner.adapter = arrayAdapter
+
+        }
+
     }
 
     private fun initColorSchemeButtons() {

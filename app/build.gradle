@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "de.rehatech2223.lgg_frontend"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"

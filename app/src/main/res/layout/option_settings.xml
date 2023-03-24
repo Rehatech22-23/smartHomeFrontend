@@ -105,11 +105,12 @@
                                 android:orientation="vertical">
 
                                 <TimePicker
+                                    android:id="@+id/timePicker"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
 
                                 <Switch
-                                    android:id="@+id/switch2"
+                                    android:id="@+id/repeatSwitch"
                                     android:layout_width="match_parent"
                                     android:layout_height="50sp"
                                     android:text="Wiederholen"
@@ -132,9 +133,40 @@
 
                                 <Spinner
                                     android:id="@+id/functionSelectorCondition"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="50dp"
                                     android:contentDescription="Selection of possible functions" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal">
+
+                                    <Spinner
+                                        android:id="@+id/comparisonTypeSpinner"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1" />
+
+                                    <EditText
+                                        android:id="@+id/sensorValueCondition"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:ems="10"
+                                        android:hint="Sensor Wert"
+                                        android:inputType="textPersonName"
+                                        android:textColor="?attr/colorOnSurface"
+                                        android:textColorHint="?attr/colorOnSurface"
+                                        android:textSize="20sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/sensorHelpText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Das Eingabefeld darf nur einen Wert zwischen x und y beinhalten"
+                                    android:textColor="?attr/colorOnSurface" />
+
                             </LinearLayout>
 
                         </LinearLayout>
@@ -161,18 +193,18 @@
                                 android:paddingRight="30dp">
 
                                 <Spinner
-                                    android:contentDescription="Selection of every possible function of the selected device"
                                     android:id="@+id/deviceActionSpinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"
+                                    android:contentDescription="Selection of every possible function of the selected device" />
 
                                 <Spinner
-                                    android:contentDescription="Selection of every possible device as an action"
                                     android:id="@+id/functionActionSpinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"
+                                    android:contentDescription="Selection of every possible device as an action" />
 
                                 <EditText
                                     android:id="@+id/valueActionInputField"
@@ -211,6 +243,15 @@
                                 android:orientation="vertical"></LinearLayout>
 
                         </LinearLayout>
+
+                        <Button
+                            android:id="@+id/createRoutineExecButton"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="+ Routine erstellen"
+                            android:textAlignment="viewStart"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
                 </ScrollView>
