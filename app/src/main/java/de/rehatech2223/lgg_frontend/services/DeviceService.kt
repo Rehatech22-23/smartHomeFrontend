@@ -14,10 +14,8 @@ import okio.use
 class DeviceService {
     fun getDeviceList(): ArrayList<String> {
         Log.d("handkler", "requested device list")
+        ServiceProvider.setDefaultExceptionHandler()
         var deviceList: ArrayList<String> = ArrayList()
-        Thread.setDefaultUncaughtExceptionHandler { _: Thread, e: Throwable ->
-            Log.e("foo", "${e.printStackTrace()}")
-        }
         runBlocking {
             val request = Request.Builder()
                 .url(ServiceProvider.baseUrl + "device/list")

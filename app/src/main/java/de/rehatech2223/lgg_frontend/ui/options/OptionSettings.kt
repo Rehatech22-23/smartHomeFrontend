@@ -1,4 +1,4 @@
-package de.rehatech2223.lgg_frontend.ui.main
+package de.rehatech2223.lgg_frontend.ui.options
 
 import android.content.Context
 import android.util.AttributeSet
