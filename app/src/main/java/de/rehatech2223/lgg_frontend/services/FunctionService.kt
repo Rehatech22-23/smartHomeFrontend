@@ -24,13 +24,15 @@ class FunctionService {
                 .get()
                 .build()
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        Log.d("handler", "canceled")
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        functionDTO = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "canceled")
+                            cancel()/* todo issue on github for popup warning */
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            functionDTO = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -44,20 +46,21 @@ class FunctionService {
             .url(ServiceProvider.baseUrl + "function/trigger?deviceId=$deviceId&functionId=$functionId")
             .put(functionValue.toString().toRequestBody(mediaType))
             .build()
+        ServiceProvider.connectionSaveCall {
+            ServiceProvider.client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                }
 
-        ServiceProvider.client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (response.code == 500) { /* todo action on 500 Internal Server Error */
-                    }
-                    if (!response.isSuccessful) { /* todo issue on github for popup warning */
+                override fun onResponse(call: Call, response: Response) {
+                    response.use {
+                        if (response.code == 500) { /* todo action on 500 Internal Server Error */
+                        }
+                        if (!response.isSuccessful) { /* todo issue on github for popup warning */
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 }

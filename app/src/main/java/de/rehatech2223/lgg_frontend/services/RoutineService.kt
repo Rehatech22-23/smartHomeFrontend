@@ -28,12 +28,14 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        routineList = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel()/* todo issue on github for popup warning */
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            routineList = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -50,13 +52,15 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        Log.d("handler", "response routine: $jsonBody")
-                        routineDTO = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel()/* todo issue on github for popup warning */
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            Log.d("handler", "response routine: $jsonBody")
+                            routineDTO = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -70,25 +74,27 @@ class RoutineService {
             .url(ServiceProvider.baseUrl + "routine/trigger?routineId=$routineId")
             .get()
             .build()
-        ServiceProvider.client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+        ServiceProvider.connectionSaveCall {
+            ServiceProvider.client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                }
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (response.code == 404) { /* todo action on 404 Not Found */
-                        Log.d("handler", "trigger routine failed")
-                    }
-                    if (response.code == 500) { /* todo action on 500 Internal Server Error */
-                        Log.d("handler", "trigger routine failed")
-                    }
-                    if (!response.isSuccessful) { /* todo issue on github for popup warning */
-                        Log.d("handler", "trigger routine failed")
+                override fun onResponse(call: Call, response: Response) {
+                    response.use {
+                        if (response.code == 404) { /* todo action on 404 Not Found */
+                            Log.d("handler", "trigger routine failed")
+                        }
+                        if (response.code == 500) { /* todo action on 500 Internal Server Error */
+                            Log.d("handler", "trigger routine failed")
+                        }
+                        if (!response.isSuccessful) { /* todo issue on github for popup warning */
+                            Log.d("handler", "trigger routine failed")
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 
     /*
@@ -105,12 +111,14 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if ((response.code == 201 || response.isSuccessful || response.code == 200) && response.body != null) {
-                        val jsonBody: String = response.body!!.string()
-                        routineDTO = Json.decodeFromString(jsonBody)
-                    } else {
-                        cancel() /* todo issue on github for popup warning */
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if ((response.code == 201 || response.isSuccessful || response.code == 200) && response.body != null) {
+                            val jsonBody: String = response.body!!.string()
+                            routineDTO = Json.decodeFromString(jsonBody)
+                        } else {
+                            cancel() /* todo issue on github for popup warning */
+                        }
                     }
                 }
             }.join()
@@ -126,14 +134,16 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (response.code == 404) {
-                        deleted = false
-                        cancel() /* todo action on 404 Not Found */
-                    }
-                    if (!response.isSuccessful || response.code != 200) {
-                        deleted = false
-                        cancel() /* todo issue on github for popup warning */
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (response.code == 404) {
+                            deleted = false
+                            cancel() /* todo action on 404 Not Found */
+                        }
+                        if (!response.isSuccessful || response.code != 200) {
+                            deleted = false
+                            cancel() /* todo issue on github for popup warning */
+                        }
                     }
                 }
             }.join()

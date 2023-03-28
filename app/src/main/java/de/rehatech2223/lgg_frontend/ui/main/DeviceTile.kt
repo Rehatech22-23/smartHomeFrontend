@@ -34,6 +34,7 @@ class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: 
             deviceDetailActivity.putExtra("deviceId", deviceDTO.deviceId)
             context.startActivity(deviceDetailActivity)
         }
+
     }
 
     private fun initDeviceTile(){

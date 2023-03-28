@@ -104,6 +104,7 @@
     <string name="deleteRoutine_clicked">▼ Ablauf löschen</string>
     <string name="title_activity_device_detail">DeviceDetailActivity</string>
     <string name="title_activity_routine_detail">RoutineDetailActivity</string>
+    <string name="title_activity_connection_error">ConnectionErrorActivity</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

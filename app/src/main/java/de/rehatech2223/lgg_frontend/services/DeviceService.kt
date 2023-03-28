@@ -14,7 +14,6 @@ import okio.use
 class DeviceService {
     fun getDeviceList(): ArrayList<String> {
         Log.d("handkler", "requested device list")
-        ServiceProvider.setDefaultExceptionHandler()
         var deviceList: ArrayList<String> = ArrayList()
         runBlocking {
             val request = Request.Builder()
@@ -23,15 +22,17 @@ class DeviceService {
                 .build()
             launch(Dispatchers.IO) {
                 Log.d("handler", "launchen at: ${request.url}")
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    Log.d("handler", "request angekommen")
-                    if (!response.isSuccessful || response.code != 200) {
-                        Log.d("handler", "request rip")
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        Log.d("handler", "devicelist: $jsonBody")
-                        deviceList = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        Log.d("handler", "request angekommen")
+                        if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "request rip")
+                            cancel()/* todo issue on github for popup warning */
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            Log.d("handler", "devicelist: $jsonBody")
+                            deviceList = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
                 Log.d("handler", "finished")
@@ -50,13 +51,15 @@ class DeviceService {
                 .get()
                 .build()
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel() /* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        Log.d("handkler", "device with: $jsonBody")
-                        deviceDTO = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel() /* todo issue on github for popup warning */
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            Log.d("handkler", "device with: $jsonBody")
+                            deviceDTO = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -72,12 +75,14 @@ class DeviceService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel() /* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        updatedDevices = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel() /* todo issue on github for popup warning */
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            updatedDevices = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
