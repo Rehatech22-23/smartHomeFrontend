@@ -38,8 +38,15 @@ class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: 
     }
 
     private fun initDeviceTile(){
-        findViewById<TextView>(R.id.name).text = deviceDTO.deviceName
-        findViewById<ImageView>(R.id.image)
-            .setImageResource(TileImageUtil.getDeviceImageId(deviceDTO, context))
+        val name: TextView = findViewById(R.id.name)
+        val image: ImageView = findViewById(R.id.image)
+        val deviceDTOLabeling: List<String> = deviceDTO.deviceName.split(':')
+        if (deviceDTOLabeling.size < 2){
+            name.text = "Error Name"
+            image.setImageResource(R.drawable.error_100px)
+        }else {
+            name.text = deviceDTOLabeling[1].ifEmpty { "Error Name" }
+            image.setImageResource(TileImageUtil.getDeviceImageResource(deviceDTOLabeling[0]))
+        }
     }
 }

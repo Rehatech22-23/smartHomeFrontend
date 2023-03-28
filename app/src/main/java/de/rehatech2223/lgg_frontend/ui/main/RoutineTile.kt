@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import de.rehatech2223.datamodel.RoutineDTO
 import de.rehatech2223.lgg_frontend.R
-import de.rehatech2223.lgg_frontend.ui.deviceDetail.DeviceDetailActivity
 import de.rehatech2223.lgg_frontend.ui.routineDetail.RoutineDetailActivity
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
@@ -36,8 +35,15 @@ class RoutineTile(context: Context, attrs: AttributeSet? = null, routineArgument
     }
 
     private fun initRoutineTile(){
-        findViewById<TextView>(R.id.name).text = routineDTO.routineName
-        findViewById<ImageView>(R.id.image)
-            .setImageResource(TileImageUtil.getRoutineImageId(routineDTO, context))
+        val name: TextView = findViewById(R.id.name)
+        val image: ImageView = findViewById(R.id.image)
+        val routineDTOLabeling: List<String> = routineDTO.routineName.split(':')
+        if (routineDTOLabeling.size < 2){
+            name.text = "Error Name"
+            image.setImageResource(R.drawable.error_100px)
+        }else {
+            name.text = routineDTOLabeling[1].ifEmpty { "Error Name" }
+            image.setImageResource(TileImageUtil.getRoutineImageResource(routineDTOLabeling[0]))
+        }
     }
 }

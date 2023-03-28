@@ -31,13 +31,25 @@ class DeviceDetailActivity : DynamicThemeActivity() {
     }
 
     private fun initMainViewElements(){
+        val overViewName: TextView = findViewById(R.id.overview_name)
+        val overViewImage: ImageView = findViewById(R.id.overview_image)
+        val overViewDescription: TextView = findViewById(R.id.overview_description)
+        val deviceDTOLabeling: List<String> = deviceDTO.deviceName.split(':')
+        if (deviceDTOLabeling.size < 2){
+            overViewName.text = "Error Name"
+            overViewImage.setImageResource(R.drawable.error_100px)
+        }else {
+            overViewName.text = deviceDTOLabeling[1].ifEmpty { "Error Name" }
+            overViewImage.setImageResource(TileImageUtil.getDeviceImageResource(deviceDTOLabeling[0]))
+
+            if (deviceDTOLabeling.size == 3){
+                overViewDescription.text = deviceDTOLabeling[2]
+            }
+        }
+
         findViewById<TextView>(R.id.back_text).setOnClickListener {
             finish()
         }
-
-        findViewById<TextView>(R.id.overview_name).text = deviceDTO.deviceName
-        findViewById<ImageView>(R.id.overview_image)
-            .setImageResource(TileImageUtil.getDeviceImageId(deviceDTO, this))
     }
 
     private fun initFunctions(){

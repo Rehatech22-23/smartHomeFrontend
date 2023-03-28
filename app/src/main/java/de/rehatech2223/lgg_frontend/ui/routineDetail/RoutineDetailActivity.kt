@@ -38,13 +38,20 @@ class RoutineDetailActivity : DynamicThemeActivity() {
     }
 
     private fun initMainViewElements() {
+        val overViewName: TextView = findViewById(R.id.overview_name)
+        val overViewImage: ImageView = findViewById(R.id.overview_image)
+        val routineDTOLabeling: List<String> = routineDTO.routineName.split(':')
+        if (routineDTOLabeling.size < 2){
+            overViewName.text = "Error Name"
+            overViewImage.setImageResource(R.drawable.error_100px)
+        }else {
+            overViewName.text = routineDTOLabeling[1].ifEmpty { "Error Name" }
+            overViewImage.setImageResource(TileImageUtil.getRoutineImageResource(routineDTOLabeling[0]))
+        }
+
         findViewById<TextView>(R.id.back_text).setOnClickListener {
             finish()
         }
-        findViewById<TextView>(R.id.overview_name).text = routineDTO.routineName
-        findViewById<ImageView>(R.id.overview_image)
-            .setImageResource(TileImageUtil.getRoutineImageId(routineDTO, this))
-
         findViewById<Button>(R.id.trigger_button).setOnClickListener {
             ServiceProvider.routineService.triggerRoutine(routineDTO.routineId)
         }
