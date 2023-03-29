@@ -18,6 +18,7 @@ class TileImageUtil {
                 "switch" -> R.drawable.switch_100px
                 "contact_sensor" -> R.drawable.contact_sensor_100px
                 "error" -> R.drawable.error_100px
+                "nest_display" -> R.drawable.nest_display_100px
                 else -> R.drawable.error_100px
             }
         }
