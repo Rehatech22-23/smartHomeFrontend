@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import de.rehatech2223.lgg_frontend.R
@@ -12,7 +13,8 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
 class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
-    private var deleteRoutineButton: Button
+    private var deleteRoutineButton: LinearLayout
+    private val dropdownArrow: ImageView
     private var deleteRoutineExecButton: Button
     private var deleteRoutineSpinner: Spinner
     private var deleteRoutineContainer: LinearLayout
@@ -26,6 +28,7 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         LayoutInflater.from(context).inflate(R.layout.option_delete_routine, this, true)
         orientation = LinearLayout.VERTICAL
 
+        dropdownArrow = findViewById(R.id.dropdown_arrow)
         deleteRoutineButton = findViewById(R.id.deleteRoutineButton)
         deleteRoutineExecButton = findViewById(R.id.deleteRoutineExecButton)
         deleteRoutineSpinner = findViewById(R.id.deleteRoutineSpinner)
@@ -41,7 +44,7 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         this.deleteRoutineOpened = opened
         if(opened) {
             deleteRoutineContainer.visibility = VISIBLE
-            deleteRoutineButton.text = context.getString(R.string.deleteRoutine_clicked)
+            dropdownArrow.setImageResource(R.drawable.dropdown_arrow_down)
             //Fill up the Spinner
             val routineList = ServiceProvider.routineService.getRoutineList();
             spinnerMap.clear()
@@ -60,7 +63,7 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             }
         } else {
             deleteRoutineContainer.visibility = GONE
-            deleteRoutineButton.text = context.getString(R.string.deleteRoutine_unclicked)
+            dropdownArrow.setImageResource(R.drawable.dropdown_arrow_right)
         }
     }
 

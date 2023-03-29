@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
@@ -23,7 +24,7 @@ const val BUTTON_STATE_KEY = "ButtonState"
 
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
-    private var openButton: Button
+    private val openButton: LinearLayout
     private var radiobuttonDefault: RadioButton
     private var radiobuttonLight: RadioButton
     private var radiobuttonHCOne: RadioButton
@@ -58,13 +59,14 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     }
 
     private fun setSettingsOpen(opened: Boolean) {
+        val dropdownArrow: ImageView = findViewById(R.id.dropdown_arrow)
         this.settingsOpened = opened
         if (opened) {
             settingContainer.visibility = VISIBLE
-            openButton.text = context.getString(R.string.settings_clicked)
+            dropdownArrow.setImageResource(R.drawable.dropdown_arrow_down)
         } else {
             settingContainer.visibility = GONE
-            openButton.text = context.getString(R.string.settings_unclicked)
+            dropdownArrow.setImageResource(R.drawable.dropdown_arrow_right)
         }
         PreferenceManager.getDefaultSharedPreferences(context).edit()
             .putBoolean(BUTTON_STATE_KEY, opened).apply()
@@ -76,6 +78,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             ServiceProvider.devicesService.updateDeviceDatabase()
         }
         openButton.setOnClickListener {
+            Log.d("handler", "clicked dropdown")
             setSettingsOpen(!settingsOpened)
         }
     }

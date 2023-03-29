@@ -5,16 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <LinearLayout
         android:id="@+id/createRoutineButton"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/transparent"
-        android:text="▶ Ablauf erstellen"
-        android:textAlignment="viewStart"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="25sp" />
+        android:clickable="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/dropdown_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="-5dp"
+            android:layout_weight="0"
+            android:clickable="false"
+            app:srcCompat="@drawable/dropdown_arrow_right" />
+
+        <TextView
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:gravity="left"
+            android:paddingLeft="0dp"
+            android:text="Ablauf Erstellen"
+            android:clickable="false"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="25sp" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

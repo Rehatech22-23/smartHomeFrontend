@@ -48,7 +48,7 @@ class DeviceDetailActivity : DynamicThemeActivity() {
             }
         }
 
-        findViewById<TextView>(R.id.back_text).setOnClickListener {
+        findViewById<LinearLayout>(R.id.back_text).setOnClickListener {
             finish()
         }
         findViewById<Button>(R.id.refresh_button).setOnClickListener{

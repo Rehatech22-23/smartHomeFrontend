@@ -27,7 +27,8 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private var textFieldRoutineName: EditText
     private var timePicker: TimePicker
     private var repeatSwitch: SwitchCompat
-    private var createRoutineButton: Button
+    private val dropdownArrow: ImageView
+    private var createRoutineButton: LinearLayout
     private var addConditionButton: Button
     private var radioButtonTime: RadioButton
     private var radioButtonSensor: RadioButton
@@ -60,6 +61,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         textFieldRoutineName = findViewById(R.id.textfieldRoutineName)
         timePicker = findViewById(R.id.timePicker)
         repeatSwitch = findViewById(R.id.repeatSwitch)
+        dropdownArrow = findViewById(R.id.dropdown_arrow)
         createRoutineButton = findViewById(R.id.createRoutineButton)
         addConditionButton = findViewById(R.id.addConditionButton)
         radioButtonTime = findViewById(R.id.radioButtonTime)
@@ -92,12 +94,12 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         this.createRoutineOpened = opened
         if(opened) {
             createRoutineContainer.visibility = VISIBLE
-            createRoutineButton.text = context.getString(R.string.createRoutine_clicked)
+            dropdownArrow.setImageResource(R.drawable.dropdown_arrow_down)
             updateDeviceToFunctionsMap()
             populateDeviceSpinner(createRoutineActionDeviceSpinner, deviceToFunctionsMap)
         } else {
             createRoutineContainer.visibility = GONE
-            createRoutineButton.text = context.getString(R.string.createRoutine_unclicked)
+            dropdownArrow.setImageResource(R.drawable.dropdown_arrow_right)
         }
     }
 
