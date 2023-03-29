@@ -231,12 +231,18 @@
 
             <Button
                 android:id="@+id/createRoutineExecButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+ Routine erstellen"
                 android:textAlignment="viewStart"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/logText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="30dp" />
 
         </LinearLayout>
     </ScrollView>

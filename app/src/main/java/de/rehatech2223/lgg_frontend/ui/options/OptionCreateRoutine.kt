@@ -13,6 +13,7 @@ import de.rehatech2223.datamodel.util.RoutineEventDTO
 import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
 import de.rehatech2223.datamodel.util.TriggerTimeDTO
 import de.rehatech2223.lgg_frontend.R
+import de.rehatech2223.lgg_frontend.services.PopUpService
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import java.time.LocalTime
 
@@ -41,6 +42,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private var sensorLayout: LinearLayout
     private var actionContainerLinearLayout: LinearLayout
     private var valueActionEditText: EditText
+    private var logText: TextView
 
     private var createRoutineOpened: Boolean = false
     private var deviceToFunctionsMap = mutableMapOf<DeviceDTO, List<FunctionDTO>>()
@@ -73,6 +75,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         createRoutineActionDeviceSpinner = findViewById(R.id.deviceActionSpinner)
         createRoutineActionFunctionSpinner = findViewById(R.id.functionActionSpinner)
         valueActionEditText = findViewById(R.id.valueActionInputField)
+        logText = findViewById(R.id.logText)
 
         createRoutineOpened = false
         setCreateRoutineOpen(createRoutineOpened)
@@ -135,6 +138,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
     private fun addActionButtonOnClick() {
         if(valueActionEditText.text.isBlank() or valueActionEditText.text.isEmpty()) return
+        if(createRoutineActionFunctionSpinner.adapter.count == 0) return
         val deviceName = createRoutineActionDeviceSpinner.selectedItem.toString()
         var deviceId: String = ""
         val functionName = createRoutineActionFunctionSpinner.selectedItem.toString()
@@ -202,8 +206,24 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
     private fun createRoutineExecButtonOnClick() {
 
-        //TODO filtering the user input required
-
+        if(textFieldRoutineName.text.isNullOrBlank() || textFieldRoutineName.text.isEmpty()) {
+            logText.text = "Du musst einen Namen für den Ablauf angeben"
+            return
+        }
+        if(timeLayout.visibility == GONE && sensorLayout.visibility == GONE) {
+            logText.text = "Du musst einen Auslösehandlung definieren"
+            return
+        }
+        if(sensorLayout.visibility == VISIBLE) {
+            if(sensorValueConditionEditText.text.isNullOrBlank() || sensorValueConditionEditText.text.isEmpty()) {
+                logText.text = "Du musst einen Wert für den Sensor angeben"
+                return
+            }
+        }
+        if(routineEventList.isEmpty()) {
+            logText.text = "Du musst mindestens eine Aktion definieren"
+            return
+        }
 
         if(radioButtonSensor.isSelected) {
             var deviceId: String = ""
@@ -237,8 +257,10 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
                                     null
                                 ) else null
                             ).build()
-                            ServiceProvider.routineService.createRoutine(routineDTO)
-
+                            logText.text = "Anfrage wird gesendet"
+                            val response = ServiceProvider.routineService.createRoutine(routineDTO)
+                            if(response == null) logText.text = "Es ist ein Fehler aufgetreten"
+                            else logText.text = "Der Ablauf wurde erfolgreich erstellt"
                             return
                         }
                     }
