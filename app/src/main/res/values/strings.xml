@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LGG_Frontend</string>
+    <string name="app_name">LGG Smarthome</string>
     <string name="tab_text_1">Geräte</string>
     <string name="tab_text_2">Abläufe</string>
     <string name="tab_text_3">Optionen</string>
