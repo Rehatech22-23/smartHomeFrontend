@@ -28,7 +28,7 @@ class FunctionService {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
                             Log.d("handler", "canceled")
-                            cancel()/* todo issue on github for popup warning */
+                            cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
                             functionDTO = Json.decodeFromString(jsonBody)
@@ -54,9 +54,9 @@ class FunctionService {
 
                 override fun onResponse(call: Call, response: Response) {
                     response.use {
-                        if (response.code == 500) { /* todo action on 500 Internal Server Error */
+                        if (response.code == 500) {
                         }
-                        if (!response.isSuccessful) { /* todo issue on github for popup warning */
+                        if (!response.isSuccessful) {
                         }
                     }
                 }

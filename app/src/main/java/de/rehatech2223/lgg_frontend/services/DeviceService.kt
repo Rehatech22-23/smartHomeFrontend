@@ -92,7 +92,7 @@ class DeviceService {
 
     fun updateDeviceDatabase() {
         val request = Request.Builder()
-            .url(ServiceProvider.baseUrl + "device/update")
+            .url(ServiceProvider.baseUrl + "device/updated")
             .get()
             .build()
         runBlocking {

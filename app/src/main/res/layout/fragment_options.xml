@@ -6,28 +6,33 @@
     tools:context=".ui.main.FragmentOptions"
     android:background="?android:attr/colorBackground">
 
-    <LinearLayout
-        android:id="@+id/optionContainerLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="15sp"
-        android:paddingLeft="15sp"
-        android:paddingRight="15sp">
+        android:layout_height="match_parent">
 
-        <de.rehatech2223.lgg_frontend.ui.options.OptionCreateRoutine
+        <LinearLayout
+            android:id="@+id/optionContainerLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></de.rehatech2223.lgg_frontend.ui.options.OptionCreateRoutine>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="15sp"
+            android:paddingTop="15sp"
+            android:paddingRight="15sp">
 
-        <de.rehatech2223.lgg_frontend.ui.options.OptionDeleteRoutine
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></de.rehatech2223.lgg_frontend.ui.options.OptionDeleteRoutine>
+            <de.rehatech2223.lgg_frontend.ui.options.OptionCreateRoutine
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></de.rehatech2223.lgg_frontend.ui.options.OptionCreateRoutine>
 
-        <de.rehatech2223.lgg_frontend.ui.options.OptionSettings
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></de.rehatech2223.lgg_frontend.ui.options.OptionSettings>
+            <de.rehatech2223.lgg_frontend.ui.options.OptionDeleteRoutine
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></de.rehatech2223.lgg_frontend.ui.options.OptionDeleteRoutine>
+
+            <de.rehatech2223.lgg_frontend.ui.options.OptionSettings
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></de.rehatech2223.lgg_frontend.ui.options.OptionSettings>
 
 
+        </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
 </FrameLayout>

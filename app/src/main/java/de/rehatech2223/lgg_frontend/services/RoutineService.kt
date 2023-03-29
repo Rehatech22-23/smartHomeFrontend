@@ -31,7 +31,7 @@ class RoutineService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
-                            cancel()/* todo issue on github for popup warning */
+                            cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
                             routineList = Json.decodeFromString(jsonBody)
@@ -55,7 +55,7 @@ class RoutineService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
-                            cancel()/* todo issue on github for popup warning */
+                            cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
                             Log.d("handler", "response routine: $jsonBody")
@@ -82,13 +82,13 @@ class RoutineService {
 
                 override fun onResponse(call: Call, response: Response) {
                     response.use {
-                        if (response.code == 404) { /* todo action on 404 Not Found */
+                        if (response.code == 404) {
                             Log.d("handler", "trigger routine failed")
                         }
-                        if (response.code == 500) { /* todo action on 500 Internal Server Error */
+                        if (response.code == 500) {
                             Log.d("handler", "trigger routine failed")
                         }
-                        if (!response.isSuccessful) { /* todo issue on github for popup warning */
+                        if (!response.isSuccessful) {
                             Log.d("handler", "trigger routine failed")
                         }
                     }
@@ -117,7 +117,7 @@ class RoutineService {
                             val jsonBody: String = response.body!!.string()
                             routineDTO = Json.decodeFromString(jsonBody)
                         } else {
-                            cancel() /* todo issue on github for popup warning */
+                            cancel()
                         }
                     }
                 }
@@ -138,11 +138,11 @@ class RoutineService {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (response.code == 404) {
                             deleted = false
-                            cancel() /* todo action on 404 Not Found */
+                            cancel()
                         }
                         if (!response.isSuccessful || response.code != 200) {
                             deleted = false
-                            cancel() /* todo issue on github for popup warning */
+                            cancel()
                         }
                     }
                 }
