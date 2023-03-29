@@ -31,12 +31,12 @@ class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: 
     }
 
     private fun initSwitch(){
-        switchCompat.text = functionDTO.functionName
+        findViewById<TextView>(R.id.function_text).text = "${functionDTO.functionName}:"
         switchCompat.isChecked = functionDTO.onOff!!
-        switchStateText.text = if (functionDTO.onOff!!) "(an)" else "(aus)"
+        switchStateText.text = if (functionDTO.onOff!!) "AN" else "AUS"
         switchCompat.setOnCheckedChangeListener { _, c ->
             val functionValue: Float = if (c) 1f else 0f
-            switchStateText.text = if (c) "(an)" else "(aus)"
+            switchStateText.text = if (c) "AN" else "AUS"
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, functionValue)
         }
