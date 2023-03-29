@@ -27,7 +27,7 @@ class DeviceService {
                         Log.d("handler", "request angekommen")
                         if (!response.isSuccessful || response.code != 200) {
                             Log.d("handler", "request rip")
-                            cancel()/* todo issue on github for popup warning */
+                            cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
                             Log.d("handler", "devicelist: $jsonBody")
@@ -54,7 +54,7 @@ class DeviceService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
-                            cancel() /* todo issue on github for popup warning */
+                            cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
                             Log.d("handkler", "device with: $jsonBody")
@@ -78,7 +78,7 @@ class DeviceService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
-                            cancel() /* todo issue on github for popup warning */
+                            cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
                             updatedDevices = Json.decodeFromString(jsonBody)
@@ -88,5 +88,23 @@ class DeviceService {
             }.join()
         }
         return updatedDevices
+    }
+
+    fun updateDeviceDatabase() {
+        val request = Request.Builder()
+            .url(ServiceProvider.baseUrl + "device/update")
+            .get()
+            .build()
+        runBlocking {
+            launch(Dispatchers.IO) {
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel()
+                        }
+                    }
+                }
+            }.join()
+        }
     }
 }

@@ -15,6 +15,8 @@ class TileImageUtil {
                 "door" -> R.drawable.door_open_100px
                 "temperature" -> R.drawable.nest_true_radiant_100px
                 "cam" -> R.drawable.nest_cam_wall_mount_100px
+                "switch" -> R.drawable.switch_100px
+                "contact_sensor" -> R.drawable.contact_sensor_100px
                 "error" -> R.drawable.error_100px
                 else -> R.drawable.error_100px
             }

@@ -11,9 +11,9 @@ import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.TimeUnit
 
 object ServiceProvider {
-    var baseUrl: String = "http://192.168.2.44:8080/"
+    //var baseUrl: String = "http://192.168.2.44:8080/"
 
-    //const val baseUrl: String = "http://raspberrypi:9000/"
+    var baseUrl: String = "http://raspberrypi:9000/"
     //const val baseUrl: String = "http://192.168.83.122:9000/"
     val client: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)

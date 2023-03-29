@@ -23,15 +23,16 @@
                 <Button
                     android:id="@+id/openButton"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/transparent"
+                    android:gravity="left"
                     android:text="▶ Einstellungen"
                     android:textColor="?attr/colorOnSurface"
                     android:textSize="25sp" />
 
                 <ScrollView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="50sp">
 
@@ -48,7 +49,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView"
+                                android:id="@+id/farbschema"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Farbschema"
@@ -87,7 +88,19 @@
                                     android:textColor="?attr/colorOnSurface"
                                     android:textSize="18sp" />
                             </RadioGroup>
+
                         </LinearLayout>
+
+                        <Button
+                            android:id="@+id/update_db_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Geräte Updaten"
+                            android:textColor="?attr/buttonTextColor"
+                            android:textSize="35sp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
                 </ScrollView>
 

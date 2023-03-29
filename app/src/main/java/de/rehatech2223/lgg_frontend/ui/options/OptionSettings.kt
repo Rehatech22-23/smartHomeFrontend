@@ -2,32 +2,22 @@ package de.rehatech2223.lgg_frontend.ui.options
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Spinner
-import android.widget.Switch
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.preference.PreferenceManager
-import de.rehatech2223.datamodel.DeviceDTO
-import de.rehatech2223.datamodel.FunctionDTO
-import de.rehatech2223.datamodel.RoutineDTO
-import de.rehatech2223.datamodel.util.RangeDTO
-import de.rehatech2223.datamodel.util.RoutineEventDTO
-import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
-import de.rehatech2223.datamodel.util.TriggerTimeDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
-import java.time.LocalTime
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 const val BUTTON_STATE_KEY = "ButtonState"
 
@@ -81,6 +71,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     }
 
     private fun initButtons() {
+        val updateDevicesButton: Button = findViewById(R.id.update_db_button)
+        updateDevicesButton.setOnClickListener{
+            ServiceProvider.devicesService.updateDeviceDatabase()
+        }
         openButton.setOnClickListener {
             setSettingsOpen(!settingsOpened)
         }
