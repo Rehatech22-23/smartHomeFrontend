@@ -23,6 +23,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text=":("
+            android:elevation="15dp"
             android:textColor="?attr/colorOnSurface"
             android:textSize="50sp"
             android:textStyle="bold" />
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:elevation="15dp"
             android:text="Die Verbindung zum Server ist Fehlgeschlagen!"
             android:textColor="?attr/colorOnSurface"
             android:textSize="35sp"
@@ -55,8 +57,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/colorSurface"
+                    android:elevation="15dp"
                     android:gravity="center"
-                    android:hint="Standard IP: http://raspberrypi:9000/"
+                    android:hint="Standard IP: raspberrypi:9000"
                     android:maxLines="1"
                     android:textColor="?attr/colorOnSurface"
                     android:textColorHint="?attr/colorOnSurface"
@@ -70,13 +73,27 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="0"
+                android:elevation="15dp"
                 android:gravity="center"
                 android:text="Verbinden"
-                android:textStyle="bold"
+                android:textColor="?attr/buttonTextColor"
                 android:textSize="25sp"
-                android:textColor="?attr/buttonTextColor"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/raspberrypi_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:elevation="15dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Raspberry Pi"
+            android:textColor="?attr/buttonTextColor"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,13 +36,22 @@ class ConnectionErrorActivity : DynamicThemeActivity() {
 
                 ServiceProvider.baseUrl = tempUrl
                 Log.d("handler", "base url is now: ${ServiceProvider.baseUrl}")
-                finish()
-                val context: Context = SmarthomeApplication.getContext()
-                val mainActivity = Intent(context, MainActivity::class.java)
-                mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(mainActivity)
+                restartMainActivity()
             }
         }
+        findViewById<Button>(R.id.raspberrypi_button).setOnClickListener {
+            Log.d("handler", "restart using default ip")
+            ServiceProvider.baseUrl = "http://raspberrypi:9000/"
+            restartMainActivity()
+        }
+    }
+
+    private fun restartMainActivity(){
+        finish()
+        val context: Context = SmarthomeApplication.getContext()
+        val mainActivity = Intent(context, MainActivity::class.java)
+        mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(mainActivity)
     }
 
     private fun verifyUrl(tempUrl: String): Boolean {

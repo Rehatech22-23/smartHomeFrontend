@@ -2,6 +2,7 @@ package de.rehatech2223.lgg_frontend.ui.deviceDetail
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -49,6 +50,9 @@ class DeviceDetailActivity : DynamicThemeActivity() {
 
         findViewById<TextView>(R.id.back_text).setOnClickListener {
             finish()
+        }
+        findViewById<Button>(R.id.refresh_button).setOnClickListener{
+            recreate()
         }
     }
 
