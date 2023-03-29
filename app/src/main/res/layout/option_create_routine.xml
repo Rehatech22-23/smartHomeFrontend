@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -30,6 +31,7 @@
                 android:id="@+id/textfieldRoutineName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorOnSurface"
                 android:ems="10"
                 android:hint="Ablaufname"
                 android:inputType="textPersonName"
@@ -59,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/transparent"
                     android:text="+ Hinzufügen, was diesen Ablauf auslösen soll"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="16sp" />
 
                 <RadioGroup
@@ -70,6 +73,7 @@
                         android:id="@+id/radioButtonTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:buttonTint="?attr/colorOnPrimary"
                         android:text="Zeit"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="20sp" />
@@ -78,6 +82,7 @@
                         android:id="@+id/radioButtonSensor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:buttonTint="?attr/colorOnPrimary"
                         android:text="Sensor"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="20sp" />
@@ -94,13 +99,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/repeatSwitch"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
                         android:text="Wiederholen"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:theme="@style/SwitchCompatThumbTheme"
+                        app:trackTint="@color/switch_color_switcher" />
 
                 </LinearLayout>
 
@@ -114,12 +121,14 @@
                         android:id="@+id/deviceSelectorCondition"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        android:backgroundTint="?attr/colorOnSurface"
                         android:contentDescription="Selection of every possible device" />
 
                     <Spinner
                         android:id="@+id/functionSelectorCondition"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        android:backgroundTint="?attr/colorOnSurface"
                         android:contentDescription="Selection of possible functions" />
 
                     <LinearLayout
@@ -131,12 +140,14 @@
                             android:id="@+id/comparisonTypeSpinner"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:backgroundTint="?attr/colorOnSurface" />
 
                         <EditText
                             android:id="@+id/sensorValueCondition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:backgroundTint="?attr/colorOnSurface"
                             android:ems="10"
                             android:hint="Sensor Wert"
                             android:inputType="textPersonName"
@@ -182,6 +193,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:backgroundTint="?attr/colorOnSurface"
                         android:contentDescription="Selection of every possible function of the selected device" />
 
                     <Spinner
@@ -189,6 +201,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:backgroundTint="?attr/colorOnSurface"
                         android:contentDescription="Selection of every possible device as an action" />
 
                     <EditText
@@ -196,6 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
+                        android:backgroundTint="?attr/colorOnSurface"
                         android:ems="10"
                         android:hint="Wert"
                         android:inputType="number"
@@ -210,6 +224,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/transparent"
                     android:text="+ Hinzufügen"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="16sp" />
 
                 <Button
@@ -219,6 +234,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/transparent"
                     android:text="- Alle Aktionen entfernen"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="16sp" />
 
                 <LinearLayout
@@ -235,6 +251,7 @@
                 android:layout_height="wrap_content"
                 android:text="+ Routine erstellen"
                 android:textAlignment="viewStart"
+                android:textColor="?attr/buttonTextColor"
                 android:textSize="16sp" />
 
             <TextView

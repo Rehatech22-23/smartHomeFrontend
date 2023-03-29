@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.datamodel.RoutineDTO
@@ -25,7 +26,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private var createRoutineExecButton: Button
     private var textFieldRoutineName: EditText
     private var timePicker: TimePicker
-    private var repeatSwitch: Switch
+    private var repeatSwitch: SwitchCompat
     private var createRoutineButton: Button
     private var addConditionButton: Button
     private var radioButtonTime: RadioButton
