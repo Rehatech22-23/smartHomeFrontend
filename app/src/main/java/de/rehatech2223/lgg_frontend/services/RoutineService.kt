@@ -55,6 +55,7 @@ class RoutineService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "routine request of routine $routineId failed with body: ${response.body!!.string()}")
                             cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
