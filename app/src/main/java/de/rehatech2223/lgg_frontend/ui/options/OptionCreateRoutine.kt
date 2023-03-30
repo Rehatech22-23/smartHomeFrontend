@@ -259,7 +259,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
                             ).build()
 
                             val routineDTO: RoutineDTO = RoutineDTO.Builder(
-                                textFieldRoutineName.text.toString(),
+                                "default:${textFieldRoutineName.text}",
                                 if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
                                 routineEventList as java.util.ArrayList<RoutineEventDTO>,
                                 -1)
@@ -280,7 +280,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
 
         val routineDTO: RoutineDTO = RoutineDTO.Builder(
-            textFieldRoutineName.text.toString(),
+            "default:${textFieldRoutineName.text}",
             if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
             routineEventList as java.util.ArrayList<RoutineEventDTO>,
             -1)
@@ -387,7 +387,6 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
                 arrayAdapter ->
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             comparisonTypeSpinner.adapter = arrayAdapter
-
         }
     }
 

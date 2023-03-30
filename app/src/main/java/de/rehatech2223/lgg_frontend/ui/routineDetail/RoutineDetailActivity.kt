@@ -49,7 +49,7 @@ class RoutineDetailActivity : DynamicThemeActivity() {
             overViewImage.setImageResource(TileImageUtil.getRoutineImageResource(routineDTOLabeling[0]))
         }
 
-        findViewById<TextView>(R.id.back_text).setOnClickListener {
+        findViewById<LinearLayout>(R.id.back_text).setOnClickListener {
             finish()
         }
         findViewById<Button>(R.id.trigger_button).setOnClickListener {
@@ -76,23 +76,23 @@ class RoutineDetailActivity : DynamicThemeActivity() {
         val deviceDTO: DeviceDTO =
             ServiceProvider.devicesService.getDeviceInfo(triggerDTO.deviceId) ?: DeviceDTO("Error Device", "", ArrayList())
         val triggerFunction: FunctionDTO = triggerDTO.functionDTOExpectation
-        var text = "\"${triggerFunction.functionName}\" von \"${deviceDTO.deviceName}\" "
+        var text = "\"${triggerFunction.functionName}\" von \"${deviceDTO.deviceName.split(':')[1]}\" "
 
-        if (triggerFunction.rangeDTO != null) {
+        text += if (triggerFunction.rangeDTO != null) {
             val separator = when (routineDTO.comparisonType) {
                 0 -> "kleiner als"
                 1 -> "größer als"
                 2 -> "gleich"
                 else -> "error"
             }
-            text += "ist $separator ${triggerFunction.rangeDTO!!.currentValue}"
+            "ist $separator ${triggerFunction.rangeDTO!!.currentValue}"
         } else if (triggerFunction.onOff != null) {
-            text += "ist ${if (triggerFunction.onOff == true) "an" else "aus"}"
+            "ist ${if (triggerFunction.onOff == true) "an" else "aus"}"
         } else if (triggerFunction.outputValue != null) {
-            text += "muss \"${triggerFunction.outputValue}\" sein"
+            "muss \"${triggerFunction.outputValue}\" sein"
         } else if (triggerFunction.outputTrigger != null) {
-            text += "ausgelöst"
-        } else text += "Error in Function"
+            "ausgelöst"
+        } else "Error in Function"
         return text
     }
 

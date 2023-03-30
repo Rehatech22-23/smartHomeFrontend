@@ -54,10 +54,9 @@
 
             <Button
                 android:id="@+id/deleteRoutineExecButton"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="- Ablauf löschen"
+                android:text="Ablauf löschen"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp" />
         </LinearLayout>

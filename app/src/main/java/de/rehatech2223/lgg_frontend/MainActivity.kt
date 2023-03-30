@@ -1,17 +1,13 @@
 package de.rehatech2223.lgg_frontend
 
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import de.rehatech2223.lgg_frontend.databinding.ActivityMainBinding
 import de.rehatech2223.lgg_frontend.ui.main.TabFragmentStateAdapter
-
-val tabTitles = arrayOf(
-    "Geräte",
-    "Abläufe",
-    "Optionen"
-)
+import de.rehatech2223.lgg_frontend.ui.options.DEVICE_FRAGMENT_INDEX_KEY
 
 class MainActivity : DynamicThemeActivity() {
 
@@ -29,10 +25,21 @@ class MainActivity : DynamicThemeActivity() {
         val viewPager: ViewPager2 = binding.viewPagerTwo
         viewPager.adapter = tabFragmentStateAdapter
         val tabs: TabLayout = binding.tabs
+        val tabTitles: List<String> = initTabTitles()
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
         prepareSwitchFunctionality(tabs)
+    }
+
+    private fun initTabTitles(): List<String> {
+        val deviceIndex = PreferenceManager.getDefaultSharedPreferences(this)
+            .getInt(DEVICE_FRAGMENT_INDEX_KEY, 0)
+        return listOf(
+            if (deviceIndex == 0) "Geräte" else "Abläufe",
+            if (deviceIndex == 1) "Geräte" else "Abläufe",
+            "Optionen"
+        )
     }
 
     private fun prepareSwitchFunctionality(tabs: TabLayout) {

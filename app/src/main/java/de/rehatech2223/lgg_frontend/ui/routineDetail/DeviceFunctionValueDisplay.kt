@@ -28,7 +28,7 @@ class DeviceFunctionValueDisplay(context: Context, attrs: AttributeSet? = null, 
 
     private fun initDeviceName(){
         val deviceName: TextView = findViewById(R.id.device_name)
-        val text = "${deviceDTO.deviceName}:"
+        val text = "${deviceDTO.deviceName.split(':')[1]}:"
         deviceName.text = text
     }
 

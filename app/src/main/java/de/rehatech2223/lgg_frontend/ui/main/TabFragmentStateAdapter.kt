@@ -1,26 +1,38 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import de.rehatech2223.lgg_frontend.SmarthomeApplication
+import de.rehatech2223.lgg_frontend.ui.options.DEVICE_FRAGMENT_INDEX_KEY
+import kotlin.math.abs
 
 class TabFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
     var disableOptions: Boolean = true
+    private val deviceFragmentPosition: Int = PreferenceManager.getDefaultSharedPreferences(SmarthomeApplication.getContext())
+        .getInt(DEVICE_FRAGMENT_INDEX_KEY, 0)
+    private val routineFragmentPosition: Int = abs(deviceFragmentPosition-1)
 
     override fun getItemCount(): Int {
         return if (disableOptions) 2 else 3
     }
 
     override fun createFragment(position: Int): Fragment {
+        Log.d("handler", "asking for position: $position with dFP: $deviceFragmentPosition and rFP: $routineFragmentPosition")
         return when(position) {
-            0 -> FragmentDevices.newInstance()
-            1 -> FragmentRoutines.newInstance()
+            deviceFragmentPosition -> FragmentDevices.newInstance()
+            routineFragmentPosition -> FragmentRoutines.newInstance()
             2 -> {
                 if (!disableOptions) FragmentOptions.newInstance()
                 else FragmentRoutines.newInstance()
             }
             else -> FragmentDevices.newInstance()
         }
+    }
+
+    companion object{
     }
 }

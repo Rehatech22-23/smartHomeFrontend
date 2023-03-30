@@ -78,6 +78,7 @@ class RoutineService {
         ServiceProvider.connectionSaveCall {
             ServiceProvider.client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
+                    Log.d("handler", "request failed")
                     e.printStackTrace()
                 }
 
@@ -131,6 +132,7 @@ class RoutineService {
     }
 
     fun deleteRoutine(routineId: Long): Boolean {
+        Log.d("handler", "deleting routine with id: $routineId")
         var deleted = true
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine/delete?routineId=$routineId")
@@ -141,10 +143,12 @@ class RoutineService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (response.code == 404) {
+                            Log.d("handler", "deleting failed 404")
                             deleted = false
                             cancel()
                         }
                         if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "deleting failed != 200")
                             deleted = false
                             cancel()
                         }
@@ -152,6 +156,7 @@ class RoutineService {
                 }
             }.join()
         }
+        Log.d("handler", "delete successful")
         return deleted
     }
 }

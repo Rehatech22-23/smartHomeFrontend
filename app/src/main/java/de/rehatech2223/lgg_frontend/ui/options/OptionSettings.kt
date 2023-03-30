@@ -5,22 +5,21 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.preference.PreferenceManager
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ThemeEnum
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.ui.main.TabFragmentStateAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 const val BUTTON_STATE_KEY = "ButtonState"
+const val DEVICE_FRAGMENT_INDEX_KEY = "DeviceFragmentIndex"
 
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
@@ -44,6 +43,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
         initButtons()
         initColorSchemeButtons()
+        initStartPageOption()
         loadState()
     }
 
@@ -56,6 +56,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             ThemeEnum.DEFAULT.theme -> radiobuttonDefault.isChecked = true
             ThemeEnum.HIGH_CONTRAST_ONE.theme -> radiobuttonHCOne.isChecked = true
         }
+
+        val startScreenSpinner: Spinner = findViewById(R.id.start_screen_spinner)
+        startScreenSpinner.setSelection(PreferenceManager
+            .getDefaultSharedPreferences(context).getInt(DEVICE_FRAGMENT_INDEX_KEY, 0))
     }
 
     private fun setSettingsOpen(opened: Boolean) {
@@ -74,7 +78,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
 
     private fun initButtons() {
         val updateDevicesButton: Button = findViewById(R.id.update_db_button)
-        updateDevicesButton.setOnClickListener{
+        updateDevicesButton.setOnClickListener {
             ServiceProvider.devicesService.updateDeviceDatabase()
         }
         openButton.setOnClickListener {
@@ -100,4 +104,29 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
     }
 
+    private fun initStartPageOption() {
+        val startScreenSpinner: Spinner = findViewById(R.id.start_screen_spinner)
+        val comparisonList = listOf("Geräte", "Abläufe")
+        ArrayAdapter(
+            context,
+            R.layout.spinner_item,
+            comparisonList.toTypedArray()
+        ).also { arrayAdapter ->
+            arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            startScreenSpinner.adapter = arrayAdapter
+        }
+        startScreenSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                when (startScreenSpinner.selectedItem) {
+                    "Geräte" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putInt(DEVICE_FRAGMENT_INDEX_KEY, 0).apply()
+                    "Abläufe" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putInt(DEVICE_FRAGMENT_INDEX_KEY, 1).apply()
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
 }
