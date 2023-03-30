@@ -102,6 +102,7 @@ class RoutineService {
      *  can return null!
      */
     fun createRoutine(routine: RoutineDTO): RoutineDTO? {
+        Log.d("handler", "created routine")
         var routineDTO: RoutineDTO? = null
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBodyJson: String = Json.encodeToString(routine)
@@ -113,10 +114,12 @@ class RoutineService {
             launch(Dispatchers.IO) {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
-                        if ((response.code == 201 || response.isSuccessful || response.code == 200) && response.body != null) {
+                        if ((response.isSuccessful || response.code == 200) || (response.code == 201 && response.body != null)) {
+                            Log.d("handler", "create routine successful")
                             val jsonBody: String = response.body!!.string()
                             routineDTO = Json.decodeFromString(jsonBody)
                         } else {
+                            Log.d("handler", "create routine failed")
                             cancel()
                         }
                     }

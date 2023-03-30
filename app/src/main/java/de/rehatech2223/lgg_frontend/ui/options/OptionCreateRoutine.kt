@@ -2,10 +2,12 @@ package de.rehatech2223.lgg_frontend.ui.options
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.view.isVisible
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.datamodel.RoutineDTO
@@ -217,7 +219,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     }
 
     private fun createRoutineExecButtonOnClick() {
-
+        Log.d("handler", "create button clicked")
         if(textFieldRoutineName.text.isNullOrBlank() || textFieldRoutineName.text.isEmpty()) {
             logText.text = "Du musst einen Namen für den Ablauf angeben"
             return
@@ -237,7 +239,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             return
         }
 
-        if(radioButtonSensor.isSelected) {
+        if(sensorLayout.visibility == VISIBLE) {
             var deviceId: String = ""
             var function: FunctionDTO?
             for(kvp in deviceToFunctionsMap) {
@@ -260,15 +262,10 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
                                 textFieldRoutineName.text.toString(),
                                 if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
                                 routineEventList as java.util.ArrayList<RoutineEventDTO>,
-                                -1,
-                                if(radioButtonTime.isSelected) TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked) else null,
-                                if(radioButtonSensor.isSelected) TriggerEventByDeviceDTO(
-                                    deviceId,
-                                    function,
-                                    null,
-                                    null
-                                ) else null
-                            ).build()
+                                -1)
+                                .triggerEventByDeviceDTO(TriggerEventByDeviceDTO(deviceId, function))
+                                .build()
+                            Log.d("handler", "create routine with sensor")
                             logText.text = "Anfrage wird gesendet"
                             val response = ServiceProvider.routineService.createRoutine(routineDTO)
                             if(response == null) logText.text = "Es ist ein Fehler aufgetreten"
@@ -286,11 +283,14 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             textFieldRoutineName.text.toString(),
             if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
             routineEventList as java.util.ArrayList<RoutineEventDTO>,
-            -1,
-            TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked),
-            null
-        ).build()
-        ServiceProvider.routineService.createRoutine(routineDTO)
+            -1)
+            .triggerTime(TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked))
+            .build()
+        Log.d("handler", "create routine with time")
+        logText.text = "Anfrage wird gesendet"
+        val response = ServiceProvider.routineService.createRoutine(routineDTO)
+        if(response == null) logText.text = "Es ist ein Fehler aufgetreten"
+        else logText.text = "Der Ablauf wurde erfolgreich erstellt"
     }
 
     private fun populateDeviceSpinner(spinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
