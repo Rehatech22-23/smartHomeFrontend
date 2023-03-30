@@ -48,6 +48,8 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
     private var createRoutineOpened: Boolean = false
     private var deviceToFunctionsMap = mutableMapOf<DeviceDTO, List<FunctionDTO>>()
+    private var deviceNameToFullDeviceName = mutableMapOf<String, String>()
+    private var fullDeviceNameToDeviceName = mutableMapOf<String, String>()
     private var routineEventList = mutableListOf<RoutineEventDTO>()
 
     init {
@@ -137,12 +139,19 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             }
             deviceToFunctionsMap[d] = functions
         }
+
+        for(kvp in deviceToFunctionsMap) {
+            val split = kvp.key.deviceName.split(":")[1]
+            deviceNameToFullDeviceName[split] = kvp.key.deviceName
+            fullDeviceNameToDeviceName[kvp.key.deviceName] = split
+        }
+
     }
 
     private fun addActionButtonOnClick() {
         if(valueActionEditText.text.isBlank() or valueActionEditText.text.isEmpty()) return
         if(createRoutineActionFunctionSpinner.adapter.count == 0) return
-        val deviceName = createRoutineActionDeviceSpinner.selectedItem.toString()
+        val deviceName = deviceNameToFullDeviceName[createRoutineActionDeviceSpinner.selectedItem.toString()]
         var deviceId: String = ""
         val functionName = createRoutineActionFunctionSpinner.selectedItem.toString()
         var functionID: Long = 0
@@ -161,7 +170,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         routineEventList.add(RoutineEventDTO(deviceId, functionID, valueActionEditText.text.toString().toFloat()))
         //Create new view and add it to list and layout
         val newView = inflate(context, R.layout.action_tile_view, null)
-        newView.findViewById<TextView>(R.id.textViewDevice).text = deviceName
+        newView.findViewById<TextView>(R.id.textViewDevice).text = fullDeviceNameToDeviceName[deviceName]
         newView.findViewById<TextView>(R.id.textViewFunction).text = functionName
         newView.findViewById<TextView>(R.id.textViewValue).text = valueActionEditText.text.toString()
         actionContainerLinearLayout.addView(newView)
@@ -177,7 +186,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         var functionDTO: FunctionDTO? = null
 
         for(kvp in deviceToFunctionsMap) {
-            if(kvp.key.deviceName == createRoutineConditionDeviceSpinner.selectedItem.toString()) {
+            if(kvp.key.deviceName == deviceNameToFullDeviceName[createRoutineConditionDeviceSpinner.selectedItem.toString()]) {
                 for(f in kvp.value) {
                     if(f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
                         functionDTO = f
@@ -232,7 +241,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             var deviceId: String = ""
             var function: FunctionDTO?
             for(kvp in deviceToFunctionsMap) {
-                if(kvp.key.deviceName == createRoutineConditionDeviceSpinner.selectedItem.toString()) {
+                if(kvp.key.deviceName == deviceNameToFullDeviceName[createRoutineConditionDeviceSpinner.selectedItem.toString()]) {
                     deviceId = kvp.key.deviceId
                     for(f in kvp.value) {
                         if(f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
@@ -287,7 +296,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private fun populateDeviceSpinner(spinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
         val deviceNames = mutableListOf<String>()
         for(kvp in deviceFunctionMap) {
-            deviceNames.add(kvp.key.deviceName)
+            deviceNames.add(fullDeviceNameToDeviceName[kvp.key.deviceName]!!)
         }
         ArrayAdapter(context, R.layout.spinner_item, deviceNames.toTypedArray()).also {
                 arrayAdapter ->
@@ -299,7 +308,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
     private fun populateFunctionSpinnerByDevice(spinnerToPopulate: Spinner, deviceSpinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
         if(deviceSpinner.selectedItem == null) return
-        val selectedDevice = deviceSpinner.selectedItem.toString()
+        val selectedDevice = deviceNameToFullDeviceName[deviceSpinner.selectedItem.toString()]
         for(kvp in deviceFunctionMap) {
             if(kvp.key.deviceName == selectedDevice) {
                 val functionNames = kvp.value.map { f -> f.functionName }
