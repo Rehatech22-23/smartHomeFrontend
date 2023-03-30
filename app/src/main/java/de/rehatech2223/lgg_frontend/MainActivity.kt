@@ -1,13 +1,22 @@
 package de.rehatech2223.lgg_frontend
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import de.rehatech2223.datamodel.RoutineDTO
 import de.rehatech2223.lgg_frontend.databinding.ActivityMainBinding
+import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.ui.main.TabFragmentStateAdapter
 import de.rehatech2223.lgg_frontend.ui.options.DEVICE_FRAGMENT_INDEX_KEY
+import de.rehatech2223.lgg_frontend.ui.options.PIN_ROUTINE_ID_KEY
 
 class MainActivity : DynamicThemeActivity() {
 
@@ -30,6 +39,27 @@ class MainActivity : DynamicThemeActivity() {
             tab.text = tabTitles[position]
         }.attach()
         prepareSwitchFunctionality(tabs)
+        initRoutinePin()
+    }
+
+    private fun initRoutinePin(){
+        val routinePinLayout: LinearLayout = binding.pinRoutineLayout
+        val routineId: Long = PreferenceManager.getDefaultSharedPreferences(this)
+            .getLong(PIN_ROUTINE_ID_KEY, -1L)
+        routinePinLayout.removeAllViews()
+        if (routineId == -1L) return
+        val routineDTO: RoutineDTO = ServiceProvider.routineService.getRoutineInfo(routineId) ?: return
+        val button = Button(this)
+        button.text = routineDTO.routineName.split(':')[1]
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25F)
+        button.setTextColor(MaterialColors.getColor(binding.switch1,R.attr.buttonTextColor))
+        // TODO: button farbe zu colorPrimary wechseln
+        button.setTypeface(button.typeface, Typeface.BOLD)
+        button.setOnClickListener {
+            Log.d("handler", "triggering pinned routine with id: $routineId")
+            ServiceProvider.routineService.triggerRoutine(routineId)
+        }
+        routinePinLayout.addView(button)
     }
 
     private fun initTabTitles(): List<String> {

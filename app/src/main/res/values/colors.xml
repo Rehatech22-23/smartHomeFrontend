@@ -19,4 +19,10 @@
     <color name="light_background_dark">#DEF5E5</color>
     <color name="light_background_light">#7EC6B1</color>
     <color name="light_red_accent">#FF0000</color>
+
+    <color name="pink">#ffeaea</color>
+    <color name="dark_green">#33442e</color>
+    <color name="blue">#1620b7</color>
+
+    <color name="light_green">#daffdb</color>
 </resources>
