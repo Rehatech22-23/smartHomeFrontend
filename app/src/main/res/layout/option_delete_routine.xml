@@ -59,6 +59,12 @@
                 android:text="Ablauf löschen"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/deleteRoutineText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSurface" />
         </LinearLayout>
     </ScrollView>
 

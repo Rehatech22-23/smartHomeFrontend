@@ -30,6 +30,8 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radiobuttonHCThree: RadioButton
     private var radiobuttonBlackWhite: RadioButton
     private var settingContainer: LinearLayout
+    private var updateDevicesText: TextView
+
     private var settingsOpened: Boolean = false
 
     init {
@@ -45,6 +47,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         radiobuttonHCTwo = findViewById(R.id.radioButton_hc2)
         radiobuttonHCThree = findViewById(R.id.radioButton_hc3)
         radiobuttonBlackWhite = findViewById(R.id.radioButton_blwh)
+        updateDevicesText = findViewById(R.id.updateDevicesText)
 
         initButtons()
         initColorSchemeButtons()
@@ -92,7 +95,10 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private fun initButtons() {
         val updateDevicesButton: Button = findViewById(R.id.update_db_button)
         updateDevicesButton.setOnClickListener {
-            ServiceProvider.devicesService.updateDeviceDatabase()
+            updateDevicesText.text = "Aktualisiere die Datenbank"
+            val success = ServiceProvider.devicesService.updateDeviceDatabase()
+            if(success) updateDevicesText.text = "Datenbank erfolgreich aktualisiert"
+            else updateDevicesText.text = "Datenbank konnte nicht aktualisiert werden"
         }
         openButton.setOnClickListener {
             Log.d("handler", "clicked dropdown")

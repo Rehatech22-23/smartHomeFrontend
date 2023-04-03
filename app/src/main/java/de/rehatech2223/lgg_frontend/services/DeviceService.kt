@@ -67,7 +67,8 @@ class DeviceService {
         return deviceDTO
     }
 
-    fun updateDeviceDatabase() {
+    fun updateDeviceDatabase() : Boolean {
+        var success = false
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "device/updated")
             .get()
@@ -77,11 +78,13 @@ class DeviceService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
+                            success = true
                             cancel()
                         }
                     }
                 }
             }.join()
         }
+        return success
     }
 }

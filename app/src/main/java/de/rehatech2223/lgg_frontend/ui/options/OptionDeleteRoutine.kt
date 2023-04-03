@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TextView
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
@@ -18,6 +19,7 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private var deleteRoutineExecButton: Button
     private var deleteRoutineSpinner: Spinner
     private var deleteRoutineContainer: LinearLayout
+    private var deleteRoutineText: TextView
 
     private var spinnerMap = mutableMapOf<String, Long>()
     private var deleteRoutineOpened: Boolean = false
@@ -33,6 +35,7 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         deleteRoutineExecButton = findViewById(R.id.deleteRoutineExecButton)
         deleteRoutineSpinner = findViewById(R.id.deleteRoutineSpinner)
         deleteRoutineContainer = findViewById(R.id.deleteRoutineContainer)
+        deleteRoutineText = findViewById(R.id.deleteRoutineText)
 
         deleteRoutineOpened = false
         setDeleteRoutineOpen(deleteRoutineOpened)
@@ -69,7 +72,12 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
     private fun deleteRoutineButtonOnClick() {
         val routineId = spinnerMap[deleteRoutineSpinner.selectedItem.toString()]
-        if(routineId != null) ServiceProvider.routineService.deleteRoutine(routineId)
+        if(routineId != null) {
+            deleteRoutineText.text = "Lösche den Ablauf"
+            val success = ServiceProvider.routineService.deleteRoutine(routineId)
+            if(success) deleteRoutineText.text = "Ablauf erfolgreich gelöscht"
+            else deleteRoutineText.text = "Ablauf konnte nicht gelöscht werden"
+        }
     }
 
     private fun initButtons() {
