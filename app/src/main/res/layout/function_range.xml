@@ -21,7 +21,17 @@
         android:textSize="30sp"
         android:textStyle="normal" />
 
+    <TextView
+        android:id="@+id/functionRangeValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="Function Value (optional)"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="30sp" />
+
     <LinearLayout
+        android:id="@+id/functionRangeSliderContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

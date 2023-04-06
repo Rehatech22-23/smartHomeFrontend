@@ -29,6 +29,8 @@ class FunctionRange(
     private val currentText: TextView
     private val functionNameText: TextView
     private val seekBar: SeekBar
+    private val functionValueTextField: TextView
+    private val sliderContainer: LinearLayout
 
     init {
         LayoutInflater.from(context).inflate(R.layout.function_range, this, true)
@@ -42,9 +44,24 @@ class FunctionRange(
         currentText = findViewById(R.id.currentText)
         functionNameText = findViewById(R.id.functionNameText)
         seekBar = findViewById(R.id.seekBar)
+        functionValueTextField = findViewById(R.id.functionRangeValueTextView)
+        sliderContainer = findViewById(R.id.functionRangeSliderContainer)
 
         initTexts()
         initSeekBar()
+        initState()
+    }
+
+    private fun initState() {
+        if(rangeDTO.minValue == 0.0 && rangeDTO.maxValue == 0.0) {
+            sliderContainer.visibility = GONE
+            functionValueTextField.visibility = VISIBLE
+            functionValueTextField.text = rangeDTO.currentValue.toString()
+            Log.d("functionRange", "Range should be converted to simple value display")
+            return
+        }
+        sliderContainer.visibility = VISIBLE
+        functionValueTextField.visibility = GONE
     }
 
     private fun initTexts() {
