@@ -94,7 +94,7 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tabs_for_devices_routines_and_options">Tabs for Devices Routines and Options</string>
+    <string name="tabs_for_devices_routines_and_options">Tabs für Geräte, Abläufe und Optionen</string>
     <string name="advanced_view_text">Einfache Bedienung</string>
     <string name="settings_unclicked">▶ Einstellungen</string>
     <string name="settings_clicked">▼ Einstellungen</string>

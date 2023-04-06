@@ -166,6 +166,7 @@
 
                             <Spinner
                                 android:id="@+id/start_screen_spinner"
+                                android:contentDescription="Auswahl aller möglichen Startansichten"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -188,6 +189,7 @@
 
                             <Spinner
                                 android:id="@+id/pin_routine_spinner"
+                                android:contentDescription="Auswahl aller Abläufe"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"

@@ -140,14 +140,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:backgroundTint="?attr/colorOnSurface"
-                        android:contentDescription="Selection of every possible device" />
+                        android:contentDescription="Auswahl aus allen Geräten, die die Auslösehandlung definiernen" />
 
                     <Spinner
                         android:id="@+id/functionSelectorCondition"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:backgroundTint="?attr/colorOnSurface"
-                        android:contentDescription="Selection of possible functions" />
+                        android:contentDescription="Auswahl aus allen Funktionen, die die Auslösehandlung definiernen" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -156,6 +156,7 @@
 
                         <Spinner
                             android:id="@+id/comparisonTypeSpinner"
+                            android:contentDescription="Auswahl aus den verschiedenen Vergleichstypen: größer, kleiner und gleich"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -212,7 +213,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:backgroundTint="?attr/colorOnSurface"
-                        android:contentDescription="Selection of every possible function of the selected device" />
+                        android:contentDescription="Auswahl aus allen Geräten, die beim Auslösen des Ablaufs angesprochen werden können" />
 
                     <Spinner
                         android:id="@+id/functionActionSpinner"
@@ -220,7 +221,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:backgroundTint="?attr/colorOnSurface"
-                        android:contentDescription="Selection of every possible device as an action" />
+                        android:contentDescription="Auswahl aus allen Funktionen, die beim Auslösen des Ablaufs angesprochen werden können" />
 
                     <EditText
                         android:id="@+id/valueActionInputField"

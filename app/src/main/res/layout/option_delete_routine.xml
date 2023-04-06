@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:backgroundTint="?attr/colorOnSurface"
-                android:contentDescription="Selection of routine to delete" />
+                android:contentDescription="Auswahl aller Abläufe die gelöscht werden können" />
 
             <Button
                 android:id="@+id/deleteRoutineExecButton"
