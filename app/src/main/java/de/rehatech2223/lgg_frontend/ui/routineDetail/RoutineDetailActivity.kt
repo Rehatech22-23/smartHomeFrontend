@@ -80,9 +80,9 @@ class RoutineDetailActivity : DynamicThemeActivity() {
 
         text += if (triggerFunction.rangeDTO != null) {
             val separator = when (routineDTO.comparisonType) {
-                0 -> "kleiner als"
-                1 -> "größer als"
-                2 -> "gleich"
+                0 -> "gleich"
+                1 -> "kleiner als"
+                2 -> "größer als"
                 else -> "error"
             }
             "ist $separator ${triggerFunction.rangeDTO!!.currentValue}"

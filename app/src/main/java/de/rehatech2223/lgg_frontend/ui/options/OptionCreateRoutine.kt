@@ -260,7 +260,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
                             val routineDTO: RoutineDTO = RoutineDTO.Builder(
                                 "default:${textFieldRoutineName.text}",
-                                if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
+                                if(comparisonTypeSpinner.selectedItem.toString() == "<") 1 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 0 else 2,
                                 routineEventList as java.util.ArrayList<RoutineEventDTO>,
                                 -1)
                                 .triggerEventByDeviceDTO(TriggerEventByDeviceDTO(deviceId, function))
