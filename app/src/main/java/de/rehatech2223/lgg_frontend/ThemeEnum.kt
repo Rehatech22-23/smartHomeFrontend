@@ -8,4 +8,8 @@ enum class ThemeEnum(val theme: Int) {
     HIGH_CONTRAST_TWO(R.style.Theme_LGG_Frontend_High_Contrast_Two),
     HIGH_CONTRAST_THREE(R.style.Theme_LGG_Frontend_High_Contrast_Three),
     BLACK_WHITE(R.style.Theme_LGG_Frontend_Black_White);
+
+    companion object{
+        infix fun from(value: Int): ThemeEnum = ThemeEnum.values().firstOrNull { it.theme == value } ?: DEFAULT
+    }
 }

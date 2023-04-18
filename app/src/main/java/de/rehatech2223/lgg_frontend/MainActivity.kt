@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.preference.PreferenceManager
@@ -49,17 +50,13 @@ class MainActivity : DynamicThemeActivity() {
         routinePinLayout.removeAllViews()
         if (routineId == -1L) return
         val routineDTO: RoutineDTO = ServiceProvider.routineService.getRoutineInfo(routineId) ?: return
-        val button = Button(this)
+        LayoutInflater.from(this).inflate(R.layout.pinned_routine_button, routinePinLayout, true)
+        val button = findViewById<Button>(R.id.pinned_routine_button)
         button.text = routineDTO.routineName.split(':')[1]
-        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25F)
-        button.setTextColor(MaterialColors.getColor(binding.switch1,R.attr.buttonTextColor))
-        // TODO: button farbe zu colorPrimary wechseln
-        button.setTypeface(button.typeface, Typeface.BOLD)
         button.setOnClickListener {
-            Log.d("handler", "triggering pinned routine with id: $routineId")
+            Log.d("handler", "clicked routine with id: $routineId")
             ServiceProvider.routineService.triggerRoutine(routineId)
         }
-        routinePinLayout.addView(button)
     }
 
     private fun initTabTitles(): List<String> {

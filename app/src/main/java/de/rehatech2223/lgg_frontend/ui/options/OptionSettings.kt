@@ -144,11 +144,12 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
+                Log.d("handler", "initializing on item selected methods for start screen spinner")
                 when (startScreenSpinner.selectedItem) {
                     "Geräte" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putInt(DEVICE_FRAGMENT_INDEX_KEY, 0).apply()
+                            .putInt(DEVICE_FRAGMENT_INDEX_KEY, 0).apply()
                     "Abläufe" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putInt(DEVICE_FRAGMENT_INDEX_KEY, 1).apply()
+                            .putInt(DEVICE_FRAGMENT_INDEX_KEY, 1).apply()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -175,6 +176,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
+                Log.d("handler", "initializing on item selected methods for pin routine spinner")
                 if (pinRoutineSpinner.selectedItemPosition == 0
                     || pinRoutineSpinner.selectedItemPosition == INVALID_POSITION){
                     PreferenceManager.getDefaultSharedPreferences(context).edit()
@@ -201,5 +203,15 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             index++
         }
         return map
+    }
+
+    /**
+     *  Can be used as a mock refresh method, when ui-updates are required
+     */
+
+    private fun reloadCurrentColorTheme(){
+        Log.d("handler", "reloaded current color theme!")
+        val activity: DynamicThemeActivity = context as DynamicThemeActivity
+        activity.changeTheme(ThemeEnum from activity.getCurrentTheme())
     }
 }
