@@ -12,6 +12,7 @@ import okhttp3.Request
 import okio.use
 
 class DeviceService {
+    
     fun getDeviceList(): ArrayList<String> {
         Log.d("handler", "requested device list")
         var deviceList: ArrayList<String> = ArrayList()
@@ -68,7 +69,7 @@ class DeviceService {
     }
 
     fun updateDeviceDatabase() : Boolean {
-        var success = false
+        var success = true
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "device/updated")
             .get()
@@ -78,7 +79,7 @@ class DeviceService {
                 ServiceProvider.connectionSaveCall {
                     ServiceProvider.client.newCall(request).execute().use { response ->
                         if (!response.isSuccessful || response.code != 200) {
-                            success = true
+                            success = false
                             cancel()
                         }
                     }
