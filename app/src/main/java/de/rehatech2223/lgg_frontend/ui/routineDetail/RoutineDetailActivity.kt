@@ -16,6 +16,7 @@ import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
 class RoutineDetailActivity : DynamicThemeActivity() {
@@ -76,7 +77,7 @@ class RoutineDetailActivity : DynamicThemeActivity() {
         val deviceDTO: DeviceDTO =
             ServiceProvider.devicesService.getDeviceInfo(triggerDTO.deviceId) ?: DeviceDTO("Error Device", "", ArrayList())
         val triggerFunction: FunctionDTO = triggerDTO.functionDTOExpectation
-        var text = "\"${triggerFunction.functionName}\" von \"${deviceDTO.deviceName.split(':')[1]}\" "
+        var text = "\"${triggerFunction.functionName}\" von \"${DeviceNameDTO.deserialize(deviceDTO.deviceName).name}\" "
 
         text += if (triggerFunction.rangeDTO != null) {
             val separator = when (routineDTO.comparisonType) {

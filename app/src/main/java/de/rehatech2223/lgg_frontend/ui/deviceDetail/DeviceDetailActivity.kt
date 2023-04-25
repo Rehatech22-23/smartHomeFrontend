@@ -11,6 +11,7 @@ import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
 class DeviceDetailActivity : DynamicThemeActivity() {
@@ -31,34 +32,27 @@ class DeviceDetailActivity : DynamicThemeActivity() {
         initFunctions()
     }
 
-    private fun initMainViewElements(){
+    private fun initMainViewElements() {
         val overViewName: TextView = findViewById(R.id.overview_name)
         val overViewImage: ImageView = findViewById(R.id.overview_image)
         val overViewDescription: TextView = findViewById(R.id.overview_description)
-        val deviceDTOLabeling: List<String> = deviceDTO.deviceName.split(':')
-        if (deviceDTOLabeling.size < 2){
-            overViewName.text = "Error Name"
-            overViewImage.setImageResource(R.drawable.error_100px)
-        }else {
-            overViewName.text = deviceDTOLabeling[1].ifEmpty { "Error Name" }
-            overViewImage.setImageResource(TileImageUtil.getDeviceImageResource(deviceDTOLabeling[0]))
 
-            if (deviceDTOLabeling.size == 3){
-                overViewDescription.text = deviceDTOLabeling[2]
-            }
-        }
+        val deviceNameDTO = DeviceNameDTO.deserialize(deviceDTO.deviceName)
+        overViewName.text = deviceNameDTO.name
+        overViewImage.setImageResource(TileImageUtil.getDeviceImageResource(deviceNameDTO.icon))
+        overViewDescription.text = deviceNameDTO.description
 
         findViewById<LinearLayout>(R.id.back_text).setOnClickListener {
             finish()
         }
-        findViewById<Button>(R.id.refresh_button).setOnClickListener{
+        findViewById<Button>(R.id.refresh_button).setOnClickListener {
             recreate()
         }
     }
 
-    private fun initFunctions(){
+    private fun initFunctions() {
         val scrollLayout = findViewById<LinearLayout>(R.id.scroll_layout)
-        for (functionId in deviceDTO.functionIds){
+        for (functionId in deviceDTO.functionIds) {
             Log.d("handler", "starting function request")
             val requestedFunctionDTO: FunctionDTO? = ServiceProvider.functionService
                 .getFunctionInfo(functionId)
@@ -66,15 +60,15 @@ class DeviceDetailActivity : DynamicThemeActivity() {
             val functionDTO: FunctionDTO = requestedFunctionDTO ?: continue
 
 
-            val functionView = if (functionDTO.rangeDTO != null){
+            val functionView = if (functionDTO.rangeDTO != null) {
                 FunctionRange(this, null, functionDTO, deviceDTO)
-            }else if (functionDTO.onOff != null){
+            } else if (functionDTO.onOff != null) {
                 FunctionOnOff(this, null, functionDTO, deviceDTO)
-            }else if (functionDTO.outputValue != null){
+            } else if (functionDTO.outputValue != null) {
                 FunctionOutput(this, null, functionDTO, deviceDTO)
-            }else if (functionDTO.outputTrigger != null){
+            } else if (functionDTO.outputTrigger != null) {
                 FunctionTrigger(this, null, functionDTO, deviceDTO)
-            }else continue
+            } else continue
 
             scrollLayout.addView(functionView)
         }

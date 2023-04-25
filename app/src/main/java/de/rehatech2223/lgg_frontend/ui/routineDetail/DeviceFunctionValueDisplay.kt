@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import de.rehatech2223.datamodel.DeviceDTO
-import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 
 class DeviceFunctionValueDisplay(context: Context, attrs: AttributeSet? = null, deviceId: String, functionList: ArrayList<RoutineDetailActivity.FunctionTuple>): LinearLayout(context, attrs) {
 
@@ -28,7 +28,7 @@ class DeviceFunctionValueDisplay(context: Context, attrs: AttributeSet? = null, 
 
     private fun initDeviceName(){
         val deviceName: TextView = findViewById(R.id.device_name)
-        val text = "${deviceDTO.deviceName.split(':')[1]}:"
+        val text = DeviceNameDTO.deserialize(deviceDTO.deviceName).name
         deviceName.text = text
     }
 

@@ -4,14 +4,17 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.datamodel.util.RangeDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import kotlin.math.round
 
 class FunctionRange(
@@ -49,6 +52,7 @@ class FunctionRange(
 
         initTexts()
         initSeekBar()
+        initExtraButtons()
         initState()
     }
 
@@ -69,6 +73,33 @@ class FunctionRange(
         minText.text = rangeDTO.minValue.toString()
         maxText.text = rangeDTO.maxValue.toString()
         currentText.text = rangeDTO.currentValue.toString()
+    }
+
+    private fun initExtraButtons(){
+        val minButton: Button = findViewById(R.id.minButton)
+        val maxButton: Button = findViewById(R.id.maxButton)
+        val buttonContainer: ConstraintLayout = findViewById(R.id.buttonContainer)
+        val deviceNameDTO = DeviceNameDTO.deserialize(deviceDTO.deviceName)
+
+        if(!deviceNameDTO.rangeWithButtons){
+            buttonContainer.visibility = GONE
+            return
+        }
+        buttonContainer.visibility = VISIBLE
+        minButton.text = deviceNameDTO.rangeMinText
+        maxButton.text = deviceNameDTO.rangeMaxText
+
+        minButton.setOnClickListener {
+            seekBar.progress = seekBar.min
+            ServiceProvider.functionService.triggerFunction(deviceDTO.deviceId,
+                functionDTO.functionId, progressToCurrentValue(seekBar.progress).toFloat())
+        }
+
+        maxButton.setOnClickListener {
+            seekBar.progress = seekBar.max
+            ServiceProvider.functionService.triggerFunction(deviceDTO.deviceId,
+                functionDTO.functionId, progressToCurrentValue(seekBar.progress).toFloat())
+        }
     }
 
     private fun progressToCurrentValue(progress: Int): Double {

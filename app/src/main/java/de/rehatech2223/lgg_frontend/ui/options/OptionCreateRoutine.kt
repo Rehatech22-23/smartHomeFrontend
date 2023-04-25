@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.view.isVisible
 import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.datamodel.RoutineDTO
@@ -16,8 +15,8 @@ import de.rehatech2223.datamodel.util.RoutineEventDTO
 import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
 import de.rehatech2223.datamodel.util.TriggerTimeDTO
 import de.rehatech2223.lgg_frontend.R
-import de.rehatech2223.lgg_frontend.services.PopUpService
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import java.time.LocalTime
 
 class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
@@ -100,6 +99,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             createRoutineContainer.visibility = VISIBLE
             dropdownArrow.setImageResource(R.drawable.dropdown_arrow_down)
             updateDeviceToFunctionsMap()
+            Log.d("handler", "starting populateDeviceSpinner with: $deviceToFunctionsMap")
             populateDeviceSpinner(createRoutineActionDeviceSpinner, deviceToFunctionsMap)
         } else {
             createRoutineContainer.visibility = GONE
@@ -143,9 +143,14 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
         }
 
         for(kvp in deviceToFunctionsMap) {
-            val split = kvp.key.deviceName.split(":")[1]
-            deviceNameToFullDeviceName[split] = kvp.key.deviceName
-            fullDeviceNameToDeviceName[kvp.key.deviceName] = split
+//            val split = kvp.key.deviceName.split(":")[1]
+            val displayName = DeviceNameDTO.deserialize(kvp.key.deviceName)
+
+            Log.d("handler", "add to deviceNameToFullDeviceName: at: ${displayName.name} value: ${kvp.key.deviceName}")
+            Log.d("handler", "add to fullDeviceNameToDeviceName: at: ${kvp.key.deviceName} value: ${displayName.name}")
+
+            deviceNameToFullDeviceName[displayName.name] = kvp.key.deviceName
+            fullDeviceNameToDeviceName[kvp.key.deviceName] = displayName.name
         }
 
     }
@@ -296,6 +301,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private fun populateDeviceSpinner(spinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
         val deviceNames = mutableListOf<String>()
         for(kvp in deviceFunctionMap) {
+            Log.d("handler", "device name is: ${kvp.key.deviceName} with result: ${fullDeviceNameToDeviceName[kvp.key.deviceName]}]")
             deviceNames.add(fullDeviceNameToDeviceName[kvp.key.deviceName]!!)
         }
         ArrayAdapter(context, R.layout.spinner_item, deviceNames.toTypedArray()).also {
