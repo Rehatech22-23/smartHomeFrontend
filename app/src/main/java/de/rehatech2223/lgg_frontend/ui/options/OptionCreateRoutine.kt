@@ -133,13 +133,10 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             if(d != null) deviceList.add(d)
         }
         //create the mapping from devices to their functions
+        val functionList = ServiceProvider.functionService.getFunctionList()
         for(d in deviceList) {
-            val functions = mutableListOf<FunctionDTO>()
-            for(fId in d.functionIds) {
-                val f = ServiceProvider.functionService.getFunctionInfo(fId)
-                if(f != null) functions.add(f)
-            }
-            deviceToFunctionsMap[d] = functions
+            /* Filter functionList for matching function ids in the current device */
+            deviceToFunctionsMap[d] = functionList.filter { f -> d.functionIds.contains(f.functionId) }
         }
 
         for(kvp in deviceToFunctionsMap) {

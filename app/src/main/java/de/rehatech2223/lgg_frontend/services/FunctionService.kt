@@ -69,4 +69,29 @@ class FunctionService {
             })
         }
     }
+
+    fun getFunctionList(): ArrayList<FunctionDTO> {
+        Log.d("handler", "requested function list")
+        var functionDTOList: ArrayList<FunctionDTO> = ArrayList()
+        runBlocking {
+            val request = Request.Builder()
+                .url(ServiceProvider.baseUrl + "function/list")
+                .get()
+                .build()
+            launch(Dispatchers.IO) {
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "canceled")
+                            cancel()
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            functionDTOList = Json.decodeFromString(jsonBody)
+                        }
+                    }
+                }
+            }.join()
+        }
+        return functionDTOList
+    }
 }
