@@ -103,15 +103,18 @@
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/overview_description"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="25sp" />
-
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/overview_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="?attr/colorOnSurface"
+            android:paddingLeft="10dp"
+            android:visibility="gone"
+            android:paddingRight="10dp"
+            android:textSize="25sp" />
 
         <ScrollView
             android:layout_width="match_parent"

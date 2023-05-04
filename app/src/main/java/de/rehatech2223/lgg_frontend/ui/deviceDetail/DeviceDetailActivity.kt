@@ -2,6 +2,7 @@ package de.rehatech2223.lgg_frontend.ui.deviceDetail
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -40,7 +41,10 @@ class DeviceDetailActivity : DynamicThemeActivity() {
         val deviceNameDTO = DeviceNameDTO.deserialize(deviceDTO.deviceName)
         overViewName.text = deviceNameDTO.name
         overViewImage.setImageResource(TileImageUtil.getDeviceImageResource(deviceNameDTO.icon))
-        overViewDescription.text = deviceNameDTO.description
+        if(deviceNameDTO.description != "") {
+            overViewDescription.visibility = VISIBLE
+            overViewDescription.text = deviceNameDTO.description
+        }
 
         findViewById<LinearLayout>(R.id.back_text).setOnClickListener {
             finish()
@@ -58,7 +62,6 @@ class DeviceDetailActivity : DynamicThemeActivity() {
                 .getFunctionInfo(functionId)
             Log.d("handler", "functionDTO: $requestedFunctionDTO")
             val functionDTO: FunctionDTO = requestedFunctionDTO ?: continue
-
 
             val functionView = if (functionDTO.rangeDTO != null) {
                 FunctionRange(this, null, functionDTO, deviceDTO)
