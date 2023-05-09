@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import de.rehatech2223.datamodel.RoutineDTO

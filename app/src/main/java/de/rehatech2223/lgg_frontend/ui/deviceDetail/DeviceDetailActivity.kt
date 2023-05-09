@@ -2,6 +2,7 @@ package de.rehatech2223.lgg_frontend.ui.deviceDetail
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageView
@@ -46,31 +47,43 @@ class DeviceDetailActivity : DynamicThemeActivity() {
             overViewDescription.text = deviceNameDTO.description
         }
 
+        if(deviceDTO.functionIds.isEmpty()){
+            val functionText: TextView = findViewById(R.id.function_text)
+            functionText.visibility = GONE
+        }
+
         findViewById<LinearLayout>(R.id.back_text).setOnClickListener {
             finish()
         }
         findViewById<Button>(R.id.refresh_button).setOnClickListener {
+            Log.d("handler", "recreating view with refresh button")
+            findViewById<LinearLayout>(R.id.scroll_layout).removeAllViews()
             recreate()
         }
     }
 
     private fun initFunctions() {
         val scrollLayout = findViewById<LinearLayout>(R.id.scroll_layout)
+        val requestedFunctionList = ArrayList<FunctionDTO>()
         for (functionId in deviceDTO.functionIds) {
             Log.d("handler", "starting function request")
-            val requestedFunctionDTO: FunctionDTO? = ServiceProvider.functionService
-                .getFunctionInfo(functionId)
-            Log.d("handler", "functionDTO: $requestedFunctionDTO")
-            val functionDTO: FunctionDTO = requestedFunctionDTO ?: continue
-
+            val requestedFunctionDTO: FunctionDTO = ServiceProvider.functionService
+                .getFunctionInfo(functionId) ?: continue
+            requestedFunctionList.add(requestedFunctionDTO)
+                Log.d(
+                    "handler",
+                    "functionDTO: ${requestedFunctionDTO.functionName} and ${requestedFunctionDTO.rangeDTO?.currentValue ?: -1}")
+        }
+        for(functionDTO in requestedFunctionList) {
             val functionView = if (functionDTO.rangeDTO != null) {
+                Log.d("handler", "adding new function Range")
                 FunctionRange(this, null, functionDTO, deviceDTO)
             } else if (functionDTO.onOff != null) {
                 FunctionOnOff(this, null, functionDTO, deviceDTO)
-            } else if (functionDTO.outputValue != null) {
-                FunctionOutput(this, null, functionDTO, deviceDTO)
             } else if (functionDTO.outputTrigger != null) {
                 FunctionTrigger(this, null, functionDTO, deviceDTO)
+            } else if (functionDTO.outputValue != null) {
+                FunctionOutput(this, null, functionDTO, deviceDTO)
             } else continue
 
             scrollLayout.addView(functionView)

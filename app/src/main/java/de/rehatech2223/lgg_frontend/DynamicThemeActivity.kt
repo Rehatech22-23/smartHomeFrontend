@@ -26,6 +26,11 @@ abstract class DynamicThemeActivity: AppCompatActivity() {
         return currentTheme
     }
 
+    fun refreshCurrentTheme(){
+        setTheme(currentTheme)
+        recreate()
+    }
+
     companion object {
         private const val KEY_THEME = "Theme"
     }

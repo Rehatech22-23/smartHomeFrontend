@@ -47,8 +47,7 @@ class FragmentDevices : Fragment() {
 
     private fun loadDeviceTiles() {
         val deviceList = ServiceProvider.devicesService.getDeviceList()
-        for (deviceId in deviceList) {
-            val deviceDTO = ServiceProvider.devicesService.getDeviceInfo(deviceId) ?: continue
+        for (deviceDTO in deviceList) {
             flexboxLayout.addView(DeviceTile(requireContext(), null, deviceDTO))
         }
     }

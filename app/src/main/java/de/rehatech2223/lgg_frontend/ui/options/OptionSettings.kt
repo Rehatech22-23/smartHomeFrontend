@@ -71,11 +71,15 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         }
 
         val startScreenSpinner: Spinner = findViewById(R.id.start_screen_spinner)
-        startScreenSpinner.setSelection(PreferenceManager
-            .getDefaultSharedPreferences(context).getInt(DEVICE_FRAGMENT_INDEX_KEY, 0))
+        startScreenSpinner.setSelection(
+            PreferenceManager
+                .getDefaultSharedPreferences(context).getInt(DEVICE_FRAGMENT_INDEX_KEY, 0)
+        )
         val pinRoutineSpinner: Spinner = findViewById(R.id.pin_routine_spinner)
-        pinRoutineSpinner.setSelection(PreferenceManager.getDefaultSharedPreferences(context)
-                .getInt(PIN_ROUTINE_SELECTION_INDEX_KEY, 0))
+        pinRoutineSpinner.setSelection(
+            PreferenceManager.getDefaultSharedPreferences(context)
+                .getInt(PIN_ROUTINE_SELECTION_INDEX_KEY, 0)
+        )
     }
 
     private fun setSettingsOpen(opened: Boolean) {
@@ -97,7 +101,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         updateDevicesButton.setOnClickListener {
             updateDevicesText.text = "Aktualisiere die Datenbank"
             val success = ServiceProvider.devicesService.updateDeviceDatabase()
-            if(success) updateDevicesText.text = "Datenbank erfolgreich aktualisiert"
+            if (success) updateDevicesText.text = "Datenbank erfolgreich aktualisiert"
             else updateDevicesText.text = "Datenbank konnte nicht aktualisiert werden"
         }
         openButton.setOnClickListener {
@@ -147,22 +151,22 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
                 Log.d("handler", "initializing on item selected methods for start screen spinner")
                 when (startScreenSpinner.selectedItem) {
                     "Geräte" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
-                            .putInt(DEVICE_FRAGMENT_INDEX_KEY, 0).apply()
+                        .putInt(DEVICE_FRAGMENT_INDEX_KEY, 0).apply()
                     "Abläufe" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
-                            .putInt(DEVICE_FRAGMENT_INDEX_KEY, 1).apply()
+                        .putInt(DEVICE_FRAGMENT_INDEX_KEY, 1).apply()
                 }
+                //(context as DynamicThemeActivity).refreshCurrentTheme()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    private fun initPinRoutineOption(){
+    private fun initPinRoutineOption() {
         val pinRoutineSpinner: Spinner = findViewById(R.id.pin_routine_spinner)
         val comparisonList = mutableListOf("Keine Routine Anheften")
-        val indexToRoutineDTOIdMap: Map<Int, Long> = getRoutineDTOIdMapping()
-        for (routineId: Long in indexToRoutineDTOIdMap.values){
-            val routineDTO: RoutineDTO = ServiceProvider.routineService.getRoutineInfo(routineId)!!
-            comparisonList.add(routineDTO.routineName.split(':')[1])
+        val indexToRoutineDTOIdMap: Map<Int, RoutineDTO> = getRoutineDTOIdMapping()
+        for (routine in indexToRoutineDTOIdMap.values) {
+            comparisonList.add(routine.routineName.split(':')[1])
         }
         ArrayAdapter(
             context,
@@ -178,28 +182,34 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             ) {
                 Log.d("handler", "initializing on item selected methods for pin routine spinner")
                 if (pinRoutineSpinner.selectedItemPosition == 0
-                    || pinRoutineSpinner.selectedItemPosition == INVALID_POSITION){
+                    || pinRoutineSpinner.selectedItemPosition == INVALID_POSITION
+                ) {
                     PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putLong(PIN_ROUTINE_ID_KEY, -1L).apply()
                     PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putInt(PIN_ROUTINE_SELECTION_INDEX_KEY, 0).apply()
-                }else{
-                    val dTOId: Long = indexToRoutineDTOIdMap[pinRoutineSpinner.selectedItemPosition]!!
+                } else {
+                    val dTOId: Long =
+                        indexToRoutineDTOIdMap[pinRoutineSpinner.selectedItemPosition]!!.routineId
                     PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putLong(PIN_ROUTINE_ID_KEY, dTOId).apply()
                     PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putInt(PIN_ROUTINE_SELECTION_INDEX_KEY, pinRoutineSpinner.selectedItemPosition).apply()
+                        .putInt(
+                            PIN_ROUTINE_SELECTION_INDEX_KEY,
+                            pinRoutineSpinner.selectedItemPosition
+                        ).apply()
                 }
+                //(context as DynamicThemeActivity).refreshCurrentTheme()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    private fun getRoutineDTOIdMapping(): Map<Int, Long> {
-        val map: MutableMap<Int, Long> = HashMap()
+    private fun getRoutineDTOIdMapping(): Map<Int, RoutineDTO> {
+        val map: MutableMap<Int, RoutineDTO> = HashMap()
         var index = 1
-        for(id in ServiceProvider.routineService.getRoutineList()){
-            map[index] = id
+        for (routine in ServiceProvider.routineService.getRoutineList()) {
+            map[index] = routine
             index++
         }
         return map
@@ -209,7 +219,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
      *  Can be used as a mock refresh method, when ui-updates are required
      */
 
-    private fun reloadCurrentColorTheme(){
+    private fun reloadCurrentColorTheme() {
         Log.d("handler", "reloaded current color theme!")
         val activity: DynamicThemeActivity = context as DynamicThemeActivity
         activity.changeTheme(ThemeEnum from activity.getCurrentTheme())

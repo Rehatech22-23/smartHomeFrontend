@@ -46,8 +46,7 @@ class FragmentRoutines : Fragment() {
     }
     private fun loadRoutineTiles() {
         val routineList = ServiceProvider.routineService.getRoutineList()
-        for (routineId in routineList) {
-            val routineDTO = ServiceProvider.routineService.getRoutineInfo(routineId) ?: continue
+        for (routineDTO in routineList) {
             flexboxLayout.addView(RoutineTile(requireContext(), null, routineDTO))
         }
     }

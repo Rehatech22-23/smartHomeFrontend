@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import de.rehatech2223.datamodel.RoutineDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
@@ -21,11 +22,10 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     private var deleteRoutineContainer: LinearLayout
     private var deleteRoutineText: TextView
 
-    private var spinnerMap = mutableMapOf<String, Long>()
+    private var spinnerMap = mutableMapOf<String, RoutineDTO>()
     private var deleteRoutineOpened: Boolean = false
 
     init {
-        spinnerMap
 
         LayoutInflater.from(context).inflate(R.layout.option_delete_routine, this, true)
         orientation = LinearLayout.VERTICAL
@@ -52,12 +52,10 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             val routineList = ServiceProvider.routineService.getRoutineList();
             spinnerMap.clear()
             val namesList = ArrayList<String>()
-            for (id in routineList) {
-                val name = ServiceProvider.routineService.getRoutineInfo(id)?.routineName
-                if(name != null) {
-                    spinnerMap[name] = id
+            for (routine in routineList) {
+                val name = routine.routineName
+                    spinnerMap[name] = routine
                     namesList.add(name)
-                }
             }
             ArrayAdapter(context, R.layout.spinner_item, namesList.toArray()).also {
                     arrayAdapter ->
@@ -71,7 +69,7 @@ class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     }
 
     private fun deleteRoutineButtonOnClick() {
-        val routineId = spinnerMap[deleteRoutineSpinner.selectedItem.toString()]
+        val routineId = spinnerMap[deleteRoutineSpinner.selectedItem.toString()]?.routineId
         if(routineId != null) {
             deleteRoutineText.text = "Lösche den Ablauf"
             val success = ServiceProvider.routineService.deleteRoutine(routineId)

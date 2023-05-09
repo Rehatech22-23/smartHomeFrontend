@@ -19,7 +19,8 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import java.time.LocalTime
 
-class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
+class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
+    LinearLayout(context, attrs) {
 
     private var sensorValueConditionEditText: EditText
     private var conditionHelperText: TextView
@@ -95,12 +96,15 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
     private fun setCreateRoutineOpen(opened: Boolean) {
         this.createRoutineOpened = opened
-        if(opened) {
+        if (opened) {
+            Log.d("handler", "starting to open")
             createRoutineContainer.visibility = VISIBLE
             dropdownArrow.setImageResource(R.drawable.dropdown_arrow_down)
             updateDeviceToFunctionsMap()
             Log.d("handler", "starting populateDeviceSpinner with: $deviceToFunctionsMap")
             populateDeviceSpinner(createRoutineActionDeviceSpinner, deviceToFunctionsMap)
+            Log.d("handler", "finished to open with time: $timed")
+
         } else {
             createRoutineContainer.visibility = GONE
             dropdownArrow.setImageResource(R.drawable.dropdown_arrow_right)
@@ -124,27 +128,21 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     }
 
     private fun updateDeviceToFunctionsMap() {
-        //Get all device ids
-        val deviceIDList = ServiceProvider.devicesService.getDeviceList()
-        //get all devices from their ids
-        val deviceList = mutableListOf<DeviceDTO>()
-        for(id: String in deviceIDList) {
-            val d = ServiceProvider.devicesService.getDeviceInfo(id)
-            if(d != null) deviceList.add(d)
-        }
+        //Get all devices
+        val deviceDTOList = ServiceProvider.devicesService.getDeviceList()
         //create the mapping from devices to their functions
         val functionList = ServiceProvider.functionService.getFunctionList()
-        for(d in deviceList) {
+        for (d in deviceDTOList) {
             /* Filter functionList for matching function ids in the current device */
-            deviceToFunctionsMap[d] = functionList.filter { f -> d.functionIds.contains(f.functionId) }
+            deviceToFunctionsMap[d] =
+                functionList.filter { f -> d.functionIds.contains(f.functionId) }
         }
 
-        for(kvp in deviceToFunctionsMap) {
-//            val split = kvp.key.deviceName.split(":")[1]
+        for (kvp in deviceToFunctionsMap) {
             val displayName = DeviceNameDTO.deserialize(kvp.key.deviceName)
 
-            Log.d("handler", "add to deviceNameToFullDeviceName: at: ${displayName.name} value: ${kvp.key.deviceName}")
-            Log.d("handler", "add to fullDeviceNameToDeviceName: at: ${kvp.key.deviceName} value: ${displayName.name}")
+            //Log.d("handler", "add to deviceNameToFullDeviceName: at: ${displayName.name} value: ${kvp.key.deviceName}")
+            //Log.d("handler", "add to fullDeviceNameToDeviceName: at: ${kvp.key.deviceName} value: ${displayName.name}")
 
             deviceNameToFullDeviceName[displayName.name] = kvp.key.deviceName
             fullDeviceNameToDeviceName[kvp.key.deviceName] = displayName.name
@@ -153,17 +151,18 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     }
 
     private fun addActionButtonOnClick() {
-        if(valueActionEditText.text.isBlank() or valueActionEditText.text.isEmpty()) return
-        if(createRoutineActionFunctionSpinner.adapter.count == 0) return
-        val deviceName = deviceNameToFullDeviceName[createRoutineActionDeviceSpinner.selectedItem.toString()]
+        if (valueActionEditText.text.isBlank() or valueActionEditText.text.isEmpty()) return
+        if (createRoutineActionFunctionSpinner.adapter.count == 0) return
+        val deviceName =
+            deviceNameToFullDeviceName[createRoutineActionDeviceSpinner.selectedItem.toString()]
         var deviceId: String = ""
         val functionName = createRoutineActionFunctionSpinner.selectedItem.toString()
         var functionID: Long = 0
-        for(kvp in deviceToFunctionsMap) {
-            if(kvp.key.deviceName == deviceName) {
+        for (kvp in deviceToFunctionsMap) {
+            if (kvp.key.deviceName == deviceName) {
                 deviceId = kvp.key.deviceId
-                for(f in kvp.value) {
-                    if(f.functionName == functionName) {
+                for (f in kvp.value) {
+                    if (f.functionName == functionName) {
                         functionID = f.functionId
                         break
                     }
@@ -171,12 +170,20 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
                 break
             }
         }
-        routineEventList.add(RoutineEventDTO(deviceId, functionID, valueActionEditText.text.toString().toFloat()))
+        routineEventList.add(
+            RoutineEventDTO(
+                deviceId,
+                functionID,
+                valueActionEditText.text.toString().toFloat()
+            )
+        )
         //Create new view and add it to list and layout
         val newView = inflate(context, R.layout.action_tile_view, null)
-        newView.findViewById<TextView>(R.id.textViewDevice).text = fullDeviceNameToDeviceName[deviceName]
+        newView.findViewById<TextView>(R.id.textViewDevice).text =
+            fullDeviceNameToDeviceName[deviceName]
         newView.findViewById<TextView>(R.id.textViewFunction).text = functionName
-        newView.findViewById<TextView>(R.id.textViewValue).text = valueActionEditText.text.toString()
+        newView.findViewById<TextView>(R.id.textViewValue).text =
+            valueActionEditText.text.toString()
         actionContainerLinearLayout.addView(newView)
     }
 
@@ -189,10 +196,10 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
         var functionDTO: FunctionDTO? = null
 
-        for(kvp in deviceToFunctionsMap) {
-            if(kvp.key.deviceName == deviceNameToFullDeviceName[createRoutineConditionDeviceSpinner.selectedItem.toString()]) {
-                for(f in kvp.value) {
-                    if(f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
+        for (kvp in deviceToFunctionsMap) {
+            if (kvp.key.deviceName == deviceNameToFullDeviceName[createRoutineConditionDeviceSpinner.selectedItem.toString()]) {
+                for (f in kvp.value) {
+                    if (f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
                         functionDTO = f
                         break
                     }
@@ -203,17 +210,18 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
         comparisonTypeSpinner.visibility = GONE
 
-        if(functionDTO == null) {
+        if (functionDTO == null) {
             conditionHelperText.text = "Funktion kann nicht gefunden werden"
             return
         }
 
-        if(functionDTO.onOff != null) {
+        if (functionDTO.onOff != null) {
             conditionHelperText.text = "Das Eingabefeld darf nur den Wert 0 oder 1 enthalten."
             return
         }
-        if(functionDTO.rangeDTO != null) {
-            conditionHelperText.text = "Das Eingabefeld darf nur einen Wert zwischen ${functionDTO.rangeDTO!!.minValue} und ${functionDTO.rangeDTO!!.maxValue} enthalten"
+        if (functionDTO.rangeDTO != null) {
+            conditionHelperText.text =
+                "Das Eingabefeld darf nur einen Wert zwischen ${functionDTO.rangeDTO!!.minValue} und ${functionDTO.rangeDTO!!.maxValue} enthalten"
             comparisonTypeSpinner.visibility = VISIBLE
             return
         }
@@ -221,56 +229,64 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
     }
 
     private fun createRoutineExecButtonOnClick() {
-        Log.d("handler", "create button clicked")
-        if(textFieldRoutineName.text.isNullOrBlank() || textFieldRoutineName.text.isEmpty()) {
+        //Log.d("handler", "create button clicked")
+        if (textFieldRoutineName.text.isNullOrBlank() || textFieldRoutineName.text.isEmpty()) {
             logText.text = "Du musst einen Namen für den Ablauf angeben"
             return
         }
-        if(timeLayout.visibility == GONE && sensorLayout.visibility == GONE) {
+        if (timeLayout.visibility == GONE && sensorLayout.visibility == GONE) {
             logText.text = "Du musst einen Auslösehandlung definieren"
             return
         }
-        if(sensorLayout.visibility == VISIBLE) {
-            if(sensorValueConditionEditText.text.isNullOrBlank() || sensorValueConditionEditText.text.isEmpty()) {
+        if (sensorLayout.visibility == VISIBLE) {
+            if (sensorValueConditionEditText.text.isNullOrBlank() || sensorValueConditionEditText.text.isEmpty()) {
                 logText.text = "Du musst einen Wert für den Sensor angeben"
                 return
             }
         }
-        if(routineEventList.isEmpty()) {
+        if (routineEventList.isEmpty()) {
             logText.text = "Du musst mindestens eine Aktion definieren"
             return
         }
 
-        if(sensorLayout.visibility == VISIBLE) {
+        if (sensorLayout.visibility == VISIBLE) {
             var deviceId: String = ""
             var function: FunctionDTO?
-            for(kvp in deviceToFunctionsMap) {
-                if(kvp.key.deviceName == deviceNameToFullDeviceName[createRoutineConditionDeviceSpinner.selectedItem.toString()]) {
+            for (kvp in deviceToFunctionsMap) {
+                if (kvp.key.deviceName == deviceNameToFullDeviceName[createRoutineConditionDeviceSpinner.selectedItem.toString()]) {
                     deviceId = kvp.key.deviceId
-                    for(f in kvp.value) {
-                        if(f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
+                    for (f in kvp.value) {
+                        if (f.functionName == createRoutineConditionFunctionSpinner.selectedItem.toString()) {
                             function = FunctionDTO.Builder(
                                 f.functionName,
                                 f.functionId,
-                                if(f.rangeDTO != null) RangeDTO(f.rangeDTO!!.minValue, f.rangeDTO!!.maxValue,
+                                if (f.rangeDTO != null) RangeDTO(
+                                    f.rangeDTO!!.minValue, f.rangeDTO!!.maxValue,
                                     sensorValueConditionEditText.text.toString().toDouble()
                                 ) else null,
-                                if(f.onOff != null) sensorValueConditionEditText.text.toString().toInt() != 0 else null,
+                                if (f.onOff != null) sensorValueConditionEditText.text.toString()
+                                    .toInt() != 0 else null,
                                 f.outputValue,
                                 f.outputTrigger
                             ).build()
 
                             val routineDTO: RoutineDTO = RoutineDTO.Builder(
                                 "default:${textFieldRoutineName.text}",
-                                if(comparisonTypeSpinner.selectedItem.toString() == "<") 2 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 0 else 1,
+                                if (comparisonTypeSpinner.selectedItem.toString() == "<") 2 else if (comparisonTypeSpinner.selectedItem.toString() == "=") 0 else 1,
                                 routineEventList as java.util.ArrayList<RoutineEventDTO>,
-                                -1)
-                                .triggerEventByDeviceDTO(TriggerEventByDeviceDTO(deviceId, function))
+                                -1
+                            )
+                                .triggerEventByDeviceDTO(
+                                    TriggerEventByDeviceDTO(
+                                        deviceId,
+                                        function
+                                    )
+                                )
                                 .build()
                             Log.d("handler", "create routine with sensor")
                             logText.text = "Anfrage wird gesendet"
                             val response = ServiceProvider.routineService.createRoutine(routineDTO)
-                            if(response == null) logText.text = "Es ist ein Fehler aufgetreten"
+                            if (response == null) logText.text = "Es ist ein Fehler aufgetreten"
                             else logText.text = "Der Ablauf wurde erfolgreich erstellt"
                             return
                         }
@@ -283,40 +299,62 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
 
         val routineDTO: RoutineDTO = RoutineDTO.Builder(
             "default:${textFieldRoutineName.text}",
-            if(comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if(comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
+            if (comparisonTypeSpinner.selectedItem.toString() == "<") 0 else if (comparisonTypeSpinner.selectedItem.toString() == "=") 1 else 2,
             routineEventList as java.util.ArrayList<RoutineEventDTO>,
-            -1)
-            .triggerTime(TriggerTimeDTO(LocalTime.of(timePicker.hour, timePicker.minute), repeatSwitch.isChecked))
+            -1
+        )
+            .triggerTime(
+                TriggerTimeDTO(
+                    LocalTime.of(timePicker.hour, timePicker.minute),
+                    repeatSwitch.isChecked
+                )
+            )
             .build()
         Log.d("handler", "create routine with time")
         logText.text = "Anfrage wird gesendet"
         val response = ServiceProvider.routineService.createRoutine(routineDTO)
-        if(response == null) logText.text = "Es ist ein Fehler aufgetreten"
+        if (response == null) logText.text = "Es ist ein Fehler aufgetreten"
         else logText.text = "Der Ablauf wurde erfolgreich erstellt"
     }
 
-    private fun populateDeviceSpinner(spinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
+    private fun populateDeviceSpinner(
+        spinner: Spinner,
+        deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>
+    ) {
         val deviceNames = mutableListOf<String>()
-        for(kvp in deviceFunctionMap) {
-            Log.d("handler", "device name is: ${kvp.key.deviceName} with result: ${fullDeviceNameToDeviceName[kvp.key.deviceName]}]")
+        for (kvp in deviceFunctionMap) {
+            Log.d(
+                "handler",
+                "device name is: ${kvp.key.deviceName} with result: ${fullDeviceNameToDeviceName[kvp.key.deviceName]}]"
+            )
             deviceNames.add(fullDeviceNameToDeviceName[kvp.key.deviceName]!!)
         }
-        ArrayAdapter(context, R.layout.spinner_item, deviceNames.toTypedArray()).also {
-                arrayAdapter ->
+        ArrayAdapter(
+            context,
+            R.layout.spinner_item,
+            deviceNames.toTypedArray()
+        ).also { arrayAdapter ->
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             spinner.adapter = arrayAdapter
         }
 
     }
 
-    private fun populateFunctionSpinnerByDevice(spinnerToPopulate: Spinner, deviceSpinner: Spinner, deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>) {
-        if(deviceSpinner.selectedItem == null) return
+    private fun populateFunctionSpinnerByDevice(
+        spinnerToPopulate: Spinner,
+        deviceSpinner: Spinner,
+        deviceFunctionMap: MutableMap<DeviceDTO, List<FunctionDTO>>
+    ) {
+        if (deviceSpinner.selectedItem == null) return
         val selectedDevice = deviceNameToFullDeviceName[deviceSpinner.selectedItem.toString()]
-        for(kvp in deviceFunctionMap) {
-            if(kvp.key.deviceName == selectedDevice) {
+        for (kvp in deviceFunctionMap) {
+            if (kvp.key.deviceName == selectedDevice) {
                 val functionNames = kvp.value.map { f -> f.functionName }
-                ArrayAdapter(context, R.layout.spinner_item, functionNames.toTypedArray()).also {
-                        arrayAdapter ->
+                ArrayAdapter(
+                    context,
+                    R.layout.spinner_item,
+                    functionNames.toTypedArray()
+                ).also { arrayAdapter ->
                     arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     spinnerToPopulate.adapter = arrayAdapter
                 }
@@ -352,42 +390,90 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) : Linea
             createRoutineExecButtonOnClick()
         }
 
-        createRoutineConditionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
-            AdapterView.OnItemClickListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                populateFunctionSpinnerByDevice(createRoutineConditionFunctionSpinner, createRoutineConditionDeviceSpinner, deviceToFunctionsMap)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Nothing should happen here
-            }
-        }
+        createRoutineConditionDeviceSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener,
+                AdapterView.OnItemClickListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    populateFunctionSpinnerByDevice(
+                        createRoutineConditionFunctionSpinner,
+                        createRoutineConditionDeviceSpinner,
+                        deviceToFunctionsMap
+                    )
+                }
 
-        createRoutineConditionFunctionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
-            AdapterView.OnItemClickListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                updateSensorHelperText()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Nothing should happen here
-            }
-        }
+                override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/
+                }
 
-        createRoutineActionDeviceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
-            AdapterView.OnItemClickListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                populateFunctionSpinnerByDevice(createRoutineActionFunctionSpinner, createRoutineActionDeviceSpinner, deviceToFunctionsMap)
+                override fun onItemClick(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Nothing should happen here
+                }
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/ }
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Nothing should happen here
+
+        createRoutineConditionFunctionSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener,
+                AdapterView.OnItemClickListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    updateSensorHelperText()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/
+                }
+
+                override fun onItemClick(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Nothing should happen here
+                }
             }
-        }
+
+        createRoutineActionDeviceSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener,
+                AdapterView.OnItemClickListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    populateFunctionSpinnerByDevice(
+                        createRoutineActionFunctionSpinner,
+                        createRoutineActionDeviceSpinner,
+                        deviceToFunctionsMap
+                    )
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) { /*Nothing should happen*/
+                }
+
+                override fun onItemClick(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Nothing should happen here
+                }
+            }
 
         val comparisonList = listOf<String>("<", "=", ">")
-        ArrayAdapter(context, R.layout.spinner_item, comparisonList.toTypedArray()).also {
-                arrayAdapter ->
+        ArrayAdapter(
+            context,
+            R.layout.spinner_item,
+            comparisonList.toTypedArray()
+        ).also { arrayAdapter ->
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             comparisonTypeSpinner.adapter = arrayAdapter
         }

@@ -13,9 +13,9 @@ import okio.use
 
 class DeviceService {
     
-    fun getDeviceList(): ArrayList<String> {
+    fun getDeviceList(): ArrayList<DeviceDTO> {
         Log.d("handler", "requested device list")
-        var deviceList: ArrayList<String> = ArrayList()
+        var deviceList: ArrayList<DeviceDTO> = ArrayList()
         runBlocking {
             val request = Request.Builder()
                 .url(ServiceProvider.baseUrl + "device/list")

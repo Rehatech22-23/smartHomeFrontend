@@ -19,9 +19,9 @@ import java.io.IOException
 
 class RoutineService {
 
-    fun getRoutineList(): ArrayList<Long> {
+    fun getRoutineList(): ArrayList<RoutineDTO> {
         Log.d("handler", "requesting routine List")
-        var routineList: ArrayList<Long> = ArrayList()
+        var routineList: ArrayList<RoutineDTO> = ArrayList()
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine/list")
             .get()
