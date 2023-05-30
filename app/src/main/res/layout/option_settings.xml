@@ -115,14 +115,6 @@
                                     android:textColor="?attr/colorOnSurface"
                                     android:textSize="18sp" />
                                 <RadioButton
-                                    android:id="@+id/radioButton_hc3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:buttonTint="?attr/colorOnPrimary"
-                                    android:text="Farbenblind"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textSize="18sp" />
-                                <RadioButton
                                     android:id="@+id/radioButton_blwh"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"

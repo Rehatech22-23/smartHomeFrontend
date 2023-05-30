@@ -97,13 +97,10 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
     private fun setCreateRoutineOpen(opened: Boolean) {
         this.createRoutineOpened = opened
         if (opened) {
-            Log.d("handler", "starting to open")
             createRoutineContainer.visibility = VISIBLE
             dropdownArrow.setImageResource(R.drawable.dropdown_arrow_down)
             updateDeviceToFunctionsMap()
-            Log.d("handler", "starting populateDeviceSpinner with: $deviceToFunctionsMap")
             populateDeviceSpinner(createRoutineActionDeviceSpinner, deviceToFunctionsMap)
-            Log.d("handler", "finished to open with time: $timed")
 
         } else {
             createRoutineContainer.visibility = GONE

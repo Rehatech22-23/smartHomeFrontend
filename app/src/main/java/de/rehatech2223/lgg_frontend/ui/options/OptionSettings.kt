@@ -27,7 +27,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radiobuttonLight: RadioButton
     private var radiobuttonHCOne: RadioButton
     private var radiobuttonHCTwo: RadioButton
-    private var radiobuttonHCThree: RadioButton
     private var radiobuttonBlackWhite: RadioButton
     private var settingContainer: LinearLayout
     private var updateDevicesText: TextView
@@ -45,7 +44,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         radiobuttonLight = findViewById(R.id.radioButton_light)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
         radiobuttonHCTwo = findViewById(R.id.radioButton_hc2)
-        radiobuttonHCThree = findViewById(R.id.radioButton_hc3)
         radiobuttonBlackWhite = findViewById(R.id.radioButton_blwh)
         updateDevicesText = findViewById(R.id.updateDevicesText)
 
@@ -66,7 +64,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             ThemeEnum.LIGHT.theme -> radiobuttonLight.isChecked = true
             ThemeEnum.HIGH_CONTRAST_ONE.theme -> radiobuttonHCOne.isChecked = true
             ThemeEnum.HIGH_CONTRAST_TWO.theme -> radiobuttonHCTwo.isChecked = true
-            ThemeEnum.HIGH_CONTRAST_THREE.theme -> radiobuttonHCThree.isChecked = true
             ThemeEnum.BLACK_WHITE.theme -> radiobuttonBlackWhite.isChecked = true
         }
 
@@ -115,7 +112,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         radiobuttonLight.setOnClickListener { view -> changeColorTheme(view) }
         radiobuttonHCOne.setOnClickListener { view -> changeColorTheme(view) }
         radiobuttonHCTwo.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonHCThree.setOnClickListener { view -> changeColorTheme(view) }
         radiobuttonBlackWhite.setOnClickListener { view -> changeColorTheme(view) }
     }
 
@@ -127,7 +123,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
                 R.id.radioButton_light -> activity.changeTheme(ThemeEnum.LIGHT)
                 R.id.radioButton_hc1 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_ONE)
                 R.id.radioButton_hc2 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_TWO)
-                R.id.radioButton_hc3 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_THREE)
                 R.id.radioButton_blwh -> activity.changeTheme(ThemeEnum.BLACK_WHITE)
             }
         }

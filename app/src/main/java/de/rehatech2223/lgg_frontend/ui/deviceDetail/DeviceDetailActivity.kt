@@ -42,12 +42,12 @@ class DeviceDetailActivity : DynamicThemeActivity() {
         val deviceNameDTO = DeviceNameDTO.deserialize(deviceDTO.deviceName)
         overViewName.text = deviceNameDTO.name
         overViewImage.setImageResource(TileImageUtil.getDeviceImageResource(deviceNameDTO.icon))
-        if(deviceNameDTO.description != "") {
+        if (deviceNameDTO.description != "") {
             overViewDescription.visibility = VISIBLE
             overViewDescription.text = deviceNameDTO.description
         }
 
-        if(deviceDTO.functionIds.isEmpty()){
+        if (deviceDTO.functionIds.isEmpty()) {
             val functionText: TextView = findViewById(R.id.function_text)
             functionText.visibility = GONE
         }
@@ -70,12 +70,17 @@ class DeviceDetailActivity : DynamicThemeActivity() {
             val requestedFunctionDTO: FunctionDTO = ServiceProvider.functionService
                 .getFunctionInfo(functionId) ?: continue
             requestedFunctionList.add(requestedFunctionDTO)
-                Log.d(
-                    "handler",
-                    "functionDTO: ${requestedFunctionDTO.functionName} and ${requestedFunctionDTO.rangeDTO?.currentValue ?: -1}")
+            Log.d(
+                "handler",
+                "functionDTO: ${requestedFunctionDTO.functionName} and ${requestedFunctionDTO.rangeDTO?.currentValue ?: -1}"
+            )
         }
-        for(functionDTO in requestedFunctionList) {
-            val functionView = if (functionDTO.rangeDTO != null) {
+        if (requestedFunctionList.isEmpty()) return
+        for (functionDTO in requestedFunctionList) {
+            val functionView = if (functionDTO.isPlayer) {
+                Log.d("handler", "adding new function player")
+                FunctionPlayer(this, null, functionDTO, deviceDTO)
+            } else if (functionDTO.rangeDTO != null) {
                 Log.d("handler", "adding new function Range")
                 FunctionRange(this, null, functionDTO, deviceDTO)
             } else if (functionDTO.onOff != null) {
@@ -85,7 +90,6 @@ class DeviceDetailActivity : DynamicThemeActivity() {
             } else if (functionDTO.outputValue != null) {
                 FunctionOutput(this, null, functionDTO, deviceDTO)
             } else continue
-
             scrollLayout.addView(functionView)
         }
     }
