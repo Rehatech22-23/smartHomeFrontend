@@ -263,7 +263,7 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
                                 ) else null,
                                 if (f.onOff != null) sensorValueConditionEditText.text.toString()
                                     .toInt() != 0 else null,
-                                f.outputValue,
+                                if (f.outputValue != null) sensorValueConditionEditText.text.toString() else null,
                                 f.outputTrigger
                             ).build()
 

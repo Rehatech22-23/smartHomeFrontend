@@ -2,6 +2,7 @@ package de.rehatech2223.lgg_frontend.ui.deviceDetail
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -18,6 +19,7 @@ class FunctionOutput(context: Context, attrs: AttributeSet? = null, functionDTO:
         val functionNameText: TextView = findViewById(R.id.functionNameText)
         val outputValueText: TextView = findViewById(R.id.outputValueText)
 
+        Log.d("handler", "output value of functionOutput is: ${functionDTO.outputValue}")
         val nameText: String = functionDTO.functionName + ":"
         functionNameText.text = nameText
         outputValueText.text = functionDTO.outputValue

@@ -31,8 +31,8 @@ class FunctionPlayer(
         this.functionDTO = functionDTO
         this.deviceDTO = deviceDTO
 
-        isPlaying = functionDTO.outputValue != null || functionDTO.outputValue == "PLAY"
-        Log.d("handler", "initializing player with outputvalue: ${functionDTO.outputValue}")
+        isPlaying = functionDTO.outputValue == "PLAY"
+        Log.d("handler", "initializing player with outputvalue: ${functionDTO.outputValue} and islaying is: $isPlaying")
 
         initPlayButton()
         initPrevNextButton()
@@ -43,11 +43,11 @@ class FunctionPlayer(
         playButton.text = getPlayText()
 
         playButton.setOnClickListener {/* play is: 0F pause is 3F */
-            isPlaying = !isPlaying
-            playButton.text = getPlayText()
             Log.d("handler", "clicked playButton, is playing is now $isPlaying")
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, if (!isPlaying) 0F else 3F)
+            isPlaying = !isPlaying
+            playButton.text = getPlayText()
         }
     }
 
