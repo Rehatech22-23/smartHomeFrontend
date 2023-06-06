@@ -20,251 +20,37 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/createRoutineButton"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/transparent"
-                    android:text="▶ Ablauf erstellen"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="25sp" />
-
-                <ScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="50sp">
-
-                    <LinearLayout
-                        android:id="@+id/createRoutineContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <EditText
-                            android:id="@+id/textfieldRoutineName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Ablaufname"
-                            android:inputType="textPersonName"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textColorHint="?attr/colorOnSurface"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Wenn"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="24sp" />
-
-                        <LinearLayout
-                            android:id="@+id/linearLayoutCondition"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:paddingLeft="50sp">
-
-                            <Button
-                                android:id="@+id/addConditionButton"
-                                style="?android:attr/borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:text="+ Hinzufügen, was diesen Ablauf auslösen soll"
-                                android:textSize="16sp" />
-
-                            <RadioGroup
-                                android:id="@+id/selectTrigger"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <RadioButton
-                                    android:id="@+id/radioButtonTime"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Zeit"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textSize="20sp" />
-
-                                <RadioButton
-                                    android:id="@+id/radioButtonSensor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Sensor"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textSize="20sp" />
-                            </RadioGroup>
-
-                            <LinearLayout
-                                android:id="@+id/timeLayout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TimePicker
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-
-                                <Switch
-                                    android:id="@+id/switch2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50sp"
-                                    android:text="Wiederholen"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textSize="20sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/sensorLayout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <Spinner
-                                    android:id="@+id/deviceSelectorCondition"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="50dp"
-                                    android:contentDescription="Selection of every possible device" />
-
-                                <Spinner
-                                    android:id="@+id/functionSelectorCondition"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:contentDescription="Selection of possible functions" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Dann"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="24sp" />
-
-                        <LinearLayout
-                            android:id="@+id/linearLayoutAction"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingLeft="50sp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:paddingRight="30dp">
-
-                                <Spinner
-                                    android:contentDescription="Selection of every possible function of the selected device"
-                                    android:id="@+id/deviceActionSpinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1" />
-
-                                <Spinner
-                                    android:contentDescription="Selection of every possible device as an action"
-                                    android:id="@+id/functionActionSpinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1" />
-
-                                <EditText
-                                    android:id="@+id/valueActionInputField"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:ems="10"
-                                    android:hint="Wert"
-                                    android:inputType="number"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textColorHint="?attr/colorOnSurface" />
-                            </LinearLayout>
-
-                            <Button
-                                android:id="@+id/addActionButton"
-                                style="?android:attr/borderlessButtonStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:text="+ Hinzufügen"
-                                android:textSize="16sp" />
-
-                            <Button
-                                android:id="@+id/removeAllActionsButton"
-                                style="?android:attr/borderlessButtonStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:text="- Alle Aktionen entfernen"
-                                android:textSize="16sp" />
-
-                            <LinearLayout
-                                android:id="@+id/actionContainerLinearLayout"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"></LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </ScrollView>
-
-                <Button
-                    android:id="@+id/deleteRoutineButton"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/transparent"
-                    android:text="▶ Ablauf löschen"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="25sp" />
-
-                <ScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/deleteRoutineContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="50sp">
-
-                        <Spinner
-                            android:contentDescription="Selection of routine to delete"
-                            android:id="@+id/deleteRoutineSpinner"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:backgroundTint="?attr/colorOnSurface" />
-
-                        <Button
-                            android:id="@+id/deleteRoutineExecButton"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="- Ablauf löschen"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-                </ScrollView>
-
-                <Button
+                <LinearLayout
                     android:id="@+id/openButton"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/transparent"
-                    android:text="▶ Einstellungen"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="25sp" />
+                    android:clickable="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/dropdown_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="-5dp"
+                        android:layout_weight="0"
+                        android:clickable="false"
+                        app:srcCompat="@drawable/dropdown_arrow_right" />
+
+                    <TextView
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/transparent"
+                        android:gravity="left"
+                        android:paddingLeft="0dp"
+                        android:text="Einstellungen"
+                        android:clickable="false"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="25sp" />
+                </LinearLayout>
 
                 <ScrollView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="50sp">
 
@@ -281,7 +67,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView"
+                                android:id="@+id/farbschema"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Farbschema"
@@ -303,6 +89,15 @@
                                     android:textSize="18sp" />
 
                                 <RadioButton
+                                    android:id="@+id/radioButton_light"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="?attr/colorOnPrimary"
+                                    android:text="Hell"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="18sp" />
+
+                                <RadioButton
                                     android:id="@+id/radioButton_hc1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -310,8 +105,91 @@
                                     android:text="Hoher Kontrast 1"
                                     android:textColor="?attr/colorOnSurface"
                                     android:textSize="18sp" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButton_cb"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="?attr/colorOnPrimary"
+                                    android:text="Farbenblind"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="18sp" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButton_blwh"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="?attr/colorOnPrimary"
+                                    android:text="Schwarz/Weiß"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="18sp" />
                             </RadioGroup>
+
                         </LinearLayout>
+
+                        <Button
+                            android:id="@+id/update_db_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Geräte Updaten"
+                            android:textColor="?attr/buttonTextColor"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/updateDevicesText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                android:textSize="20sp"
+                                android:textColor="?attr/colorOnSurface"
+                                android:text="Wähle Startseite:" />
+
+                            <Spinner
+                                android:id="@+id/start_screen_spinner"
+                                android:contentDescription="Auswahl aller möglichen Startansichten"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:backgroundTint="?attr/colorOnSurface"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                android:textSize="20sp"
+                                android:textColor="?attr/colorOnSurface"
+                                android:text="Routine Anheften:" />
+
+                            <Spinner
+                                android:id="@+id/pin_routine_spinner"
+                                android:contentDescription="Auswahl aller Abläufe"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:backgroundTint="?attr/colorOnSurface"/>
+                        </LinearLayout>
+
+
                     </LinearLayout>
                 </ScrollView>
 

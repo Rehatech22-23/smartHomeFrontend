@@ -16,6 +16,7 @@ import de.rehatech2223.datamodel.util.TriggerEventByDeviceDTO
 import de.rehatech2223.lgg_frontend.DynamicThemeActivity
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
+import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
 class RoutineDetailActivity : DynamicThemeActivity() {
@@ -38,13 +39,20 @@ class RoutineDetailActivity : DynamicThemeActivity() {
     }
 
     private fun initMainViewElements() {
-        findViewById<TextView>(R.id.back_text).setOnClickListener {
+        val overViewName: TextView = findViewById(R.id.overview_name)
+        val overViewImage: ImageView = findViewById(R.id.overview_image)
+        val routineDTOLabeling: List<String> = routineDTO.routineName.split(':')
+        if (routineDTOLabeling.size < 2){
+            overViewName.text = "Error Name"
+            overViewImage.setImageResource(R.drawable.error_100px)
+        }else {
+            overViewName.text = routineDTOLabeling[1].ifEmpty { "Error Name" }
+            overViewImage.setImageResource(TileImageUtil.getRoutineImageResource(routineDTOLabeling[0]))
+        }
+
+        findViewById<LinearLayout>(R.id.back_text).setOnClickListener {
             finish()
         }
-        findViewById<TextView>(R.id.overview_name).text = routineDTO.routineName
-        findViewById<ImageView>(R.id.overview_image)
-            .setImageResource(TileImageUtil.getRoutineImageId(routineDTO, this))
-
         findViewById<Button>(R.id.trigger_button).setOnClickListener {
             ServiceProvider.routineService.triggerRoutine(routineDTO.routineId)
         }
@@ -69,23 +77,23 @@ class RoutineDetailActivity : DynamicThemeActivity() {
         val deviceDTO: DeviceDTO =
             ServiceProvider.devicesService.getDeviceInfo(triggerDTO.deviceId) ?: DeviceDTO("Error Device", "", ArrayList())
         val triggerFunction: FunctionDTO = triggerDTO.functionDTOExpectation
-        var text = "\"${triggerFunction.functionName}\" von \"${deviceDTO.deviceName}\" "
+        var text = "\"${triggerFunction.functionName}\" von \"${DeviceNameDTO.deserialize(deviceDTO.deviceName).name}\" "
 
-        if (triggerFunction.rangeDTO != null) {
+        text += if (triggerFunction.rangeDTO != null) {
             val separator = when (routineDTO.comparisonType) {
-                0 -> "kleiner als"
+                0 -> "gleich"
+                2 -> "kleiner als"
                 1 -> "größer als"
-                2 -> "gleich"
                 else -> "error"
             }
-            text += "ist $separator ${triggerFunction.rangeDTO!!.currentValue}"
+            "ist $separator ${triggerFunction.rangeDTO!!.currentValue}"
         } else if (triggerFunction.onOff != null) {
-            text += "ist ${if (triggerFunction.onOff == true) "an" else "aus"}"
+            "ist ${if (triggerFunction.onOff == true) "an" else "aus"}"
         } else if (triggerFunction.outputValue != null) {
-            text += "muss \"${triggerFunction.outputValue}\" sein"
+            "muss \"${triggerFunction.outputValue}\" sein"
         } else if (triggerFunction.outputTrigger != null) {
-            text += "ausgelöst"
-        } else text += "Error in Function"
+            "ausgelöst"
+        } else "Error in Function"
         return text
     }
 

@@ -17,6 +17,7 @@ class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: 
     private val deviceDTO: DeviceDTO
     private val switchCompat: SwitchCompat
     private val switchStateText: TextView
+    private var previousState: Boolean?
 
     init {
         LayoutInflater.from(context).inflate(R.layout.function_on_off, this, true)
@@ -26,19 +27,28 @@ class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: 
         this.deviceDTO = deviceDTO
         switchCompat = findViewById(R.id.switch1)
         switchStateText = findViewById(R.id.switch_state_text)
+        previousState = null
 
         initSwitch()
     }
 
-    private fun initSwitch(){
-        switchCompat.text = functionDTO.functionName
+    private fun initSwitch() {
+        findViewById<TextView>(R.id.function_text).text = "${functionDTO.functionName}:"
         switchCompat.isChecked = functionDTO.onOff!!
-        switchStateText.text = if (functionDTO.onOff!!) "(an)" else "(aus)"
-        switchCompat.setOnCheckedChangeListener { _, c ->
-            val functionValue: Float = if (c) 1f else 0f
-            switchStateText.text = if (c) "(an)" else "(aus)"
+        switchStateText.text = if (functionDTO.onOff!!) "AN" else "AUS"
+        switchCompat.setOnClickListener {
+            if (previousState == switchCompat.isChecked) switchCompat.isChecked = !previousState!!
+            previousState = switchCompat.isChecked
+            val functionValue: Float = if (switchCompat.isChecked) 1f else 0f
+            switchStateText.text = if (switchCompat.isChecked) "AN" else "AUS"
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, functionValue)
+        }
+        switchCompat.setOnCheckedChangeListener { _, _ ->
+            if (previousState == null) {
+                previousState = functionDTO.onOff!!
+                switchCompat.isChecked = previousState!!
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,6 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 class FragmentDevices : Fragment() {
 
     private lateinit var flexboxLayout: FlexboxLayout
-    private val deviceTiles: ArrayList<DeviceTile> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,20 +38,18 @@ class FragmentDevices : Fragment() {
         loadDeviceTiles()
     }
 
-    private fun loadDeviceTiles() {
-        val deviceList = ServiceProvider.devicesService.getDeviceList()
-        for (deviceId in deviceList) {
-            val deviceDTO = ServiceProvider.devicesService.getDeviceInfo(deviceId) ?: continue
-            val deviceTile = addDeviceTile(deviceDTO)
-            deviceTiles.add(deviceTile)
-        }
+    override fun onResume() {
+        super.onResume()
+        Log.d("handler", "resumed device fragment")
+        flexboxLayout.removeAllViews()
+        loadDeviceTiles()
     }
 
-
-    private fun addDeviceTile(deviceDTO: DeviceDTO): DeviceTile {
-        val deviceTile = DeviceTile(requireContext(), null, deviceDTO)
-        flexboxLayout.addView(deviceTile)
-        return deviceTile
+    private fun loadDeviceTiles() {
+        val deviceList = ServiceProvider.devicesService.getDeviceList()
+        for (deviceDTO in deviceList) {
+            flexboxLayout.addView(DeviceTile(requireContext(), null, deviceDTO))
+        }
     }
 
     companion object {

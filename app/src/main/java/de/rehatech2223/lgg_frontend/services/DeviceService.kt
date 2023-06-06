@@ -12,12 +12,10 @@ import okhttp3.Request
 import okio.use
 
 class DeviceService {
-    fun getDeviceList(): ArrayList<String> {
-        Log.d("handkler", "requested device list")
-        var deviceList: ArrayList<String> = ArrayList()
-        Thread.setDefaultUncaughtExceptionHandler { _: Thread, e: Throwable ->
-            Log.e("foo", "${e.printStackTrace()}")
-        }
+    
+    fun getDeviceList(): ArrayList<DeviceDTO> {
+        Log.d("handler", "requested device list")
+        var deviceList: ArrayList<DeviceDTO> = ArrayList()
         runBlocking {
             val request = Request.Builder()
                 .url(ServiceProvider.baseUrl + "device/list")
@@ -25,15 +23,17 @@ class DeviceService {
                 .build()
             launch(Dispatchers.IO) {
                 Log.d("handler", "launchen at: ${request.url}")
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    Log.d("handler", "request angekommen")
-                    if (!response.isSuccessful || response.code != 200) {
-                        Log.d("handler", "request rip")
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        Log.d("handler", "devicelist: $jsonBody")
-                        deviceList = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        Log.d("handler", "request angekommen")
+                        if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "request rip")
+                            cancel()
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            Log.d("handler", "devicelist: $jsonBody")
+                            deviceList = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
                 Log.d("handler", "finished")
@@ -52,13 +52,15 @@ class DeviceService {
                 .get()
                 .build()
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel() /* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        Log.d("handkler", "device with: $jsonBody")
-                        deviceDTO = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel()
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            Log.d("handkler", "device with: $jsonBody")
+                            deviceDTO = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -66,24 +68,24 @@ class DeviceService {
         return deviceDTO
     }
 
-    fun getUpdatedDevices(): ArrayList<String> {
-        var updatedDevices: ArrayList<String> = ArrayList()
+    fun updateDeviceDatabase() : Boolean {
+        var success = true
         val request = Request.Builder()
-            .url(ServiceProvider.baseUrl + "device/updatedDevices")
+            .url(ServiceProvider.baseUrl + "device/updated")
             .get()
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel() /* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        updatedDevices = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            success = false
+                            cancel()
+                        }
                     }
                 }
             }.join()
         }
-        return updatedDevices
+        return success
     }
 }

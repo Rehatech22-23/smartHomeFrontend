@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "de.rehatech2223.lgg_frontend"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -51,7 +51,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
-    implementation("com.github.Rehatech22-23:smartHomeSharedLibrary:0.2.10")
+    implementation("com.github.Rehatech22-23:smartHomeSharedLibrary:0.2.11")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }

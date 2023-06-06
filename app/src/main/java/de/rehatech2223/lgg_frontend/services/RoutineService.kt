@@ -19,21 +19,23 @@ import java.io.IOException
 
 class RoutineService {
 
-    fun getRoutineList(): ArrayList<Long> {
+    fun getRoutineList(): ArrayList<RoutineDTO> {
         Log.d("handler", "requesting routine List")
-        var routineList: ArrayList<Long> = ArrayList()
+        var routineList: ArrayList<RoutineDTO> = ArrayList()
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine/list")
             .get()
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        routineList = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            cancel()
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            routineList = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -50,13 +52,16 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful || response.code != 200) {
-                        cancel()/* todo issue on github for popup warning */
-                    } else {
-                        val jsonBody: String = response.body!!.string()
-                        Log.d("handler", "response routine: $jsonBody")
-                        routineDTO = Json.decodeFromString(jsonBody)
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "routine request of routine $routineId failed with body: ${response.body!!.string()}")
+                            cancel()
+                        } else {
+                            val jsonBody: String = response.body!!.string()
+                            Log.d("handler", "response routine: $jsonBody")
+                            routineDTO = Json.decodeFromString(jsonBody)
+                        }
                     }
                 }
             }.join()
@@ -70,25 +75,28 @@ class RoutineService {
             .url(ServiceProvider.baseUrl + "routine/trigger?routineId=$routineId")
             .get()
             .build()
-        ServiceProvider.client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+        ServiceProvider.connectionSaveCall {
+            ServiceProvider.client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.d("handler", "request failed")
+                    e.printStackTrace()
+                }
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (response.code == 404) { /* todo action on 404 Not Found */
-                        Log.d("handler", "trigger routine failed")
-                    }
-                    if (response.code == 500) { /* todo action on 500 Internal Server Error */
-                        Log.d("handler", "trigger routine failed")
-                    }
-                    if (!response.isSuccessful) { /* todo issue on github for popup warning */
-                        Log.d("handler", "trigger routine failed")
+                override fun onResponse(call: Call, response: Response) {
+                    response.use {
+                        if (response.code == 404) {
+                            Log.d("handler", "trigger routine failed")
+                        }
+                        if (response.code == 500) {
+                            Log.d("handler", "trigger routine failed")
+                        }
+                        if (!response.isSuccessful) {
+                            Log.d("handler", "trigger routine failed")
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 
     /*
@@ -96,6 +104,7 @@ class RoutineService {
      *  can return null!
      */
     fun createRoutine(routine: RoutineDTO): RoutineDTO? {
+        Log.d("handler", "created routine")
         var routineDTO: RoutineDTO? = null
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBodyJson: String = Json.encodeToString(routine)
@@ -105,12 +114,16 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if ((response.code == 201 || response.isSuccessful || response.code == 200) && response.body != null) {
-                        val jsonBody: String = response.body!!.string()
-                        routineDTO = Json.decodeFromString(jsonBody)
-                    } else {
-                        cancel() /* todo issue on github for popup warning */
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if ((response.isSuccessful || response.code == 200) || (response.code == 201 && response.body != null)) {
+                            Log.d("handler", "create routine successful")
+                            val jsonBody: String = response.body!!.string()
+                            routineDTO = Json.decodeFromString(jsonBody)
+                        } else {
+                            Log.d("handler", "create routine failed")
+                            cancel()
+                        }
                     }
                 }
             }.join()
@@ -119,6 +132,7 @@ class RoutineService {
     }
 
     fun deleteRoutine(routineId: Long): Boolean {
+        Log.d("handler", "deleting routine with id: $routineId")
         var deleted = true
         val request = Request.Builder()
             .url(ServiceProvider.baseUrl + "routine/delete?routineId=$routineId")
@@ -126,18 +140,23 @@ class RoutineService {
             .build()
         runBlocking {
             launch(Dispatchers.IO) {
-                ServiceProvider.client.newCall(request).execute().use { response ->
-                    if (response.code == 404) {
-                        deleted = false
-                        cancel() /* todo action on 404 Not Found */
-                    }
-                    if (!response.isSuccessful || response.code != 200) {
-                        deleted = false
-                        cancel() /* todo issue on github for popup warning */
+                ServiceProvider.connectionSaveCall {
+                    ServiceProvider.client.newCall(request).execute().use { response ->
+                        if (response.code == 404) {
+                            Log.d("handler", "deleting failed 404")
+                            deleted = false
+                            cancel()
+                        }
+                        if (!response.isSuccessful || response.code != 200) {
+                            Log.d("handler", "deleting failed != 200")
+                            deleted = false
+                            cancel()
+                        }
                     }
                 }
             }.join()
         }
+        Log.d("handler", "delete successful")
         return deleted
     }
 }

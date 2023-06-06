@@ -8,8 +8,8 @@
     android:background="?android:attr/colorBackground">
 
     <ScrollView
-        android:contentDescription="main scroll view"
         android:layout_width="match_parent"
+        android:contentDescription="Hauptfenster"
         android:layout_height="match_parent">
 
         <com.google.android.flexbox.FlexboxLayout
