@@ -56,7 +56,6 @@ class DeviceDetailActivity : DynamicThemeActivity() {
             finish()
         }
         findViewById<Button>(R.id.refresh_button).setOnClickListener {
-            Log.d("handler", "recreating view with refresh button")
             findViewById<LinearLayout>(R.id.scroll_layout).removeAllViews()
             recreate()
         }
@@ -66,22 +65,15 @@ class DeviceDetailActivity : DynamicThemeActivity() {
         val scrollLayout = findViewById<LinearLayout>(R.id.scroll_layout)
         val requestedFunctionList = ArrayList<FunctionDTO>()
         for (functionId in deviceDTO.functionIds) {
-            Log.d("handler", "starting function request")
             val requestedFunctionDTO: FunctionDTO = ServiceProvider.functionService
                 .getFunctionInfo(functionId) ?: continue
             requestedFunctionList.add(requestedFunctionDTO)
-            Log.d(
-                "handler",
-                "functionDTO: ${requestedFunctionDTO.functionName} and ${requestedFunctionDTO.rangeDTO?.currentValue ?: -1}"
-            )
         }
         if (requestedFunctionList.isEmpty()) return
         for (functionDTO in requestedFunctionList) {
             val functionView = if (functionDTO.isPlayer) {
-                Log.d("handler", "adding new function player")
                 FunctionPlayer(this, null, functionDTO, deviceDTO)
             } else if (functionDTO.rangeDTO != null) {
-                Log.d("handler", "adding new function Range")
                 FunctionRange(this, null, functionDTO, deviceDTO)
             } else if (functionDTO.onOff != null) {
                 FunctionOnOff(this, null, functionDTO, deviceDTO)

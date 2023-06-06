@@ -21,7 +21,6 @@ class TabFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
     }
 
     override fun createFragment(position: Int): Fragment {
-        Log.d("handler", "asking for position: $position with dFP: $deviceFragmentPosition and rFP: $routineFragmentPosition")
         return when(position) {
             deviceFragmentPosition -> FragmentDevices.newInstance()
             routineFragmentPosition -> FragmentRoutines.newInstance()

@@ -61,7 +61,6 @@ class FunctionRange(
             sliderContainer.visibility = GONE
             functionValueTextField.visibility = VISIBLE
             functionValueTextField.text = rangeDTO.currentValue.toString()
-            Log.d("functionRange", "Range should be converted to simple value display")
             return
         }
         sliderContainer.visibility = VISIBLE

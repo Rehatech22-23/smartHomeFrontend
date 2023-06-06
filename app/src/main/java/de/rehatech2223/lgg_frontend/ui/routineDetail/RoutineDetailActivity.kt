@@ -101,8 +101,6 @@ class RoutineDetailActivity : DynamicThemeActivity() {
         val resultLayout: LinearLayout = findViewById(R.id.result_layout)
         val deviceToFunctionsMap: Map<String, ArrayList<FunctionTuple>> = initDeviceToFunctionsMap()
 
-        Log.d("handler", "deviceMap: $deviceToFunctionsMap")
-
         for (key in deviceToFunctionsMap.keys) {
             val tuple: ArrayList<FunctionTuple> = deviceToFunctionsMap[key]!!
             resultLayout.addView(DeviceFunctionValueDisplay(this, null, key, tuple))
@@ -113,8 +111,6 @@ class RoutineDetailActivity : DynamicThemeActivity() {
     private fun initDeviceToFunctionsMap(): Map<String, ArrayList<FunctionTuple>> {
         val routineEvents: ArrayList<RoutineEventDTO> = routineDTO.routineEventDTO
         val map: MutableMap<String, ArrayList<FunctionTuple>> = HashMap()
-
-        Log.d("handler", "rotine events: $routineEvents")
 
         for (event in routineEvents) {
             val functionDTO: FunctionDTO =

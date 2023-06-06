@@ -40,7 +40,6 @@ class FragmentDevices : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("handler", "resumed device fragment")
         flexboxLayout.removeAllViews()
         loadDeviceTiles()
     }

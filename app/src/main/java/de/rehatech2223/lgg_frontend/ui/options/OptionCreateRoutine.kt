@@ -138,9 +138,6 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
         for (kvp in deviceToFunctionsMap) {
             val displayName = DeviceNameDTO.deserialize(kvp.key.deviceName)
 
-            //Log.d("handler", "add to deviceNameToFullDeviceName: at: ${displayName.name} value: ${kvp.key.deviceName}")
-            //Log.d("handler", "add to fullDeviceNameToDeviceName: at: ${kvp.key.deviceName} value: ${displayName.name}")
-
             deviceNameToFullDeviceName[displayName.name] = kvp.key.deviceName
             fullDeviceNameToDeviceName[kvp.key.deviceName] = displayName.name
         }
@@ -226,7 +223,6 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
     }
 
     private fun createRoutineExecButtonOnClick() {
-        //Log.d("handler", "create button clicked")
         if (textFieldRoutineName.text.isNullOrBlank() || textFieldRoutineName.text.isEmpty()) {
             logText.text = "Du musst einen Namen für den Ablauf angeben"
             return
@@ -280,7 +276,6 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
                                     )
                                 )
                                 .build()
-                            Log.d("handler", "create routine with sensor")
                             logText.text = "Anfrage wird gesendet"
                             val response = ServiceProvider.routineService.createRoutine(routineDTO)
                             if (response == null) logText.text = "Es ist ein Fehler aufgetreten"
@@ -307,7 +302,6 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
                 )
             )
             .build()
-        Log.d("handler", "create routine with time")
         logText.text = "Anfrage wird gesendet"
         val response = ServiceProvider.routineService.createRoutine(routineDTO)
         if (response == null) logText.text = "Es ist ein Fehler aufgetreten"
@@ -320,10 +314,6 @@ class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
     ) {
         val deviceNames = mutableListOf<String>()
         for (kvp in deviceFunctionMap) {
-            Log.d(
-                "handler",
-                "device name is: ${kvp.key.deviceName} with result: ${fullDeviceNameToDeviceName[kvp.key.deviceName]}]"
-            )
             deviceNames.add(fullDeviceNameToDeviceName[kvp.key.deviceName]!!)
         }
         ArrayAdapter(

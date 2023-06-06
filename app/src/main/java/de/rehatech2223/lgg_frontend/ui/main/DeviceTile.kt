@@ -27,7 +27,6 @@ class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: 
 
         initDeviceTile()
         initOnClickListeners()
-        //Log.d("handler", "actual size of: ${deviceDTO.deviceName.split(':')[1]} is: ${findViewById<LinearLayout>(R.id.main_layout).width}")
     }
 
     private fun initOnClickListeners() {

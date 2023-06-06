@@ -32,7 +32,6 @@ class FunctionPlayer(
         this.deviceDTO = deviceDTO
 
         isPlaying = functionDTO.outputValue == "PLAY"
-        Log.d("handler", "initializing player with outputvalue: ${functionDTO.outputValue} and islaying is: $isPlaying")
 
         initPlayButton()
         initPrevNextButton()
@@ -43,7 +42,6 @@ class FunctionPlayer(
         playButton.text = getPlayText()
 
         playButton.setOnClickListener {/* play is: 0F pause is 3F */
-            Log.d("handler", "clicked playButton, is playing is now $isPlaying")
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, if (!isPlaying) 0F else 3F)
             isPlaying = !isPlaying
@@ -56,12 +54,10 @@ class FunctionPlayer(
         val nextButton: LinearLayout = findViewById(R.id.next_button)
 
         prevButton.setOnClickListener { /* prev is value: 2F */
-            Log.d("handler", "triggering prev button with value 2f")
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, 2F)
         }
         nextButton.setOnClickListener {/* next is value: 1F */
-            Log.d("handler", "triggering next button with value 1f")
             ServiceProvider.functionService
                 .triggerFunction(deviceDTO.deviceId, functionDTO.functionId, 1F)
         }

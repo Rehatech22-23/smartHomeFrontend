@@ -19,7 +19,6 @@ class FunctionOutput(context: Context, attrs: AttributeSet? = null, functionDTO:
         val functionNameText: TextView = findViewById(R.id.functionNameText)
         val outputValueText: TextView = findViewById(R.id.outputValueText)
 
-        Log.d("handler", "output value of functionOutput is: ${functionDTO.outputValue}")
         val nameText: String = functionDTO.functionName + ":"
         functionNameText.text = nameText
         outputValueText.text = functionDTO.outputValue

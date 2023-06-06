@@ -40,7 +40,6 @@ class FragmentRoutines : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("handler", "resumed routines")
         flexboxLayout.removeAllViews()
         loadRoutineTiles()
     }

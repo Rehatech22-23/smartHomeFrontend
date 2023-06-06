@@ -44,7 +44,7 @@ class DeviceService {
     }
 
     fun getDeviceInfo(deviceId: String): DeviceDTO? {
-        Log.d("handkler", "requested device")
+        Log.d("handler", "requested device")
         var deviceDTO: DeviceDTO? = null
         runBlocking {
             val request = Request.Builder()
@@ -58,7 +58,7 @@ class DeviceService {
                             cancel()
                         } else {
                             val jsonBody: String = response.body!!.string()
-                            Log.d("handkler", "device with: $jsonBody")
+                            Log.d("handler", "device with: $jsonBody")
                             deviceDTO = Json.decodeFromString(jsonBody)
                         }
                     }

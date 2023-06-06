@@ -53,7 +53,6 @@ class MainActivity : DynamicThemeActivity() {
         val button = findViewById<Button>(R.id.pinned_routine_button)
         button.text = routineDTO.routineName.split(':')[1]
         button.setOnClickListener {
-            Log.d("handler", "clicked routine with id: $routineId")
             ServiceProvider.routineService.triggerRoutine(routineId)
         }
     }

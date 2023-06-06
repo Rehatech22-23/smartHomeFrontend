@@ -123,7 +123,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             else updateDevicesText.text = "Datenbank konnte nicht aktualisiert werden"
         }
         openButton.setOnClickListener {
-            Log.d("handler", "clicked dropdown")
             setSettingsOpen(!settingsOpened)
         }
     }
@@ -143,7 +142,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                Log.d("handler", "initializing on item selected methods for start screen spinner")
                 when (startScreenSpinner.selectedItem) {
                     "Geräte" -> PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putInt(DEVICE_FRAGMENT_INDEX_KEY, 0).apply()
@@ -175,7 +173,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                Log.d("handler", "initializing on item selected methods for pin routine spinner")
                 if (pinRoutineSpinner.selectedItemPosition == 0
                     || pinRoutineSpinner.selectedItemPosition == INVALID_POSITION
                 ) {
@@ -215,7 +212,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
      */
 
     private fun reloadCurrentColorTheme() {
-        Log.d("handler", "reloaded current color theme!")
         val activity: DynamicThemeActivity = context as DynamicThemeActivity
         activity.changeTheme(ThemeEnum from activity.getCurrentTheme())
     }
