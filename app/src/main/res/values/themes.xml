@@ -12,7 +12,6 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorError">@color/red_accent</item>
 
-
         <!-- Important fields for drawables etc. -->
         <item name="tab_background_drawable">@drawable/tab_background_default_theme</item>
         <item name="device_tile_background">@drawable/device_tile_background</item>
@@ -35,6 +34,36 @@
         <item name="thumbTint">?attr/colorOnSurface</item>
     </style>
 
+    <style name="Theme.LGG_Frontend_Light_Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Main accent colors -->
+        <item name="colorPrimary">@color/light_primary</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/light_secondary</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Background and error colors -->
+        <item name="android:colorBackground">@color/light_background_dark</item> <!-- Please use ?android:attr/colorBackground to reference this -->
+        <item name="colorSurface">@color/light_background_light</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorError">@color/red_accent</item>
+
+        <!-- Important fields for drawables etc. -->
+        <item name="tab_background_drawable">@drawable/tab_background_light_theme</item>
+        <item name="device_tile_background">@drawable/device_tile_background</item>
+        <item name="routine_tile_background">@drawable/routine_tile_background</item>
+        <item name="device_detail_background">@drawable/surface_object_rounded_top</item>
+        <item name="device_detail_top_background">?attr/colorSurface</item>
+        <item name="buttonTextColor">?attr/colorOnSurface</item>
+        <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="tabBackground">?attr/colorSurface</item>
+        <item name="tabTextColor">?attr/colorOnSurface</item>
+        <item name="tabTextAppearance">?attr/colorOnSurface</item>
+        <item name="tabSelectedTextColor">?attr/colorOnSecondary</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
+    </style>
+
     <style name="Theme.LGG_Frontend_High_Contrast_One" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Main accent colors -->
         <item name="colorPrimary">@color/c1_text</item>
@@ -46,7 +75,6 @@
         <item name="colorSurface">@color/c1_background</item>
         <item name="colorOnSurface">@color/c1_text</item>
         <item name="colorError">@color/c1_accent</item>
-
 
         <!-- Important fields for drawables etc. -->
         <item name="tab_background_drawable">@drawable/tab_background_hc_one_theme</item>
@@ -66,21 +94,20 @@
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
     </style>
 
-    <style name="Theme.LGG_Frontend_Light_Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.LGG_Frontend_Color_Blind" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Main accent colors -->
-        <item name="colorPrimary">@color/light_primary</item>
+        <item name="colorPrimary">@color/color_blind_yellow</item>
         <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSecondary">@color/light_secondary</item>
+        <item name="colorSecondary">@color/color_blind_light_blue</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Background and error colors -->
-        <item name="android:colorBackground">@color/light_background_dark</item> <!-- Please use ?android:attr/colorBackground to reference this -->
-        <item name="colorSurface">@color/light_background_light</item>
+        <item name="android:colorBackground">@color/color_blind_dark_blue</item> <!-- Please use ?android:attr/colorBackground to reference this -->
+        <item name="colorSurface">@color/color_blind_orange</item>
         <item name="colorOnSurface">@color/black</item>
-        <item name="colorError">@color/red_accent</item>
-
+        <item name="colorError">@color/color_blind_red</item>
 
         <!-- Important fields for drawables etc. -->
-        <item name="tab_background_drawable">@drawable/tab_background_light_theme</item>
+        <item name="tab_background_drawable">@drawable/tab_background_color_blind_theme</item>
         <item name="device_tile_background">@drawable/device_tile_background</item>
         <item name="routine_tile_background">@drawable/routine_tile_background</item>
         <item name="device_detail_background">@drawable/surface_object_rounded_top</item>
@@ -109,7 +136,6 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorError">@color/white</item>
 
-
         <!-- Important fields for drawables etc. -->
         <item name="tab_background_drawable">@drawable/tab_background_black_white_theme</item>
         <item name="device_tile_background">@drawable/object_border</item>
@@ -125,68 +151,6 @@
         <item name="tabTextAppearance">?attr/colorOnSurface</item>
         <item name="tabSelectedTextColor">?attr/colorOnSecondary</item>
         <item name="tabIndicatorColor">?attr/colorOnSurface</item>
-        <item name="android:statusBarColor">?android:attr/colorBackground</item>
-    </style>
-
-    <style name="Theme.LGG_Frontend_High_Contrast_Two" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Main accent colors -->
-        <item name="colorPrimary">@color/pink</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSecondary">@color/dark_green</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <!-- Background and error colors -->
-        <item name="android:colorBackground">@color/black</item> <!-- Please use ?android:attr/colorBackground to reference this -->
-        <item name="colorSurface">@color/pink</item>
-        <item name="colorOnSurface">@color/dark_green</item>
-        <item name="colorError">@color/c1_accent</item>
-
-
-        <!-- Important fields for drawables etc. -->
-        <item name="tab_background_drawable">@drawable/tab_background_default_theme</item>
-        <item name="device_tile_background">@drawable/device_tile_background</item>
-        <item name="routine_tile_background">@drawable/routine_tile_background</item>
-        <item name="device_detail_background">@drawable/surface_object_rounded_top</item>
-        <item name="device_detail_top_background">?attr/colorSurface</item>
-        <item name="buttonTextColor">?attr/colorOnSurface</item>
-        <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="tabBackground">?attr/colorSurface</item>
-        <item name="tabTextColor">?attr/colorOnSurface</item>
-        <item name="tabTextAppearance">?attr/colorOnSurface</item>
-        <item name="tabSelectedTextColor">?attr/colorOnSecondary</item>
-        <item name="tabIndicatorColor">?attr/colorPrimary</item>
-        <item name="android:statusBarColor">?android:attr/colorBackground</item>
-    </style>
-
-    <style name="Theme.LGG_Frontend_Color_Blind" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Main accent colors -->
-        <item name="colorPrimary">@color/color_blind_yellow</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSecondary">@color/color_blind_light_blue</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Background and error colors -->
-        <item name="android:colorBackground">@color/color_blind_dark_blue</item> <!-- Please use ?android:attr/colorBackground to reference this -->
-        <item name="colorSurface">@color/color_blind_orange</item>
-        <item name="colorOnSurface">@color/black</item>
-        <item name="colorError">@color/color_blind_red</item>
-
-
-        <!-- Important fields for drawables etc. -->
-        <item name="tab_background_drawable">@drawable/tab_background_color_blind_theme</item>
-        <item name="device_tile_background">@drawable/device_tile_background</item>
-        <item name="routine_tile_background">@drawable/routine_tile_background</item>
-        <item name="device_detail_background">@drawable/surface_object_rounded_top</item>
-        <item name="device_detail_top_background">?attr/colorSurface</item>
-        <item name="buttonTextColor">?attr/colorOnSurface</item>
-        <!-- Fields required to be in theme (dependent on colorscheme defined above) -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="tabBackground">?attr/colorSurface</item>
-        <item name="tabTextColor">?attr/colorOnSurface</item>
-        <item name="tabTextAppearance">?attr/colorOnSurface</item>
-        <item name="tabSelectedTextColor">?attr/colorOnSecondary</item>
-        <item name="tabIndicatorColor">?attr/colorPrimary</item>
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
     </style>
 </resources>

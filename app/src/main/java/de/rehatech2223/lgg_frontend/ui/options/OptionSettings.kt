@@ -26,7 +26,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
     private var radiobuttonDefault: RadioButton
     private var radiobuttonLight: RadioButton
     private var radiobuttonHCOne: RadioButton
-    private var radiobuttonHCTwo: RadioButton
+    private var radiobuttonCB: RadioButton
     private var radiobuttonBlackWhite: RadioButton
     private var settingContainer: LinearLayout
     private var updateDevicesText: TextView
@@ -43,7 +43,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         radiobuttonDefault = findViewById(R.id.radioButton_default)
         radiobuttonLight = findViewById(R.id.radioButton_light)
         radiobuttonHCOne = findViewById(R.id.radioButton_hc1)
-        radiobuttonHCTwo = findViewById(R.id.radioButton_hc2)
+        radiobuttonCB = findViewById(R.id.radioButton_cb)
         radiobuttonBlackWhite = findViewById(R.id.radioButton_blwh)
         updateDevicesText = findViewById(R.id.updateDevicesText)
 
@@ -63,7 +63,7 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             ThemeEnum.DEFAULT.theme -> radiobuttonDefault.isChecked = true
             ThemeEnum.LIGHT.theme -> radiobuttonLight.isChecked = true
             ThemeEnum.HIGH_CONTRAST_ONE.theme -> radiobuttonHCOne.isChecked = true
-            ThemeEnum.HIGH_CONTRAST_TWO.theme -> radiobuttonHCTwo.isChecked = true
+            ThemeEnum.COLOR_BLIND.theme -> radiobuttonCB.isChecked = true
             ThemeEnum.BLACK_WHITE.theme -> radiobuttonBlackWhite.isChecked = true
         }
 
@@ -77,6 +77,27 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
             PreferenceManager.getDefaultSharedPreferences(context)
                 .getInt(PIN_ROUTINE_SELECTION_INDEX_KEY, 0)
         )
+    }
+
+    private fun changeColorTheme(view: View) {
+        val activity: DynamicThemeActivity = context as DynamicThemeActivity
+        if (view is RadioButton && view.isChecked) {
+            when (view.id) {
+                R.id.radioButton_default -> activity.changeTheme(ThemeEnum.DEFAULT)
+                R.id.radioButton_light -> activity.changeTheme(ThemeEnum.LIGHT)
+                R.id.radioButton_hc1 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_ONE)
+                R.id.radioButton_cb -> activity.changeTheme(ThemeEnum.COLOR_BLIND)
+                R.id.radioButton_blwh -> activity.changeTheme(ThemeEnum.BLACK_WHITE)
+            }
+        }
+    }
+
+    private fun initColorSchemeButtons() {
+        radiobuttonDefault.setOnClickListener { view -> changeColorTheme(view) }
+        radiobuttonLight.setOnClickListener { view -> changeColorTheme(view) }
+        radiobuttonHCOne.setOnClickListener { view -> changeColorTheme(view) }
+        radiobuttonCB.setOnClickListener { view -> changeColorTheme(view) }
+        radiobuttonBlackWhite.setOnClickListener { view -> changeColorTheme(view) }
     }
 
     private fun setSettingsOpen(opened: Boolean) {
@@ -104,27 +125,6 @@ class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayo
         openButton.setOnClickListener {
             Log.d("handler", "clicked dropdown")
             setSettingsOpen(!settingsOpened)
-        }
-    }
-
-    private fun initColorSchemeButtons() {
-        radiobuttonDefault.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonLight.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonHCOne.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonHCTwo.setOnClickListener { view -> changeColorTheme(view) }
-        radiobuttonBlackWhite.setOnClickListener { view -> changeColorTheme(view) }
-    }
-
-    private fun changeColorTheme(view: View) {
-        val activity: DynamicThemeActivity = context as DynamicThemeActivity
-        if (view is RadioButton && view.isChecked) {
-            when (view.id) {
-                R.id.radioButton_default -> activity.changeTheme(ThemeEnum.DEFAULT)
-                R.id.radioButton_light -> activity.changeTheme(ThemeEnum.LIGHT)
-                R.id.radioButton_hc1 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_ONE)
-                R.id.radioButton_hc2 -> activity.changeTheme(ThemeEnum.HIGH_CONTRAST_TWO)
-                R.id.radioButton_blwh -> activity.changeTheme(ThemeEnum.BLACK_WHITE)
-            }
         }
     }
 
