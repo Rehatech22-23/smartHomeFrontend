@@ -2,6 +2,11 @@ package de.rehatech2223.lgg_frontend.util
 
 import de.rehatech2223.lgg_frontend.R
 
+/**
+ * Util class for mapping icon names to their corresponding resource ids.
+ *
+ * @author Fynn Debus
+ */
 class TileImageUtil {
     companion object {
         fun getDeviceImageResource(iconName: String): Int {

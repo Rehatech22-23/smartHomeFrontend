@@ -4,6 +4,12 @@ import android.os.Bundle
 import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * DeviceDetailActivity is an activity that wraps around the main activity and implements features
+ * to change color-schemes at runtime.
+ *
+ * @author Fynn Debus
+ */
 abstract class DynamicThemeActivity: AppCompatActivity() {
 
     private var currentTheme: Int = ThemeEnum.DEFAULT.theme

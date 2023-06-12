@@ -19,6 +19,12 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import java.time.LocalTime
 
+/**
+ * Option UI Element, subclass of LinearLayout.
+ * Manages the option for creating routines with all internal logic.
+ *
+ * @author Jan Pixberg, Fynn Debus
+ */
 class OptionCreateRoutine(context: Context, attrs: AttributeSet? = null) :
     LinearLayout(context, attrs) {
 

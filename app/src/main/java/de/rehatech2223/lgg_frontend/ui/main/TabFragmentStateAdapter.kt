@@ -1,6 +1,5 @@
 package de.rehatech2223.lgg_frontend.ui.main
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -10,6 +9,11 @@ import de.rehatech2223.lgg_frontend.SmarthomeApplication
 import de.rehatech2223.lgg_frontend.ui.options.DEVICE_FRAGMENT_INDEX_KEY
 import kotlin.math.abs
 
+/**
+ * Adapter for managing fragments in the top-bar and the advanced mode.
+ *
+ * @author Fynn Debus
+ */
 class TabFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
     var disableOptions: Boolean = true
     private val deviceFragmentPosition: Int = PreferenceManager.getDefaultSharedPreferences(SmarthomeApplication.getContext())

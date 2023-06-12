@@ -11,6 +11,11 @@ import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
+/**
+ * LinearLayout subclass that acts as the UI-Element for On-Off switches in the DeviceDetail Activity.
+ *
+ * @author Fynn Debus
+ */
 class FunctionOnOff(context: Context, attrs: AttributeSet? = null, functionDTO: FunctionDTO, deviceDTO: DeviceDTO): LinearLayout(context, attrs) {
 
     private val functionDTO: FunctionDTO

@@ -12,6 +12,12 @@ import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.ui.routineDetail.RoutineDetailActivity
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
+/**
+ * LinearLayout subclass that represents a Routine UI-Tile that is clickable and starts the
+ * corresponding RoutineDetailActivity.
+ *
+ * @author Fynn Debus
+ */
 class RoutineTile(context: Context, attrs: AttributeSet? = null, routineArgument: RoutineDTO? = null): LinearLayout(context, attrs) {
 
     var routineDTO: RoutineDTO

@@ -12,6 +12,11 @@ import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
+/**
+ * Fragment in the top-bar, that displays DeviceTiles.
+ *
+ * @author Fynn Debus, Jan Pixberg
+ */
 class FragmentDevices : Fragment() {
 
     private lateinit var flexboxLayout: FlexboxLayout

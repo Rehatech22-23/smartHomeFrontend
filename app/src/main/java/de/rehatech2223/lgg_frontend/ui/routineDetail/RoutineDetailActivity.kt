@@ -19,6 +19,13 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
+/**
+* Activity that starts when the user clicks on a RoutineTile.
+* It loads further information on the requested routine, like the included function values,
+ * or when the routine starts.
+*
+* @author Fynn Debus
+*/
 class RoutineDetailActivity : DynamicThemeActivity() {
 
     private lateinit var routineDTO: RoutineDTO

@@ -13,8 +13,19 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
+/**
+ * Implements api requests for "function" cf. API-doc.
+ *
+ * @author Fynn Debus
+ */
 class FunctionService {
 
+    /**
+     * Implementation of "/function".
+     *
+     * @param functionId functionId of the requested function
+     * @return FunctionDTO? returns requested function or null
+     */
     fun getFunctionInfo(functionId: Long): FunctionDTO? {
         Log.d("handler", "requested function id: $functionId")
         var functionDTO: FunctionDTO? = null
@@ -41,6 +52,13 @@ class FunctionService {
         return functionDTO
     }
 
+    /**
+     * Implementation of "/function/trigger".
+     *
+     * @param deviceId id of the device that possesses the function
+     * @param functionId functionId of the function
+     * @param functionValue value that should be used for triggering cf. API-doc
+     */
     fun triggerFunction(deviceId: String, functionId: Long, functionValue: Float) {
         Log.d("handler", "triggering function: $functionId from device: $deviceId with value: $functionValue")
         val mediaType = "application/json; charset=utf-8".toMediaType()
@@ -70,6 +88,11 @@ class FunctionService {
         }
     }
 
+    /**
+     * Implementation of "/function/list".
+     *
+     * @return ArrayList<FunctionDTO> returns list of all functions
+     */
     fun getFunctionList(): ArrayList<FunctionDTO> {
         Log.d("handler", "requested function list")
         var functionDTOList: ArrayList<FunctionDTO> = ArrayList()

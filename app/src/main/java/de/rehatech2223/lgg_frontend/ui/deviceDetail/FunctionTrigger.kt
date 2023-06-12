@@ -12,6 +12,11 @@ import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
+/**
+ * LinearLayout subclass that acts as the UI-Element for Trigger type functions in the DeviceDetail Activity.
+ *
+ * @author Fynn Debus
+ */
 class FunctionTrigger(context: Context, attrs: AttributeSet? = null, functionDTO: FunctionDTO, deviceDTO: DeviceDTO): LinearLayout(context, attrs) {
 
     init {

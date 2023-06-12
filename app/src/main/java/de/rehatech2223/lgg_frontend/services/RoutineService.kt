@@ -17,8 +17,18 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 
+/**
+ * Implements api requests for "routine" cf. API-doc.
+ *
+ * @author Fynn Debus
+ */
 class RoutineService {
 
+    /**
+     * Implementation of "/routine/list".
+     *
+     * @return ArrayList<RoutineDTO> returns routine list
+     */
     fun getRoutineList(): ArrayList<RoutineDTO> {
         Log.d("handler", "requesting routine List")
         var routineList: ArrayList<RoutineDTO> = ArrayList()
@@ -43,6 +53,12 @@ class RoutineService {
         return routineList
     }
 
+    /**
+     * Implementation of "/routine".
+     *
+     * @param routineId routineId of the requested routine
+     * @return RoutineDTO? returns requested routine or null
+     */
     fun getRoutineInfo(routineId: Long): RoutineDTO? {
         Log.d("handler", "requesting routineinfo of: $routineId")
         var routineDTO: RoutineDTO? = null
@@ -69,6 +85,11 @@ class RoutineService {
         return routineDTO
     }
 
+    /**
+     * Implementation of "/function/trigger".
+     *
+     * @param routineId routineId of routine that should be triggered
+     */
     fun triggerRoutine(routineId: Long) {
         Log.d("handler", "triggering routine: $routineId")
         val request = Request.Builder()
@@ -99,9 +120,11 @@ class RoutineService {
         }
     }
 
-    /*
-     *  Returns a Routine on 201 Created, when Routine info had to be changed from the predefined routine
-     *  can return null!
+    /**
+     * Implementation of "/routine/create"
+     *
+     *  @param routine routineDTO that should be created
+     *  @return RoutineDTO? returns a RoutineDTO if the routine has been changed by the backend
      */
     fun createRoutine(routine: RoutineDTO): RoutineDTO? {
         Log.d("handler", "created routine")
@@ -131,6 +154,12 @@ class RoutineService {
         return routineDTO
     }
 
+    /**
+     * Implementation of "/routine/delete".
+     *
+     * @param routineId routineId of the routine to delete
+     * @return Boolean returns success or not
+     */
     fun deleteRoutine(routineId: Long): Boolean {
         Log.d("handler", "deleting routine with id: $routineId")
         var deleted = true

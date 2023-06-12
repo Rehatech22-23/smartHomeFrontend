@@ -9,6 +9,12 @@ import com.google.android.material.textfield.TextInputEditText
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import okhttp3.Request
 
+/**
+ * Activity that appears when a connection or request error occurs.
+ * It offers the chance to reconnect to the backend or a different server.
+ *
+ * @author Fynn Debus
+ */
 class ConnectionErrorActivity : DynamicThemeActivity() {
 
     private lateinit var url: String

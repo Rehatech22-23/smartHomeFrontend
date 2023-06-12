@@ -16,6 +16,12 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
+/**
+ * Activity that starts when the user clicks on a device.
+ * It loads further information on the requested device, like the included functions.
+ *
+ * @author Fynn Debus
+ */
 class DeviceDetailActivity : DynamicThemeActivity() {
 
     private lateinit var deviceDTO: DeviceDTO

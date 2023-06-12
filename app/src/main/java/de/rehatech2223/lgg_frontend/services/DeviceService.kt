@@ -11,8 +11,21 @@ import kotlinx.serialization.json.Json
 import okhttp3.Request
 import okio.use
 
+/**
+ * Implements api requests for "device" cf. API-doc.
+ * All requests are made asynchronous but blocking, because android does not support
+ * synchronous http requests.
+ * Calls are also made error-save and start the error activity on failure.
+ *
+ * @author Fynn Debus
+ */
 class DeviceService {
-    
+
+    /**
+     * Implementation of "/device/list".
+     *
+     * @return ArrayList<DeviceDTO> returns list of devices
+     */
     fun getDeviceList(): ArrayList<DeviceDTO> {
         Log.d("handler", "requested device list")
         var deviceList: ArrayList<DeviceDTO> = ArrayList()
@@ -43,6 +56,12 @@ class DeviceService {
         return deviceList
     }
 
+    /**
+     * Implementation of "/device".
+     *
+     * @param deviceId deviceId of the requested device
+     * @return DeviceDTO? returns requested device or null
+     */
     fun getDeviceInfo(deviceId: String): DeviceDTO? {
         Log.d("handler", "requested device")
         var deviceDTO: DeviceDTO? = null
@@ -68,6 +87,11 @@ class DeviceService {
         return deviceDTO
     }
 
+    /**
+     * Updates backend-database for debug or testing purposes ("/device/updated").
+     *
+     * @return Boolean returns success or not
+     */
     fun updateDeviceDatabase() : Boolean {
         var success = true
         val request = Request.Builder()

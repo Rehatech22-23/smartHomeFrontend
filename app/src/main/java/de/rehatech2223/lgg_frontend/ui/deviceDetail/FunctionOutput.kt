@@ -10,6 +10,11 @@ import de.rehatech2223.datamodel.DeviceDTO
 import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
 
+/**
+ * LinearLayout subclass that acts as the UI-Element for Output functions in the DeviceDetail Activity.
+ *
+ * @author Fynn Debus
+ */
 class FunctionOutput(context: Context, attrs: AttributeSet? = null, functionDTO: FunctionDTO, deviceDTO: DeviceDTO): LinearLayout(context, attrs) {
 
     init {

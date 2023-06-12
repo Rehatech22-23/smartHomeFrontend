@@ -20,6 +20,13 @@ const val DEVICE_FRAGMENT_INDEX_KEY = "DeviceFragmentIndex"
 const val PIN_ROUTINE_ID_KEY = "PinRoutineId"
 const val PIN_ROUTINE_SELECTION_INDEX_KEY = "PinRoutineSelectionIndex"
 
+/**
+ * Option UI Element, subclass of LinearLayout.
+ * Manages options like color-schemes, start page, pinned routine and backend updating.
+ * Also loads previous states for its buttons and options.
+ *
+ * @author Fynn Debus, Jan Pixberg
+ */
 class OptionSettings(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
     private val openButton: LinearLayout

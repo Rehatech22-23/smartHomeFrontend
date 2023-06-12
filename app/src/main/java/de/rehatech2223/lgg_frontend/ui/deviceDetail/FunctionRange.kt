@@ -17,12 +17,12 @@ import de.rehatech2223.lgg_frontend.services.ServiceProvider
 import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import kotlin.math.round
 
-class FunctionRange(
-    context: Context,
-    attrs: AttributeSet? = null,
-    functionDTO: FunctionDTO,
-    deviceDTO: DeviceDTO
-) : LinearLayout(context, attrs) {
+/**
+ * LinearLayout subclass that acts as the UI-Element for Range type functions in the DeviceDetail Activity.
+ *
+ * @author Fynn Debus
+ */
+class FunctionRange(context: Context, attrs: AttributeSet? = null, functionDTO: FunctionDTO, deviceDTO: DeviceDTO): LinearLayout(context, attrs) {
 
     private val functionDTO: FunctionDTO
     private val deviceDTO: DeviceDTO

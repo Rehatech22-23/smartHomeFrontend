@@ -18,6 +18,13 @@ import de.rehatech2223.lgg_frontend.ui.main.TabFragmentStateAdapter
 import de.rehatech2223.lgg_frontend.ui.options.DEVICE_FRAGMENT_INDEX_KEY
 import de.rehatech2223.lgg_frontend.ui.options.PIN_ROUTINE_ID_KEY
 
+/**
+ * Main activity of the project, that starts on launch and loads current color scheme and
+ * the top-bar with its fragments.
+ * Subclass of DynamicThemeActivity for supporting dynamic theme changes.
+ *
+ * @author Fynn Debus
+ */
 class MainActivity : DynamicThemeActivity() {
 
     private lateinit var binding: ActivityMainBinding

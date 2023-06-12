@@ -11,9 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.databinding.FragmentMainBinding
 
-/**
- * A placeholder fragment containing a simple view.
- */
+@Deprecated("unused in 1.0")
 class PlaceholderFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel

@@ -12,12 +12,12 @@ import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
-class FunctionPlayer(
-    context: Context,
-    attrs: AttributeSet? = null,
-    functionDTO: FunctionDTO,
-    deviceDTO: DeviceDTO
-) : LinearLayout(context, attrs) {
+/**
+ * LinearLayout subclass that acts as the UI-Element for Player type functions in the DeviceDetail Activity.
+ *
+ * @author Fynn Debus
+ */
+class FunctionPlayer(context: Context, attrs: AttributeSet? = null, functionDTO: FunctionDTO, deviceDTO: DeviceDTO) : LinearLayout(context, attrs) {
 
     var functionDTO: FunctionDTO
     var deviceDTO: DeviceDTO

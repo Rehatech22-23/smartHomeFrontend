@@ -13,6 +13,12 @@ import de.rehatech2223.datamodel.RoutineDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
+/**
+ * Option UI Element, subclass of LinearLayout.
+ * Manages the option for deleting routines.
+ *
+ * @author Jan Pixberg, Fynn Debus
+ */
 class OptionDeleteRoutine(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
     private var deleteRoutineButton: LinearLayout

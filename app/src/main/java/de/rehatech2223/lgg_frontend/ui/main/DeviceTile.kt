@@ -13,6 +13,12 @@ import de.rehatech2223.lgg_frontend.ui.deviceDetail.DeviceDetailActivity
 import de.rehatech2223.lgg_frontend.util.DeviceNameDTO
 import de.rehatech2223.lgg_frontend.util.TileImageUtil
 
+/**
+ * LinearLayout subclass that represents a Device UI-Tile that is clickable and starts the
+ * corresponding DeviceDetailActivity.
+ *
+ * @author Fynn Debus
+ */
 class DeviceTile(context: Context, attrs: AttributeSet? = null, deviceArgument: DeviceDTO? = null) :
     LinearLayout(context, attrs) {
 

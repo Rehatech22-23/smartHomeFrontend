@@ -10,6 +10,11 @@ import de.rehatech2223.datamodel.FunctionDTO
 import de.rehatech2223.lgg_frontend.R
 import de.rehatech2223.lgg_frontend.services.ServiceProvider
 
+/**
+ * LinearLayout subclass that acts as the UI-Element for displaying function values in the RoutineDetailActivity.
+ *
+ * @author Fynn Debus
+ */
 class FunctionValueDisplay(context: Context, attrs: AttributeSet? = null, functionTuple: RoutineDetailActivity.FunctionTuple): LinearLayout(context, attrs) {
 
     private val functionDTO: FunctionDTO

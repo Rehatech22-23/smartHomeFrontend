@@ -9,9 +9,10 @@ import android.widget.LinearLayout
 import de.rehatech2223.lgg_frontend.R
 
 /**
- * A simple [Fragment] subclass.
- * Use the [FragmentOptions.newInstance] factory method to
- * create an instance of this fragment.
+ * Fragment in the top-bar, that displays Options like color-scheme etc.
+ * Only visible in advanced mode.
+ *
+ * @author Fynn Debus, Jan Pixberg
  */
 class FragmentOptions : Fragment() {
 

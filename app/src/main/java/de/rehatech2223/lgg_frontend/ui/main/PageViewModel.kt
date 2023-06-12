@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+@Deprecated("unused in 1.0")
 class PageViewModel : ViewModel() {
 
     private val _index = MutableLiveData<Int>()

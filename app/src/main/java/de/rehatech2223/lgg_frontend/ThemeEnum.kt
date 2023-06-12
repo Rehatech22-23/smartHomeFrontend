@@ -1,6 +1,12 @@
 package de.rehatech2223.lgg_frontend
 
-
+/**
+ * Enum for managing available color-schemes.
+ * implements "from" infix function for getting the corresponding
+ * ThemeEnum when given its integer value.
+ *
+ * @author Fynn Debus
+ */
 enum class ThemeEnum(val theme: Int) {
     DEFAULT(R.style.Theme_LGG_Frontend),
     LIGHT(R.style.Theme_LGG_Frontend_Light_Theme),
