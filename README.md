@@ -1,6 +1,6 @@
 <h1>Overview:</h1>
 <p>
-The smarthome frontend of the rehatech smarthome project was created in the minor "Rehabilitationstechnologie" from the major computer science at the TU-Dortmund in the summer semester of 2023 and is licenced under GPL-V3.
+The smarthome frontend of the rehatech smarthome project was created in the minor "Rehabilitationstechnologie" from the major computer science at the TU-Dortmund in the summer semester of 2023 and is licenced under GPL-3.0.
 The frontend repository inhabits the source files from the android app, which tries to create an accessible UI for interacting and controlling different smarthome components.
 </p>
 <h1>Technical specifications:</h1>
@@ -44,7 +44,7 @@ The frontend repository inhabits the source files from the android app, which tr
 <br>
 <h1>Überblick:</h1>
 <p>
-Das Smarthome-Frontend des rehatech-Smarthome-Projekts wurde im Nebenfach "Rehabilitationstechnologie" des Studiengangs Informatik an der TU-Dortmund im Sommersemester 2023 erstellt und steht unter der GPL-V3-Lizenz. Das Frontend-Repository enthält die Quelldateien der Android-App, die versucht, eine zugängliche Benutzeroberfläche für die Interaktion und Steuerung verschiedener Smarthome-Komponenten zu schaffen.
+Das Smarthome-Frontend des rehatech-Smarthome-Projekts wurde im Nebenfach "Rehabilitationstechnologie" des Studiengangs Informatik an der TU-Dortmund im Sommersemester 2023 erstellt und steht unter der GPL-3.0-Lizenz. Das Frontend-Repository enthält die Quelldateien der Android-App, die versucht, eine zugängliche Benutzeroberfläche für die Interaktion und Steuerung verschiedener Smarthome-Komponenten zu schaffen.
 </p>
 <h1>Technische Spezifikationen:</h1>
 <ul>
